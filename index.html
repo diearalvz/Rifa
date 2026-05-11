@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RIFA PROFESIONAL - MAYO 29</title>
+    <!-- TITULO ACTUALIZADO -->
+    <title>RIFA</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script type="module">
@@ -32,7 +33,6 @@
         let isAdminAuthenticated = false;
         const CLAVE_MAESTRA = "1234";
 
-        // Función para reintentar conexión
         async function robustSignIn(retries = 5, delay = 1000) {
             try {
                 await signInAnonymously(auth);
@@ -40,11 +40,7 @@
                 if (retries > 0) {
                     setTimeout(() => robustSignIn(retries - 1, delay * 2), delay);
                 } else {
-                    if (err.code === 'auth/configuration-not-found') {
-                        mostrarError("Haz clic en 'Comenzar' en la pantalla que tienes abierta y activa el método 'Anónimo'.");
-                    } else {
-                        mostrarError("Error de conexión. Verifica la consola de Firebase.");
-                    }
+                    mostrarError("Falta activar el método 'Anónimo' en Firebase > Authentication.");
                 }
             }
         }
@@ -78,16 +74,14 @@
             onSnapshot(docRef, (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-                    rifaData = data.numeros || Array(100).fill(null);
+                    rifaData = data.numbers || data.numeros || Array(100).fill(null);
                 } else {
                     actualizarServidor(Array(100).fill(null));
                 }
                 renderizarPantalla();
-                if (!document.getElementById('panel-admin').classList.contains('hidden')) {
-                    actualizarListaAdmin();
-                }
             }, (error) => {
                 console.error("Firestore Error:", error);
+                mostrarError("Revisa las 'Rules' en Firestore Database.");
             });
         }
 
@@ -158,17 +152,12 @@
         };
 
         window.solicitarAdmin = function() {
-            if (isAdminAuthenticated) {
+            document.getElementById('input-pass').value = '';
+            document.getElementById('modal-pass').classList.remove('hidden');
+            window.adminActionCallback = () => {
                 document.getElementById('panel-admin').classList.remove('hidden');
                 actualizarListaAdmin();
-            } else {
-                document.getElementById('input-pass').value = '';
-                document.getElementById('modal-pass').classList.remove('hidden');
-                window.adminActionCallback = () => {
-                    document.getElementById('panel-admin').classList.remove('hidden');
-                    actualizarListaAdmin();
-                };
-            }
+            };
         };
 
         window.liberarConClave = function() {
@@ -210,11 +199,13 @@
         window.cambiarMetodo = async function(idx, metodo) {
             rifaData[idx].metodo = (rifaData[idx].metodo === metodo) ? null : metodo;
             await actualizarServidor(rifaData);
+            actualizarListaAdmin();
         };
 
         window.liberarDesdeAdmin = async function(idx) {
             rifaData[idx] = null;
             await actualizarServidor(rifaData);
+            actualizarListaAdmin();
         };
 
         function actualizarListaAdmin() {
@@ -252,13 +243,6 @@
         
         .bg-blur { background: rgba(15, 23, 42, 0.96); backdrop-filter: blur(10px); }
         .gradient-header { background: linear-gradient(180deg, #020617 0%, #0f172a 100%); }
-        
-        .title-stroke { 
-            color: #f97316; 
-            -webkit-text-stroke: 1px #ffffff; 
-            paint-order: stroke fill; 
-            filter: drop-shadow(2px 3px 0px rgba(0,0,0,0.8)); 
-        }
         
         .prize-glow {
             color: #fff;
@@ -335,7 +319,6 @@
 
     <div class="max-w-xl mx-auto bg-white min-h-screen shadow-2xl overflow-hidden relative pb-10">
         
-        <!-- HEADER BASADO EN IMAGENES -->
         <div class="gradient-header px-4 py-10 text-white text-center">
             <div class="inline-block bg-orange-900/40 border border-orange-500/30 px-6 py-2 rounded-full mb-6">
                 <span class="text-xs sm:text-sm font-black uppercase tracking-widest text-orange-400">MAYO 29 - LOTERÍA DE MEDELLÍN</span>
