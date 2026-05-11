@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RIFA</title>
+    <title>RIFA PROFESIONAL</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script type="module">
@@ -30,7 +30,6 @@
         let currentNumIndex = null;
         const CLAVE_MAESTRA = "1234";
 
-        // Render inicial vacío para velocidad instantánea
         window.addEventListener('DOMContentLoaded', () => {
             renderizarPantalla(); 
         });
@@ -121,7 +120,7 @@
             const tel = document.getElementById('in-tel').value.trim();
             if (!nom) return;
             rifaData[currentNumIndex] = { nombre: nom, telefono: tel };
-            renderizarPantalla(); // Feedback instantáneo
+            renderizarPantalla();
             cerrarVentana();
             await actualizarServidor(rifaData);
         };
@@ -157,22 +156,35 @@
         .font-main { font-family: 'Inter', sans-serif; }
         .font-prize { font-family: 'Oswald', sans-serif; }
 
-        .text-glow-orange {
-            text-shadow: 0 0 10px rgba(249, 115, 22, 0.8), 0 0 20px rgba(249, 115, 22, 0.4);
+        /* Contenedor del número con padding para evitar cortes */
+        .prize-container {
+            width: 100%;
+            padding: 0 10px;
+            overflow: visible;
         }
 
-        /* Ajuste dinámico para que el millón nunca se corte */
+        /* Texto que se ajusta perfectamente al ancho */
         .monto-millon {
-            font-size: clamp(4rem, 18vw, 7rem);
+            font-size: 14vw; /* Escala directamente con el ancho de la pantalla */
+            white-space: nowrap;
+            display: block;
             line-height: 1;
             background: linear-gradient(to bottom, #ffffff 40%, #ffedd5 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(251, 146, 60, 0.4));
+            filter: drop-shadow(0 0 10px rgba(251, 146, 60, 0.4));
+        }
+
+        @media (min-width: 450px) {
+            .monto-millon { font-size: 60px; }
         }
 
         .header-rifa {
             background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+        }
+
+        .text-glow-orange {
+            text-shadow: 0 0 15px rgba(249, 115, 22, 0.9);
         }
     </style>
 </head>
@@ -180,15 +192,18 @@
 
     <div class="max-w-md mx-auto bg-white min-h-screen shadow-2xl overflow-hidden flex flex-col">
         
-        <!-- HEADER -->
-        <div class="header-rifa pt-10 pb-12 px-6 text-center border-b-4 border-orange-600 relative">
-            <h1 class="font-title text-5xl text-orange-500 tracking-[0.2em] mb-2 text-glow-orange italic">RIFA</h1>
+        <!-- HEADER NUEVO Y CORREGIDO -->
+        <div class="header-rifa pt-8 pb-10 text-center border-b-4 border-orange-600 relative">
             
-            <div class="inline-block bg-orange-600/10 border border-orange-500/30 px-4 py-1 rounded-full mb-6">
-                <span class="text-[10px] font-black uppercase tracking-widest text-orange-400">MAY 29 • LOTERÍA DE MEDELLÍN</span>
+            <!-- Título RIFA muy visible -->
+            <h1 class="font-title text-6xl text-orange-500 tracking-[0.25em] mb-4 text-glow-orange italic">RIFA</h1>
+            
+            <div class="inline-block bg-orange-600/20 border border-orange-500/40 px-4 py-1 rounded-full mb-6">
+                <span class="text-[10px] font-black uppercase tracking-widest text-orange-300">MAYO 29 • LOTERÍA DE MEDELLÍN</span>
             </div>
 
-            <div class="relative mb-6">
+            <!-- Contenedor del premio que NO se corta -->
+            <div class="prize-container mb-6">
                 <p class="font-prize monto-millon uppercase italic tracking-tighter">
                     $1.000.000
                 </p>
