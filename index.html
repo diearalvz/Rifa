@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- TITULO ACTUALIZADO -->
-    <title>RIFA</title>
+    <title>RIFA PROFESIONAL</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script type="module">
@@ -12,7 +11,6 @@
         import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-        // CONFIGURACIÓN INTEGRADA DE DIEGO
         const firebaseConfig = {
             apiKey: "AIzaSyCoA7Ehq4RlzJ7JC-U12yDZSUk05DdDSMM",
             authDomain: "rifa-mayo.firebaseapp.com",
@@ -32,78 +30,49 @@
         let currentNumIndex = null;
         const CLAVE_MAESTRA = "1234";
 
-        // 1. RENDERIZADO INMEDIATO (Números vacíos para rapidez visual)
+        // Render inicial vacío para velocidad instantánea
         window.addEventListener('DOMContentLoaded', () => {
             renderizarPantalla(); 
         });
 
         async function iniciarAuth() {
             try {
-                // Persistencia local para que no se demore en cada recarga
                 await setPersistence(auth, browserLocalPersistence);
-                if (!auth.currentUser) {
-                    await signInAnonymously(auth);
-                }
-            } catch (err) {
-                console.error("Error Auth:", err);
-                // Reintento rápido si falla
-                setTimeout(iniciarAuth, 1000);
-            }
+                if (!auth.currentUser) await signInAnonymously(auth);
+            } catch (err) { setTimeout(iniciarAuth, 1000); }
         }
 
         onAuthStateChanged(auth, (u) => {
             user = u;
-            if (user) {
-                conectarBaseDeDatos();
-            }
+            if (user) conectarBaseDeDatos();
         });
 
-        // Iniciar proceso de auth de inmediato
         iniciarAuth();
-
-        function mostrarError(msj) {
-            const grid = document.getElementById('grid-rifa');
-            if (grid) {
-                grid.innerHTML = `
-                    <div class="col-span-full p-8 text-center bg-red-50 border-2 border-dashed border-red-200 rounded-3xl">
-                        <p class="text-red-600 font-black text-lg uppercase mb-2">¡Casi listo!</p>
-                        <p class="text-red-500 text-sm font-bold">${msj}</p>
-                    </div>`;
-            }
-        }
 
         function getDocRef() {
             return doc(db, 'artifacts', appId, 'public', 'data', 'rifa_global', 'estado_oficial');
         }
 
         function conectarBaseDeDatos() {
-            const docRef = getDocRef();
-            // onSnapshot es tiempo real, se activa apenas hay cambios o se conecta
-            onSnapshot(docRef, (docSnap) => {
+            onSnapshot(getDocRef(), (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-                    rifaData = data.numbers || data.numeros || Array(100).fill(null);
-                } else {
-                    actualizarServidor(Array(100).fill(null));
+                    rifaData = data.numeros || data.numbers || Array(100).fill(null);
                 }
                 renderizarPantalla();
-            }, (error) => {
-                console.error("Firestore Error:", error);
-                mostrarError("Revisa las 'Rules' en Firestore Database.");
             });
         }
 
         async function actualizarServidor(nuevaData) {
             if (!user) return;
             try {
-                const docRef = getDocRef();
                 const dataLimpia = nuevaData.map(item => item ? { 
                     nombre: item.nombre, 
                     telefono: item.telefono,
                     metodo: item.metodo || null 
                 } : null);
-                await setDoc(docRef, { numeros: dataLimpia });
-            } catch (error) { console.error("Error saving:", error); }
+                await setDoc(getDocRef(), { numeros: dataLimpia });
+            } catch (error) { console.error("Error:", error); }
         }
 
         window.renderizarPantalla = function() {
@@ -114,9 +83,7 @@
             rifaData.forEach((dato, i) => {
                 const ocupado = dato !== null;
                 const celda = document.createElement('div');
-                celda.className = `h-14 sm:h-16 flex items-center justify-center rounded-2xl text-2xl font-black cursor-pointer transition-all active:scale-90 select-none shadow-sm border-2 ${ocupado ? 'bg-gradient-to-br from-orange-500 to-orange-700 text-white border-orange-800' : 'bg-white text-slate-800 border-slate-100 opacity-100'}`;
-                
-                // Si aún no carga el nombre pero está ocupado, mostrar un estilo de carga
+                celda.className = `h-14 flex items-center justify-center rounded-2xl text-xl font-black cursor-pointer transition-all active:scale-90 shadow-sm border-2 ${ocupado ? 'bg-orange-600 text-white border-orange-800' : 'bg-white text-slate-800 border-slate-100'}`;
                 celda.innerText = i.toString().padStart(2, '0');
                 celda.onclick = () => abrirVentana(i);
                 grid.appendChild(celda);
@@ -129,7 +96,6 @@
             currentNumIndex = index;
             const data = rifaData[index];
             document.getElementById('num-badge').innerText = `#${index.toString().padStart(2, '0')}`;
-            
             if (data) {
                 document.getElementById('modal-info-nombre').innerText = data.nombre;
                 document.getElementById('modal-info-tel').innerText = data.telefono || "Sin teléfono";
@@ -148,227 +114,138 @@
             document.getElementById('modal-main').classList.remove('hidden');
         };
 
-        window.cerrarVentana = function() {
-            document.getElementById('modal-main').classList.add('hidden');
-        };
+        window.cerrarVentana = () => document.getElementById('modal-main').classList.add('hidden');
 
         window.guardarReserva = async function() {
             const nom = document.getElementById('in-nombre').value.trim();
             const tel = document.getElementById('in-tel').value.trim();
             if (!nom) return;
-            rifaData[currentNumIndex] = { nombre: nom, telefono: tel, metodo: null };
-            await actualizarServidor(rifaData);
+            rifaData[currentNumIndex] = { nombre: nom, telefono: tel };
+            renderizarPantalla(); // Feedback instantáneo
             cerrarVentana();
-        };
-
-        window.solicitarAdmin = function() {
-            document.getElementById('input-pass').value = '';
-            document.getElementById('modal-pass').classList.remove('hidden');
-            window.adminActionCallback = () => {
-                document.getElementById('panel-admin').classList.remove('hidden');
-                actualizarListaAdmin();
-            };
+            await actualizarServidor(rifaData);
         };
 
         window.liberarConClave = function() {
-            document.getElementById('input-pass').value = '';
-            document.getElementById('modal-pass').classList.remove('hidden');
-            window.adminActionCallback = async () => {
+            const pass = prompt("Introduce la clave maestra:");
+            if (pass === CLAVE_MAESTRA) {
                 rifaData[currentNumIndex] = null;
-                await actualizarServidor(rifaData);
+                renderizarPantalla();
                 cerrarVentana();
-            };
-        };
-
-        window.verificarClave = async function() {
-            if (document.getElementById('input-pass').value === CLAVE_MAESTRA) {
-                document.getElementById('modal-pass').classList.add('hidden');
-                if (window.adminActionCallback) window.adminActionCallback();
+                actualizarServidor(rifaData);
             }
         };
 
-        window.copiarTexto = function(texto, idAviso) {
-            const el = document.createElement('textarea');
-            el.value = texto.replace(/\s/g, '').replace(/-/g, '');
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            
-            const aviso = document.getElementById(idAviso);
-            const original = aviso.innerText;
-            aviso.innerText = "¡COPIADO!";
-            aviso.classList.add('text-green-500');
-            setTimeout(() => {
-                aviso.innerText = original;
-                aviso.classList.remove('text-green-500');
-            }, 1500);
+        window.copiarTexto = function(texto, id) {
+            const aux = document.createElement("input");
+            aux.setAttribute("value", texto.replace(/\s/g, ''));
+            document.body.appendChild(aux);
+            aux.select();
+            document.execCommand("copy");
+            document.body.removeChild(aux);
+            const el = document.getElementById(id);
+            const original = el.innerText;
+            el.innerText = "¡COPIADO!";
+            setTimeout(() => el.innerText = original, 1000);
         };
-
-        window.cambiarMetodo = async function(idx, metodo) {
-            rifaData[idx].metodo = (rifaData[idx].metodo === metodo) ? null : metodo;
-            await actualizarServidor(rifaData);
-            actualizarListaAdmin();
-        };
-
-        window.liberarDesdeAdmin = async function(idx) {
-            rifaData[idx] = null;
-            await actualizarServidor(rifaData);
-            actualizarListaAdmin();
-        };
-
-        function actualizarListaAdmin() {
-            const listado = document.getElementById('lista-cuerpo');
-            listado.innerHTML = '';
-            rifaData.forEach((d, i) => {
-                if (d) {
-                    listado.innerHTML += `
-                        <div class="p-4 bg-white border-b flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <span class="font-impact text-2xl text-orange-600 w-10">#${i.toString().padStart(2, '0')}</span>
-                                <div class="overflow-hidden">
-                                    <div class="font-bold uppercase text-[11px] text-slate-700 truncate w-32 leading-none">${d.nombre}</div>
-                                    <div class="text-[10px] text-slate-400 font-mono">${d.telefono}</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <button onclick="cambiarMetodo(${i}, 'Nequi')" class="text-[9px] font-black px-2 py-2 rounded border-2 transition-colors ${d.metodo === 'Nequi' ? 'bg-[#FF00BF] text-white border-[#FF00BF]' : 'bg-white text-slate-300 border-slate-50'}">NEQUI</button>
-                                <button onclick="cambiarMetodo(${i}, 'Bancolombia')" class="text-[9px] font-black px-2 py-2 rounded border-2 transition-colors ${d.metodo === 'Bancolombia' ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-300 border-slate-50'}">BC</button>
-                                <button onclick="liberarDesdeAdmin(${i})" class="ml-2 p-2 text-red-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                                </button>
-                            </div>
-                        </div>`;
-                }
-            });
-        }
     </script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;900&family=Oswald:wght@700&display=swap');
-        .font-impact { font-family: 'Bebas Neue', cursive; }
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;900&family=Oswald:wght@700&display=swap');
+        
+        .font-title { font-family: 'Bebas Neue', cursive; }
         .font-main { font-family: 'Inter', sans-serif; }
         .font-prize { font-family: 'Oswald', sans-serif; }
-        
-        .bg-blur { background: rgba(15, 23, 42, 0.96); backdrop-filter: blur(10px); }
-        .gradient-header { background: linear-gradient(180deg, #020617 0%, #0f172a 100%); }
-        
-        .prize-glow {
-            color: #fff;
-            background: linear-gradient(to bottom, #fff 30%, #fdba74 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-            padding: 0.1em;
-            display: inline-block;
-            filter: drop-shadow(0 0 15px rgba(249, 115, 22, 0.5));
-            font-style: italic;
+
+        .text-glow-orange {
+            text-shadow: 0 0 10px rgba(249, 115, 22, 0.8), 0 0 20px rgba(249, 115, 22, 0.4);
         }
 
-        .valor-resaltado { 
-            background: #f97316; 
-            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.5); 
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 10px 25px;
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
+        /* Ajuste dinámico para que el millón nunca se corte */
+        .monto-millon {
+            font-size: clamp(4rem, 18vw, 7rem);
+            line-height: 1;
+            background: linear-gradient(to bottom, #ffffff 40%, #ffedd5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(251, 146, 60, 0.4));
+        }
+
+        .header-rifa {
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
         }
     </style>
 </head>
+<body class="bg-slate-100 font-main text-slate-900 select-none">
 
-<body class="bg-slate-100 min-h-screen font-main text-slate-900 select-none overflow-x-hidden">
-
-    <!-- MODAL PRINCIPAL -->
-    <div id="modal-main" class="bg-blur fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-[2.5rem] w-full max-w-sm overflow-hidden shadow-2xl">
-            <div class="p-8 text-center bg-slate-50 border-b">
-                <p id="num-badge" class="text-9xl font-impact text-orange-600 leading-none">#--</p>
-            </div>
-            <div class="p-8 space-y-4">
-                <div id="view-registro" class="space-y-4">
-                    <input type="text" id="in-nombre" class="w-full bg-slate-50 border-2 border-slate-100 p-5 rounded-2xl font-bold outline-none focus:border-orange-500" placeholder="Nombre completo">
-                    <input type="tel" id="in-tel" class="w-full bg-slate-50 border-2 border-slate-100 p-5 rounded-2xl font-bold outline-none focus:border-orange-500" placeholder="WhatsApp">
-                </div>
-                <div id="view-ocupado" class="hidden text-center space-y-4 py-4">
-                    <div class="bg-orange-50 p-6 rounded-2xl">
-                        <p class="text-[10px] font-black text-orange-400 uppercase tracking-widest mb-1">REGISTRADO POR</p>
-                        <p id="modal-info-nombre" class="text-2xl font-bold text-slate-800 leading-tight">---</p>
-                        <p id="modal-info-tel" class="text-sm font-mono text-slate-400 mt-1">---</p>
-                    </div>
-                </div>
-                <button id="btn-guardar-modal" onclick="guardarReserva()" class="w-full bg-orange-600 text-white py-5 rounded-2xl font-impact text-3xl uppercase tracking-widest shadow-lg active:scale-95 transition-all">RESERVAR AHORA</button>
-                <button id="btn-liberar-directo" onclick="liberarConClave()" class="hidden w-full bg-red-600 text-white py-4 rounded-2xl font-black text-lg uppercase tracking-widest active:scale-95 transition-all shadow-md mt-2">LIBERAR CUPO</button>
-                <button onclick="cerrarVentana()" class="w-full text-slate-400 font-black text-[10px] uppercase py-2 tracking-widest">Cerrar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL PASS -->
-    <div id="modal-pass" class="bg-blur fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-[2.5rem] p-10 w-full max-w-xs text-center shadow-2xl">
-            <h3 class="font-impact text-3xl uppercase mb-6 tracking-wide text-slate-800">Seguridad</h3>
-            <input type="password" id="input-pass" class="w-full bg-slate-50 border-2 p-5 rounded-2xl text-center font-bold mb-6 text-4xl outline-none focus:border-orange-500" placeholder="••••" inputmode="numeric">
-            <button onclick="verificarClave()" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold uppercase shadow-lg active:scale-95">Confirmar</button>
-            <button onclick="document.getElementById('modal-pass').classList.add('hidden')" class="mt-4 text-[10px] font-black text-slate-300 uppercase tracking-widest">Cancelar</button>
-        </div>
-    </div>
-
-    <!-- PANEL ADMIN -->
-    <div id="panel-admin" class="hidden fixed inset-0 z-[70] bg-slate-50 flex flex-col">
-        <div class="bg-white p-6 border-b flex justify-between items-center shadow-sm">
-            <div>
-                <h2 class="text-2xl font-impact uppercase italic text-slate-800">Control Pagos</h2>
-                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Gestión de recaudos</p>
-            </div>
-            <button onclick="document.getElementById('panel-admin').classList.add('hidden')" class="w-12 h-12 flex items-center justify-center bg-slate-100 rounded-full text-3xl font-light">×</button>
-        </div>
-        <div id="lista-cuerpo" class="flex-1 overflow-y-auto bg-white pb-10"></div>
-    </div>
-
-    <div class="max-w-xl mx-auto bg-white min-h-screen shadow-2xl overflow-hidden relative pb-10">
+    <div class="max-w-md mx-auto bg-white min-h-screen shadow-2xl overflow-hidden flex flex-col">
         
-        <div class="gradient-header px-4 py-10 text-white text-center">
-            <div class="inline-block bg-orange-900/40 border border-orange-500/30 px-6 py-2 rounded-full mb-6">
-                <span class="text-xs sm:text-sm font-black uppercase tracking-widest text-orange-400">MAYO 29 - LOTERÍA DE MEDELLÍN</span>
-            </div>
+        <!-- HEADER -->
+        <div class="header-rifa pt-10 pb-12 px-6 text-center border-b-4 border-orange-600 relative">
+            <h1 class="font-title text-5xl text-orange-500 tracking-[0.2em] mb-2 text-glow-orange italic">RIFA</h1>
             
-            <div class="mb-4">
-                <p class="font-prize text-[5.5rem] sm:text-[7.5rem] prize-glow uppercase italic tracking-tighter">
+            <div class="inline-block bg-orange-600/10 border border-orange-500/30 px-4 py-1 rounded-full mb-6">
+                <span class="text-[10px] font-black uppercase tracking-widest text-orange-400">MAY 29 • LOTERÍA DE MEDELLÍN</span>
+            </div>
+
+            <div class="relative mb-6">
+                <p class="font-prize monto-millon uppercase italic tracking-tighter">
                     $1.000.000
                 </p>
             </div>
 
-            <div class="flex justify-center">
-                <div class="valor-resaltado rounded-2xl transform">
-                    <span class="text-[9px] font-black uppercase tracking-widest text-white/70 block mb-1">VALOR CUPO</span>
-                    <span class="font-impact text-4xl leading-none text-white tracking-wider">$20.000</span>
-                </div>
+            <div class="inline-flex flex-col bg-orange-600 px-8 py-3 rounded-2xl shadow-[0_10px_30px_rgba(234,88,12,0.4)]">
+                <span class="text-[9px] font-black text-orange-200 uppercase tracking-widest mb-1">VALOR DEL CUPO</span>
+                <span class="font-title text-4xl text-white tracking-widest">$20.000</span>
             </div>
         </div>
 
-        <div class="px-2 py-5 grid grid-cols-3 gap-2 bg-slate-50/80 border-b">
-            <div onclick="copiarTexto('000-0000-00', 'bc-label')" class="bg-white p-3 rounded-2xl border border-slate-100 flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 transition-transform shadow-sm">
-                <span id="bc-label" class="font-black text-slate-400 text-[8px] uppercase tracking-tighter mb-1">BANCOLOMBIA</span>
-                <p class="font-impact text-sm text-slate-700 tracking-wider">000-0000-00</p>
+        <!-- PAGOS RÁPIDOS -->
+        <div class="grid grid-cols-3 gap-2 p-3 bg-slate-50 border-b">
+            <div onclick="copiarTexto('000000000', 'bc-lbl')" class="bg-white p-3 rounded-xl border flex flex-col items-center justify-center cursor-pointer active:scale-95 transition-transform">
+                <span id="bc-lbl" class="text-[8px] font-black text-slate-400 uppercase mb-1">BANCOLOMBIA</span>
+                <span class="font-title text-lg text-slate-700 leading-none">000-000</span>
             </div>
-            
-            <div onclick="copiarTexto('3000000000', 'nq-label')" class="bg-white p-3 rounded-2xl border border-slate-100 flex flex-col items-center justify-center text-center border-t-2 border-t-[#FF00BF] cursor-pointer active:scale-95 transition-transform shadow-sm">
-                <span id="nq-label" class="font-black text-[#FF00BF] text-[8px] uppercase tracking-tighter mb-1">NEQUI</span>
-                <p class="font-impact text-sm text-slate-700 tracking-wider">300 000 0000</p>
+            <div onclick="copiarTexto('300000000', 'nq-lbl')" class="bg-white p-3 rounded-xl border border-t-4 border-t-[#FF00BF] flex flex-col items-center justify-center cursor-pointer active:scale-95 transition-transform">
+                <span id="nq-lbl" class="text-[8px] font-black text-[#FF00BF] uppercase mb-1">NEQUI</span>
+                <span class="font-title text-lg text-slate-700 leading-none">300 000</span>
             </div>
-
-            <div onclick="solicitarAdmin()" class="bg-white p-3 rounded-2xl border border-slate-100 flex flex-col items-center justify-center text-center cursor-pointer active:bg-orange-50 shadow-sm relative overflow-hidden">
-                <span id="vendidos-count" class="font-impact text-2xl text-orange-600 leading-none">0</span>
+            <div class="bg-white p-3 rounded-xl border flex flex-col items-center justify-center">
+                <span id="vendidos-count" class="font-title text-2xl text-orange-600 leading-none">0</span>
                 <span class="text-[8px] font-bold text-slate-300 uppercase leading-none tracking-tighter">VENDIDOS</span>
             </div>
         </div>
 
-        <div id="grid-rifa" class="grid grid-cols-4 sm:grid-cols-5 gap-3 p-6 pb-20"></div>
-        
-        <div class="text-center py-8 opacity-20">
-            <p class="text-[7px] font-black text-slate-400 uppercase tracking-[1em]">PLATAFORMA PREMIUM v3.6</p>
+        <!-- CUADRÍCULA -->
+        <div id="grid-rifa" class="grid grid-cols-4 gap-3 p-6 flex-1"></div>
+
+        <div class="p-6 text-center opacity-30">
+            <p class="text-[8px] font-black tracking-[0.5em] text-slate-400 uppercase">Plataforma Premium de Rifa</p>
         </div>
     </div>
+
+    <!-- MODAL REGISTRO -->
+    <div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm">
+        <div class="bg-white rounded-[2.5rem] w-full max-w-xs overflow-hidden shadow-2xl">
+            <div class="p-8 text-center bg-slate-50 border-b">
+                <p id="num-badge" class="text-8xl font-title text-orange-600 leading-none">#--</p>
+            </div>
+            <div class="p-6 space-y-4">
+                <div id="view-registro" class="space-y-3">
+                    <input type="text" id="in-nombre" class="w-full bg-slate-50 border-2 border-slate-100 p-4 rounded-xl font-bold outline-none focus:border-orange-500" placeholder="Nombre completo">
+                    <input type="tel" id="in-tel" class="w-full bg-slate-50 border-2 border-slate-100 p-4 rounded-xl font-bold outline-none focus:border-orange-500" placeholder="WhatsApp">
+                </div>
+                <div id="view-ocupado" class="hidden text-center bg-orange-50 p-4 rounded-xl">
+                    <p class="text-[10px] font-black text-orange-400 uppercase mb-1">RESERVADO POR</p>
+                    <p id="modal-info-nombre" class="text-xl font-bold text-slate-800">---</p>
+                    <p id="modal-info-tel" class="text-xs font-mono text-slate-400">---</p>
+                </div>
+                <button id="btn-guardar-modal" onclick="guardarReserva()" class="w-full bg-orange-600 text-white py-4 rounded-xl font-title text-2xl uppercase tracking-widest active:scale-95 transition-all">RESERVAR</button>
+                <button id="btn-liberar-directo" onclick="liberarConClave()" class="hidden w-full text-red-500 font-bold text-xs uppercase py-2">Liberar Cupo</button>
+                <button onclick="cerrarVentana()" class="w-full text-slate-400 text-[10px] font-bold uppercase py-2">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
