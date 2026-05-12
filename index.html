@@ -131,7 +131,7 @@
                 rifaData[currentNumIndex] = null;
                 renderizarPantalla();
                 cerrarVentana();
-                actualizarServidor(rifaData);
+                actualidorServidor(rifaData);
             }
         };
 
@@ -156,35 +156,68 @@
         .font-main { font-family: 'Inter', sans-serif; }
         .font-prize { font-family: 'Oswald', sans-serif; }
 
-        /* Contenedor del número con padding para evitar cortes */
+        /* Estilo Neón para RIFA */
+        .neon-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 5rem;
+            color: #fff;
+            text-shadow:
+                0 0 7px #fff,
+                0 0 10px #fff,
+                0 0 21px #fff,
+                0 0 42px #f97316,
+                0 0 82px #f97316,
+                0 0 92px #f97316,
+                0 0 102px #f97316,
+                0 0 151px #f97316;
+            letter-spacing: 0.15em;
+            line-height: 1;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        /* Contenedor del número con ajuste fluido para evitar cortes */
         .prize-container {
             width: 100%;
-            padding: 0 10px;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: center;
             overflow: visible;
         }
 
-        /* Texto que se ajusta perfectamente al ancho */
         .monto-millon {
-            font-size: 14vw; /* Escala directamente con el ancho de la pantalla */
+            font-size: clamp(2rem, 14vw, 4.5rem); /* Ajuste inteligente: mínimo 2rem, ideal 14vw, máximo 4.5rem */
             white-space: nowrap;
             display: block;
-            line-height: 1;
-            background: linear-gradient(to bottom, #ffffff 40%, #ffedd5 100%);
+            line-height: 1.1;
+            font-weight: 900;
+            background: linear-gradient(to bottom, #ffffff 30%, #fb923c 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(251, 146, 60, 0.4));
-        }
-
-        @media (min-width: 450px) {
-            .monto-millon { font-size: 60px; }
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
         }
 
         .header-rifa {
-            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            background: radial-gradient(circle at top, #1e293b 0%, #020617 100%);
         }
 
-        .text-glow-orange {
-            text-shadow: 0 0 15px rgba(249, 115, 22, 0.9);
+        /* Animación suave para el neón */
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow:
+                0 0 4px #fff,
+                0 0 11px #fff,
+                0 0 19px #fff,
+                0 0 40px #f97316,
+                0 0 80px #f97316;
+            }
+            20%, 24%, 55% {       
+                text-shadow: none;
+            }
+        }
+        
+        .neon-flicker {
+            animation: flicker 3s infinite alternate;
         }
     </style>
 </head>
@@ -192,25 +225,30 @@
 
     <div class="max-w-md mx-auto bg-white min-h-screen shadow-2xl overflow-hidden flex flex-col">
         
-        <!-- HEADER NUEVO Y CORREGIDO -->
-        <div class="header-rifa pt-8 pb-10 text-center border-b-4 border-orange-600 relative">
+        <!-- HEADER ESTILO NEÓN -->
+        <div class="header-rifa pt-10 pb-12 text-center border-b-4 border-orange-600 relative overflow-hidden">
             
-            <!-- Título RIFA muy visible -->
-            <h1 class="font-title text-6xl text-orange-500 tracking-[0.25em] mb-4 text-glow-orange italic">RIFA</h1>
+            <!-- Brillo de fondo -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-orange-600/10 blur-[120px] pointer-events-none"></div>
+
+            <!-- Título RIFA con efecto Neón -->
+            <div class="relative z-10">
+                <h1 class="neon-title neon-flicker">RIFA</h1>
+            </div>
             
-            <div class="inline-block bg-orange-600/20 border border-orange-500/40 px-4 py-1 rounded-full mb-6">
-                <span class="text-[10px] font-black uppercase tracking-widest text-orange-300">MAYO 29 • LOTERÍA DE MEDELLÍN</span>
+            <div class="relative z-10 inline-block bg-orange-600/20 border border-orange-500/30 px-4 py-1 rounded-full mb-6 backdrop-blur-sm">
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-orange-400">MAYO 29 • LOTERÍA DE MEDELLÍN</span>
             </div>
 
-            <!-- Contenedor del premio que NO se corta -->
-            <div class="prize-container mb-6">
+            <!-- Contenedor del premio con Clamp para evitar cortes -->
+            <div class="prize-container mb-8 relative z-10">
                 <p class="font-prize monto-millon uppercase italic tracking-tighter">
                     $1.000.000
                 </p>
             </div>
 
-            <div class="inline-flex flex-col bg-orange-600 px-8 py-3 rounded-2xl shadow-[0_10px_30px_rgba(234,88,12,0.4)]">
-                <span class="text-[9px] font-black text-orange-200 uppercase tracking-widest mb-1">VALOR DEL CUPO</span>
+            <div class="relative z-10 inline-flex flex-col bg-orange-600 px-10 py-4 rounded-2xl shadow-[0_0_25px_rgba(234,88,12,0.5)] border border-orange-400/50">
+                <span class="text-[9px] font-black text-orange-100 uppercase tracking-widest mb-1">VALOR DEL CUPO</span>
                 <span class="font-title text-4xl text-white tracking-widest">$20.000</span>
             </div>
         </div>
