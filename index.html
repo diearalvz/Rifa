@@ -1,823 +1,194 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SISTEMA DE RIFA EN VIVO</title>
+<script src="https://cdn.tailwindcss.com"></script>
 
-    <title>RIFA PROFESIONAL - MAYO 29</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;700;900&display=swap');
-
-        *{
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body{
-            font-family: 'Inter', sans-serif;
-            background:#f8fafc;
-        }
-
-        .font-bebas{
-            font-family:'Bebas Neue', cursive;
-        }
-
-        .bg-dark{
-            background:
-            radial-gradient(circle at top, #0f172a 0%, #020617 100%);
-        }
-
-        .scroll-hidden::-webkit-scrollbar{
-            display:none;
-        }
-
-        .scroll-hidden{
-            scrollbar-width:none;
-        }
-    </style>
-</head>
-
-<body class="antialiased select-none overflow-x-hidden">
-
-<div class="max-w-md mx-auto min-h-screen bg-white shadow-2xl flex flex-col relative pb-10">
-
-    <!-- HEADER -->
-    <header class="bg-dark text-white pt-12 pb-16 text-center border-b-8 border-orange-600 relative">
-
-        <div class="inline-block bg-orange-600/20 border border-orange-500/30 text-orange-400 text-[10px] font-black px-4 py-1 rounded-full mb-4 tracking-widest uppercase">
-            29 MAYO • LOTERÍA DE MEDELLÍN
-        </div>
-
-        <h1 class="font-bebas text-[110px] leading-none tracking-tighter">
-            RIFA
-        </h1>
-
-        <p class="font-bebas text-6xl text-orange-500 mt-2">
-            $1.000.000
-        </p>
-
-        <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-white text-slate-900 px-10 py-4 rounded-3xl shadow-xl border-2 border-orange-600">
-
-            <p class="text-[9px] font-black text-slate-300 uppercase leading-none mb-1">
-                VALOR CUPO
-            </p>
-
-            <p class="font-bebas text-4xl leading-none text-slate-800">
-                $20.000
-            </p>
-        </div>
-    </header>
-
-    <!-- INFO -->
-    <div class="grid grid-cols-3 gap-2 px-6 mt-14 mb-6">
-
-        <!-- BANCO -->
-        <div
-            onclick="window.copiar('000000000', 'lb-bc')"
-            class="bg-slate-50 border p-3 rounded-2xl text-center cursor-pointer active:scale-95 transition-all"
-        >
-
-            <span id="lb-bc" class="text-[8px] font-black text-slate-300 block uppercase mb-1">
-                Bancolombia
-            </span>
-
-            <span class="font-bebas text-xl text-slate-700">
-                COPIAR
-            </span>
-        </div>
-
-        <!-- NEQUI -->
-        <div
-            onclick="window.copiar('3000000000', 'lb-nq')"
-            class="bg-white border p-3 rounded-2xl text-center border-t-4 border-t-[#FF00BF] cursor-pointer active:scale-95 transition-all"
-        >
-
-            <span id="lb-nq" class="text-[8px] font-black text-[#FF00BF] block uppercase mb-1">
-                Nequi
-            </span>
-
-            <span class="font-bebas text-xl text-slate-700">
-                COPIAR
-            </span>
-        </div>
-
-        <!-- ADMIN -->
-        <div
-            onclick="window.abrirAdmin()"
-            class="bg-orange-50 border border-orange-100 p-3 rounded-2xl text-center cursor-pointer active:scale-95 transition-all"
-        >
-
-            <span id="count-text" class="font-bebas text-3xl text-orange-600 block leading-none">
-                0
-            </span>
-
-            <span class="text-[8px] font-black text-orange-400 uppercase leading-none">
-                Vendidos
-            </span>
-        </div>
-
-    </div>
-
-    <!-- GRID -->
-    <div
-        id="grid-rifa"
-        class="grid grid-cols-4 gap-3 px-6 pb-10 min-h-[400px]"
-    ></div>
-
-    <p class="text-center text-[8px] font-black text-slate-200 tracking-[1em] uppercase py-4">
-        SISTEMA RIFA V7.0
-    </p>
-
-</div>
-
-<!-- MODAL -->
-<div
-    id="main-modal"
-    data-index=""
-    class="fixed inset-0 z-50 hidden bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-6"
->
-
-    <div class="bg-white w-full max-w-xs rounded-[2.5rem] overflow-hidden shadow-2xl">
-
-        <div class="bg-slate-50 py-10 text-center border-b">
-
-            <h2
-                id="modal-title"
-                class="font-bebas text-[120px] text-orange-600 leading-none"
-            >
-                #00
-            </h2>
-
-        </div>
-
-        <div class="p-8 space-y-4">
-
-            <!-- FORM -->
-            <div id="form-registro">
-
-                <input
-                    type="text"
-                    id="in-nombre"
-                    placeholder="Nombre completo"
-                    class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-orange-500 rounded-2xl font-bold mb-3 outline-none"
-                />
-
-                <input
-                    type="tel"
-                    id="in-tel"
-                    placeholder="WhatsApp"
-                    class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-orange-500 rounded-2xl font-bold outline-none"
-                />
-
-            </div>
-
-            <!-- INFO -->
-            <div id="view-info" class="hidden text-center space-y-4">
-
-                <div class="bg-orange-50 p-6 rounded-3xl border border-orange-100">
-
-                    <p class="text-[9px] font-black text-orange-400 uppercase mb-2">
-                        APARTADO POR:
-                    </p>
-
-                    <p
-                        id="display-nombre"
-                        class="text-2xl font-black text-slate-800 leading-tight"
-                    >
-                        ---
-                    </p>
-
-                    <p
-                        id="display-tel"
-                        class="text-xs font-medium text-slate-400 mt-2"
-                    >
-                        ---
-                    </p>
-
-                    <button
-                        onclick="window.liberarNumero()"
-                        class="mt-4 text-[10px] font-black text-red-500 uppercase tracking-widest block w-full"
-                    >
-                        Liberar Número
-                    </button>
-
-                </div>
-
-            </div>
-
-            <!-- BOTON -->
-            <button
-                id="btn-confirmar"
-                onclick="window.reservarNumero()"
-                class="w-full bg-orange-600 text-white font-bebas text-3xl py-4 rounded-2xl shadow-xl active:scale-95 transition-all"
-            >
-                RESERVAR CUPO
-            </button>
-
-            <button
-                onclick="window.cerrarModal()"
-                class="w-full text-slate-300 text-[10px] font-black uppercase py-2 tracking-widest"
-            >
-                Cerrar Ventana
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- ADMIN PANEL -->
-<div
-    id="admin-panel"
-    class="fixed inset-0 z-[60] bg-white hidden flex flex-col"
->
-
-    <div class="bg-slate-900 p-6 flex justify-between items-center text-white">
-
-        <h2 class="font-bebas text-3xl tracking-wide">
-            CONTROL DE PAGOS
-        </h2>
-
-        <button
-            onclick="document.getElementById('admin-panel').classList.add('hidden')"
-            class="w-10 h-10 bg-white/10 rounded-full text-xl flex items-center justify-center"
-        >
-            ×
-        </button>
-
-    </div>
-
-    <div
-        id="admin-content"
-        class="flex-1 overflow-y-auto bg-slate-50 scroll-hidden"
-    ></div>
-
-</div>
-
-<!-- FIREBASE -->
 <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-
-import {
-    getFirestore,
-    doc,
-    onSnapshot,
-    setDoc
-}
-from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-import {
-    getAuth,
-    signInAnonymously,
-    onAuthStateChanged
-}
-from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
-
-// FIREBASE CONFIG
-const firebaseConfig = {
-
-    apiKey: "AIzaSyCoA7Ehq4RlzJ7JC-U12yDZSUk05DdDSMM",
-
-    authDomain: "rifa-mayo.firebaseapp.com",
-
-    projectId: "rifa-mayo",
-
-    storageBucket: "rifa-mayo.firebasestorage.app",
-
-    messagingSenderId: "18488353754",
-
-    appId: "1:18488353754:web:161d84e9ffca868de596e3"
-};
-
-
-// INIT
+const firebaseConfig = JSON.parse(__firebase_config);
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
-
 const auth = getAuth(app);
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'rifa_produccion_final';
 
-
-// CONFIG
-const appId = 'rifa_mayo_29_diego';
-
-const CLAVE_MAESTRA = "TuClaveSuperSegura2026";
-
-
-// DATA
 let rifaData = Array(100).fill(null);
-
 let user = null;
+let currentNumIndex = null;
+let accionPendiente = null;
 
-let sincronizando = false;
+const CLAVE_MAESTRA = "1234";
 
-
-// DOC REF
-const docRef = doc(db, 'rifas', appId);
-
-
-// RENDER GRID
-window.renderizarGrilla = () => {
-
-    const grid = document.getElementById('grid-rifa');
-
-    if (!grid) return;
-
-    grid.innerHTML = '';
-
-    let vendidos = 0;
-
-    rifaData.forEach((dato, i) => {
-
-        const ocupado = dato !== null;
-
-        if (ocupado) vendidos++;
-
-        const celda = document.createElement('div');
-
-        celda.className = `
-            h-14 sm:h-16
-            flex
-            items-center
-            justify-center
-            rounded-2xl
-            text-2xl
-            font-black
-            cursor-pointer
-            transition-all
-            active:scale-95
-            border-2
-            shadow-sm
-            ${
-                ocupado
-                ? 'bg-orange-600 text-white border-orange-800'
-                : 'bg-white text-slate-800 border-slate-100 hover:border-orange-200'
-            }
-        `;
-
-        celda.innerText =
-            i.toString().padStart(2, '0');
-
-        celda.onclick = () => {
-            window.abrirModal(i);
-        };
-
-        grid.appendChild(celda);
-    });
-
-    document.getElementById('count-text').innerText =
-        vendidos;
-};
-
-
-// MODAL
-window.abrirModal = (i) => {
-
-    const modal =
-        document.getElementById('main-modal');
-
-    modal.dataset.index = i;
-
-    const data = rifaData[i];
-
-    document.getElementById('modal-title').innerText =
-        `#${i.toString().padStart(2, '0')}`;
-
-    if (data) {
-
-        document.getElementById('display-nombre').innerText =
-            data.nombre || "---";
-
-        document.getElementById('display-tel').innerText =
-            data.telefono || "---";
-
-        document.getElementById('form-registro')
-            .classList.add('hidden');
-
-        document.getElementById('view-info')
-            .classList.remove('hidden');
-
-        document.getElementById('btn-confirmar')
-            .classList.add('hidden');
-
+// --- AUTENTICACIÓN ---
+const initAuth = async () => {
+  try {
+    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+      await signInWithCustomToken(auth, __initial_auth_token);
     } else {
-
-        document.getElementById('in-nombre').value = '';
-
-        document.getElementById('in-tel').value = '';
-
-        document.getElementById('form-registro')
-            .classList.remove('hidden');
-
-        document.getElementById('view-info')
-            .classList.add('hidden');
-
-        document.getElementById('btn-confirmar')
-            .classList.remove('hidden');
+      await signInAnonymously(auth);
     }
-
-    modal.classList.remove('hidden');
+  } catch (error) {
+    console.error("Error crítico de acceso:", error);
+  }
 };
 
-
-window.cerrarModal = () => {
-
-    document.getElementById('main-modal')
-        .classList.add('hidden');
-};
-
-
-// SYNC
-async function sincronizar() {
-
-    if (!user) return;
-
-    if (sincronizando) return;
-
-    sincronizando = true;
-
-    try {
-
-        await setDoc(docRef, {
-            numeros: rifaData,
-            updatedAt: Date.now()
-        });
-
-    } catch (e) {
-
-        console.error(e);
-
-        alert("Error sincronizando datos.");
-
-    } finally {
-
-        sincronizando = false;
-    }
-}
-
-
-// RESERVAR
-window.reservarNumero = async () => {
-
-    const modal =
-        document.getElementById('main-modal');
-
-    const index =
-        parseInt(modal.dataset.index);
-
-    const nom =
-        document.getElementById('in-nombre')
-        .value
-        .trim();
-
-    const tel =
-        document.getElementById('in-tel')
-        .value
-        .trim();
-
-    if (!nom) {
-
-        alert("Debes ingresar un nombre.");
-
-        return;
-    }
-
-    if (isNaN(index)) {
-
-        alert("Número inválido.");
-
-        return;
-    }
-
-    if (rifaData[index]) {
-
-        alert("Este número ya fue reservado.");
-
-        return;
-    }
-
-    rifaData[index] = {
-        nombre: nom,
-        telefono: tel,
-        pago: null,
-        creado: Date.now()
-    };
-
-    window.cerrarModal();
-
-    window.renderizarGrilla();
-
-    await sincronizar();
-};
-
-
-// LIBERAR
-window.liberarNumero = async () => {
-
-    const pass =
-        prompt("Clave de Administrador para LIBERAR:");
-
-    if (pass !== CLAVE_MAESTRA) {
-
-        if (pass !== null) {
-            alert("Clave incorrecta");
-        }
-
-        return;
-    }
-
-    const modal =
-        document.getElementById('main-modal');
-
-    const index =
-        parseInt(modal.dataset.index);
-
-    if (isNaN(index)) {
-
-        alert("Número inválido.");
-
-        return;
-    }
-
-    if (!rifaData[index]) {
-
-        alert("Este número ya está libre.");
-
-        return;
-    }
-
-    rifaData[index] = null;
-
-    window.cerrarModal();
-
-    window.renderizarGrilla();
-
-    if (
-        !document
-        .getElementById('admin-panel')
-        .classList
-        .contains('hidden')
-    ) {
-
-        window.actualizarListaAdmin();
-    }
-
-    await sincronizar();
-
-    alert(
-        `Número #${index.toString().padStart(2, '0')} liberado`
-    );
-};
-
-
-// ADMIN
-window.abrirAdmin = () => {
-
-    const pass =
-        prompt("Clave de Administrador:");
-
-    if (pass !== CLAVE_MAESTRA) {
-
-        if (pass !== null) {
-            alert("Acceso denegado");
-        }
-
-        return;
-    }
-
-    document.getElementById('admin-panel')
-        .classList.remove('hidden');
-
-    window.actualizarListaAdmin();
-};
-
-
-// LISTA ADMIN
-window.actualizarListaAdmin = () => {
-
-    const list =
-        document.getElementById('admin-content');
-
-    list.innerHTML = '';
-
-    rifaData.forEach((d, i) => {
-
-        if (d !== null && typeof d === 'object') {
-
-            const row =
-                document.createElement('div');
-
-            row.className =
-                "p-4 border-b bg-white flex justify-between items-center";
-
-            row.innerHTML = `
-                <div class="flex items-center gap-3">
-
-                    <span class="font-bebas text-2xl text-orange-600">
-                        #${i.toString().padStart(2, '0')}
-                    </span>
-
-                    <div>
-
-                        <p class="font-bold text-xs uppercase text-slate-700">
-                            ${d.nombre || 'SIN NOMBRE'}
-                        </p>
-
-                        <p class="text-[10px] text-slate-400 font-mono">
-                            ${d.telefono || '---'}
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <div class="flex items-center gap-1">
-
-                    <button
-                        onclick="window.setPago(${i}, 'Nequi')"
-                        class="
-                        px-2
-                        py-1.5
-                        text-[8px]
-                        font-black
-                        rounded
-                        border-2
-                        transition-colors
-                        ${
-                            d.pago === 'Nequi'
-                            ? 'bg-[#FF00BF] text-white border-[#FF00BF]'
-                            : 'bg-white text-slate-200 border-slate-50'
-                        }"
-                    >
-                        NEQUI
-                    </button>
-
-                    <button
-                        onclick="window.setPago(${i}, 'BC')"
-                        class="
-                        px-2
-                        py-1.5
-                        text-[8px]
-                        font-black
-                        rounded
-                        border-2
-                        transition-colors
-                        ${
-                            d.pago === 'BC'
-                            ? 'bg-slate-900 text-white border-slate-900'
-                            : 'bg-white text-slate-200 border-slate-50'
-                        }"
-                    >
-                        BC
-                    </button>
-
-                    <button
-                        onclick="window.borrarAdmin(${i})"
-                        class="ml-2 text-red-400 p-2 text-xl"
-                    >
-                        ×
-                    </button>
-
-                </div>
-            `;
-
-            list.appendChild(row);
-        }
-    });
-};
-
-
-// SET PAGO
-window.setPago = async (i, metodo) => {
-
-    if (!rifaData[i]) return;
-
-    rifaData[i].pago =
-        rifaData[i].pago === metodo
-        ? null
-        : metodo;
-
-    window.actualizarListaAdmin();
-
-    await sincronizar();
-};
-
-
-// BORRAR
-window.borrarAdmin = async (i) => {
-
-    const confirmacion =
-        confirm(`¿Liberar número #${i.toString().padStart(2, '0')}?`);
-
-    if (!confirmacion) return;
-
-    rifaData[i] = null;
-
-    window.actualizarListaAdmin();
-
-    window.renderizarGrilla();
-
-    await sincronizar();
-};
-
-
-// COPIAR
-window.copiar = async (valor, id) => {
-
-    try {
-
-        await navigator.clipboard.writeText(
-            valor.replace(/\s/g, '')
-        );
-
-        const span =
-            document.getElementById(id);
-
-        const old =
-            span.innerText;
-
-        span.innerText = "COPIADO";
-
-        setTimeout(() => {
-            span.innerText = old;
-        }, 1200);
-
-    } catch {
-
-        alert("No se pudo copiar.");
-    }
-};
-
-
-// FIREBASE INIT
-async function iniciarApp() {
-
-    try {
-
-        await signInAnonymously(auth);
-
-        onAuthStateChanged(auth, (u) => {
-
-            user = u;
-
-            if (!u) return;
-
-            onSnapshot(docRef, (snap) => {
-
-                if (snap.exists()) {
-
-                    const data = snap.data();
-
-                    rifaData =
-                        data.numeros ||
-                        Array(100).fill(null);
-
-                } else {
-
-                    rifaData =
-                        Array(100).fill(null);
-                }
-
-                window.renderizarGrilla();
-
-                if (
-                    !document
-                    .getElementById('admin-panel')
-                    .classList
-                    .contains('hidden')
-                ) {
-
-                    window.actualizarListaAdmin();
-                }
-
-            });
-
-        });
-
-    } catch (err) {
-
-        console.error(err);
-
-        alert("Error conectando Firebase.");
-    }
-}
-
-
-// START
-window.addEventListener('DOMContentLoaded', () => {
-
-    iniciarApp();
-
-    window.renderizarGrilla();
+onAuthStateChanged(auth, (u) => {
+  user = u;
+  if (user) {
+    console.log("Sesión activa:", user.uid);
+    conectarBaseDeDatos();
+  }
 });
 
+// --- FIREBASE ---
+function getDocRef() {
+  return doc(db, 'artifacts', appId, 'public', 'data', 'rifa_global', 'estado_oficial');
+}
+
+function conectarBaseDeDatos() {
+  const docRef = getDocRef();
+  onSnapshot(docRef, (docSnap) => {
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      rifaData = data.numeros || Array(100).fill(null);
+    } else {
+      actualizarServidor(Array(100).fill(null));
+    }
+    renderizarPantalla();
+  }, (error) => {
+    console.error("Error de lectura:", error);
+  });
+}
+
+async function actualizarServidor(nuevaData) {
+  if (!user) return;
+  try {
+    const docRef = getDocRef();
+    const dataLimpia = nuevaData.map(item => item ? { nombre: item.nombre, telefono: item.telefono } : null);
+    await setDoc(docRef, { numeros: dataLimpia });
+  } catch (error) {
+    console.error("Error al guardar en servidor:", error);
+  }
+}
+
+// --- INTERFAZ ---
+window.renderizarPantalla = function() {
+  const grid = document.getElementById('grid-rifa');
+  if (!grid) return;
+  grid.innerHTML = '';
+  let contador = 0;
+  rifaData.forEach((dato, i) => {
+    const ocupado = dato !== null;
+    const celda = document.createElement('div');
+    celda.className = `h-14 flex items-center justify-center rounded-xl text-2xl font-black cursor-pointer transition-all active:scale-90 select-none shadow-sm ${ocupado ? 'bg-red-600 text-white shadow-inner border-b-4 border-red-800' : 'bg-white text-zinc-800 border-2 border-zinc-100 hover:border-red-400'}`;
+    celda.innerText = i.toString().padStart(2, '0');
+    celda.onclick = () => abrirVentana(i);
+    grid.appendChild(celda);
+    if (ocupado) contador++;
+  });
+  document.getElementById('vendidos-count').innerText = contador;
+};
+
+window.abrirVentana = function(index) {
+  currentNumIndex = index;
+  const data = rifaData[index];
+  const estaOcupado = data !== null;
+  document.getElementById('modal-titulo').innerText = estaOcupado ? "Número Reservado" : "Elegir Número";
+  document.getElementById('num-badge').innerText = `#${index.toString().padStart(2, '0')}`;
+  document.getElementById('in-nombre').value = estaOcupado ? data.nombre : '';
+  document.getElementById('in-tel').value = estaOcupado ? data.telefono : '';
+  document.getElementById('btn-confirmar').classList.toggle('hidden', estaOcupado);
+  document.getElementById('btn-borrar').classList.toggle('hidden', !estaOcupado);
+  document.getElementById('modal-main').classList.remove('hidden');
+};
+
+window.cerrarVentana = function() {
+  document.getElementById('modal-main').classList.add('hidden');
+};
+
+window.confirmarReserva = async function() {
+  const nom = document.getElementById('in-nombre').value.trim();
+  const tel = document.getElementById('in-tel').value.trim() || "N/A";
+  if (!nom) return alert("Escribe un nombre para guardar.");
+  rifaData[currentNumIndex] = { nombre: nom, telefono: tel };
+  await actualizarServidor(rifaData);
+  cerrarVentana();
+};
+
+// --- LIBERAR NÚMERO CON CLAVE ---
+window.liberarNumero = function() {
+  accionPendiente = 'liberar';
+  document.getElementById('input-pass').value = '';
+  document.getElementById('modal-pass').classList.remove('hidden');
+};
+
+window.verificarClave = async function() {
+  const pass = document.getElementById('input-pass').value;
+  if (pass === CLAVE_MAESTRA) {
+    if (accionPendiente === 'liberar') {
+      rifaData[currentNumIndex] = null;
+      await actualizarServidor(rifaData);
+      cerrarVentana();
+      renderizarPantalla();
+      alert("Número liberado correctamente");
+    }
+    if (accionPendiente === 'admin') {
+      abrirPanelAdmin();
+    }
+    document.getElementById('modal-pass').classList.add('hidden');
+  } else {
+    alert("Clave incorrecta.");
+  }
+};
+
+window.panelAdmin = function() {
+  accionPendiente = 'admin';
+  document.getElementById('input-pass').value = '';
+  document.getElementById('modal-pass').classList.remove('hidden');
+};
+
+function abrirPanelAdmin() {
+  const listado = document.getElementById('lista-cuerpo');
+  listado.innerHTML = '';
+  let hay = false;
+  rifaData.forEach((d, i) => {
+    if (d) {
+      hay = true;
+      listado.innerHTML += `<tr class="border-b"><td class="p-3 font-bold text-red-600">#${i.toString().padStart(2, '0')}</td><td class="p-3 font-bold uppercase text-xs">${d.nombre}</td><td class="p-3 text-xs">${d.telefono}</td></tr>`;
+    }
+  });
+  if (!hay) listado.innerHTML = '<tr><td colspan="3" class="p-10 text-center text-zinc-400 font-bold uppercase text-[10px]">No hay ventas</td></tr>';
+  document.getElementById('panel-admin').classList.remove('hidden');
+}
+
+initAuth();
 </script>
 
-</body>
-</html>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+.font-impact { font-family: 'Archivo Black', sans-serif; }
+.bg-blur { background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); }
+body { -webkit-tap-highlight-color: transparent; }
+</style>
+</head>
+
+<body class="bg-zinc-50 min-h-screen font-sans text-zinc-900 select-none">
+
+<!-- MODAL DE ACCIÓN -->
+<div id="modal-main" class="bg-blur fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-[2rem] w-full max-w-sm overflow-hidden shadow-2xl">
+    <div class="bg-red-600 p-6 text-white text-center">
+      <h2 id="modal-titulo" class="text-xs font-bold uppercase tracking-widest opacity-80 mb-1">Elegir Número</h2>
+      <p id="num-badge" class="text-5xl font-impact tracking-tighter">#--</p>
+    </div>
+    <div class="p-6 space-y-4">
+      <div class="space-y-1">
+        <label class="text-[10px] font-bold text-zinc-400 uppercase ml-1">Nombre del Comprador</label>
+        <input type="text" id="in-nombre" class="w-full bg-zinc-50 border-2 border-zinc-100 p-3 rounded-xl font-bold outline-none focus:border-red-600 transition-all" placeholder="Ej: Juan Pérez">
+      </div>
+      <div class="space-y
