@@ -11,11 +11,20 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
 import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-const firebaseConfig = JSON.parse(__firebase_config);
+// 🔑 Configuración de Firebase (reemplaza con tus datos reales)
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_DOMINIO.firebaseapp.com",
+  projectId: "TU_PROJECT_ID",
+  storageBucket: "TU_BUCKET.appspot.com",
+  messagingSenderId: "TU_SENDER_ID",
+  appId: "TU_APP_ID"
+};
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'rifa_produccion_final';
+const appId = 'rifa_produccion_final';
 
 let rifaData = Array(100).fill(null);
 let user = null;
@@ -27,11 +36,7 @@ const CLAVE_MAESTRA = "1234";
 // --- AUTENTICACIÓN ---
 const initAuth = async () => {
   try {
-    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-      await signInWithCustomToken(auth, __initial_auth_token);
-    } else {
-      await signInAnonymously(auth);
-    }
+    await signInAnonymously(auth);
   } catch (error) {
     console.error("Error crítico de acceso:", error);
   }
@@ -189,6 +194,4 @@ body { -webkit-tap-highlight-color: transparent; }
     <div class="p-6 space-y-4">
       <div class="space-y-1">
         <label class="text-[10px] font-bold text-zinc-400 uppercase ml-1">Nombre del Comprador</label>
-        <input type="text" id="in-nombre" class="w-full bg-zinc-50 border-2 border-zinc-100 p-3 rounded-xl font-bold outline-none focus:border-red-600 transition-all" placeholder="Ej: Juan Pérez">
-      </div>
-      <div class="space-y
+        <input type="text" id="in-nombre" class="w-full bg-zinc-50 border-2 border-zinc-
