@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RIFA</title>
+    <title>RIFA PROFESIONAL</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script type="module">
@@ -67,11 +67,10 @@
             try {
                 const dataLimpia = nuevaData.map(item => item ? { 
                     nombre: item.nombre, 
-                    telefono: item.telefono,
-                    metodo: item.metodo || null 
+                    telefono: item.telefono
                 } : null);
                 await setDoc(getDocRef(), { numeros: dataLimpia });
-            } catch (error) { console.error("Error:", error); }
+            } catch (error) { console.error("Error al actualizar:", error); }
         }
 
         window.renderizarPantalla = function() {
@@ -82,7 +81,7 @@
             rifaData.forEach((dato, i) => {
                 const ocupado = dato !== null;
                 const celda = document.createElement('div');
-                celda.className = `h-14 flex items-center justify-center rounded-2xl text-xl font-black cursor-pointer transition-all active:scale-90 shadow-sm border-2 ${ocupado ? 'bg-orange-600 text-white border-orange-800' : 'bg-white text-slate-800 border-slate-100'}`;
+                celda.className = `h-14 flex items-center justify-center rounded-xl text-xl font-black cursor-pointer transition-all active:scale-90 shadow-md border-2 ${ocupado ? 'bg-orange-600 text-white border-orange-800' : 'bg-white text-slate-800 border-slate-100'}`;
                 celda.innerText = i.toString().padStart(2, '0');
                 celda.onclick = () => abrirVentana(i);
                 grid.appendChild(celda);
@@ -126,25 +125,25 @@
         };
 
         window.liberarConClave = function() {
-            const pass = prompt("Introduce la clave maestra:");
+            const pass = prompt("Clave maestra:");
             if (pass === CLAVE_MAESTRA) {
                 rifaData[currentNumIndex] = null;
                 renderizarPantalla();
                 cerrarVentana();
-                actualidorServidor(rifaData);
+                actualizarServidor(rifaData);
             }
         };
 
         window.copiarTexto = function(texto, id) {
             const aux = document.createElement("input");
-            aux.setAttribute("value", texto.replace(/\s/g, ''));
+            aux.setAttribute("value", texto.replace(/\s/g, '').replace(/-/g, ''));
             document.body.appendChild(aux);
             aux.select();
             document.execCommand("copy");
             document.body.removeChild(aux);
             const el = document.getElementById(id);
             const original = el.innerText;
-            el.innerText = "¡COPIADO!";
+            el.innerText = "COPIADO";
             setTimeout(() => el.innerText = original, 1000);
         };
     </script>
@@ -152,150 +151,128 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;900&family=Oswald:wght@700&display=swap');
         
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .font-title { font-family: 'Bebas Neue', cursive; }
-        .font-main { font-family: 'Inter', sans-serif; }
         .font-prize { font-family: 'Oswald', sans-serif; }
 
-        /* Estilo Neón para RIFA */
-        .neon-title {
+        /* NEÓN AZUL REFORZADO */
+        .neon-rifa {
             font-family: 'Bebas Neue', cursive;
-            font-size: 5rem;
+            font-size: clamp(4rem, 18vw, 6.5rem);
             color: #fff;
-            text-shadow:
-                0 0 7px #fff,
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            line-height: 0.9;
+            text-shadow: 
+                0 0 5px #fff,
                 0 0 10px #fff,
-                0 0 21px #fff,
-                0 0 42px #f97316,
-                0 0 82px #f97316,
-                0 0 92px #f97316,
-                0 0 102px #f97316,
-                0 0 151px #f97316;
-            letter-spacing: 0.15em;
-            line-height: 1;
-            margin-bottom: 1rem;
-            font-style: italic;
-        }
-
-        /* Contenedor del número con ajuste fluido para evitar cortes */
-        .prize-container {
-            width: 100%;
-            padding: 0 1rem;
-            display: flex;
-            justify-content: center;
-            overflow: visible;
-        }
-
-        .monto-millon {
-            font-size: clamp(2rem, 14vw, 4.5rem); /* Ajuste inteligente: mínimo 2rem, ideal 14vw, máximo 4.5rem */
-            white-space: nowrap;
-            display: block;
-            line-height: 1.1;
-            font-weight: 900;
-            background: linear-gradient(to bottom, #ffffff 30%, #fb923c 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+                0 0 20px #00d2ff,
+                0 0 40px #00d2ff,
+                0 0 60px #00d2ff;
+            filter: drop-shadow(0 0 10px rgba(0, 210, 255, 0.4));
         }
 
         .header-rifa {
-            background: radial-gradient(circle at top, #1e293b 0%, #020617 100%);
+            background-color: #0c0f1d;
+            background-image: radial-gradient(circle at 50% 30%, #1e293b 0%, #0c0f1d 100%);
         }
 
-        /* Animación suave para el neón */
-        @keyframes flicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% {
-                text-shadow:
-                0 0 4px #fff,
-                0 0 11px #fff,
-                0 0 19px #fff,
-                0 0 40px #f97316,
-                0 0 80px #f97316;
-            }
-            20%, 24%, 55% {       
-                text-shadow: none;
-            }
+        /* AJUSTE PARA QUE EL MONTO NO SE CORTE */
+        .prize-glow {
+            font-size: clamp(2.2rem, 13vw, 5rem); /* Reducido el tamaño mínimo para pantallas muy pequeñas */
+            font-weight: 900;
+            background: linear-gradient(180deg, #fff 0%, #fb923c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 8px rgba(251, 146, 60, 0.4));
+            white-space: nowrap;
+            letter-spacing: -2px; /* Espaciado más apretado para que quepa */
+            display: inline-block;
         }
-        
-        .neon-flicker {
-            animation: flicker 3s infinite alternate;
+
+        .valor-cupo-tag {
+            background: #ea580c;
+            box-shadow: 0 0 20px rgba(234, 88, 12, 0.6);
+            transform: translateY(10px);
         }
     </style>
 </head>
-<body class="bg-slate-100 font-main text-slate-900 select-none">
+<body class="bg-slate-200 select-none">
 
-    <div class="max-w-md mx-auto bg-white min-h-screen shadow-2xl overflow-hidden flex flex-col">
+    <div class="max-w-md mx-auto bg-white min-h-screen shadow-2xl flex flex-col overflow-x-hidden">
         
-        <!-- HEADER ESTILO NEÓN -->
-        <div class="header-rifa pt-10 pb-12 text-center border-b-4 border-orange-600 relative overflow-hidden">
+        <!-- HEADER -->
+        <div class="header-rifa pt-10 pb-16 text-center border-b-4 border-orange-600 relative">
             
-            <!-- Brillo de fondo -->
-            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-orange-600/10 blur-[120px] pointer-events-none"></div>
-
-            <!-- Título RIFA con efecto Neón -->
-            <div class="relative z-10">
-                <h1 class="neon-title neon-flicker">RIFA</h1>
-            </div>
-            
-            <div class="relative z-10 inline-block bg-orange-600/20 border border-orange-500/30 px-4 py-1 rounded-full mb-6 backdrop-blur-sm">
-                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-orange-400">MAYO 29 • LOTERÍA DE MEDELLÍN</span>
+            <div class="mb-4">
+                <span class="bg-orange-950/50 border border-orange-500/30 text-orange-400 text-[9px] font-black px-3 py-1 rounded-full tracking-[0.2em] uppercase">
+                    MAYO 29 • LOTERÍA DE MEDELLÍN
+                </span>
             </div>
 
-            <!-- Contenedor del premio con Clamp para evitar cortes -->
-            <div class="prize-container mb-8 relative z-10">
-                <p class="font-prize monto-millon uppercase italic tracking-tighter">
+            <!-- RIFA NEÓN -->
+            <div class="mb-2">
+                <h1 class="neon-rifa">RIFA</h1>
+            </div>
+
+            <!-- PREMIO - AJUSTADO PARA NO CORTARSE -->
+            <div class="w-full overflow-hidden px-2 mb-8">
+                <p class="font-prize prize-glow uppercase italic">
                     $1.000.000
                 </p>
             </div>
 
-            <div class="relative z-10 inline-flex flex-col bg-orange-600 px-10 py-4 rounded-2xl shadow-[0_0_25px_rgba(234,88,12,0.5)] border border-orange-400/50">
-                <span class="text-[9px] font-black text-orange-100 uppercase tracking-widest mb-1">VALOR DEL CUPO</span>
-                <span class="font-title text-4xl text-white tracking-widest">$20.000</span>
+            <!-- VALOR CUPO -->
+            <div class="inline-flex flex-col valor-cupo-tag px-10 py-3 rounded-2xl border border-white/20">
+                <span class="text-[8px] font-black text-orange-100 uppercase tracking-widest mb-1 opacity-80">VALOR DEL CUPO</span>
+                <span class="font-title text-4xl text-white tracking-widest leading-none">$20.000</span>
             </div>
         </div>
 
-        <!-- PAGOS RÁPIDOS -->
+        <!-- ACCESOS RÁPIDOS -->
         <div class="grid grid-cols-3 gap-2 p-3 bg-slate-50 border-b">
-            <div onclick="copiarTexto('000000000', 'bc-lbl')" class="bg-white p-3 rounded-xl border flex flex-col items-center justify-center cursor-pointer active:scale-95 transition-transform">
+            <div onclick="copiarTexto('000-0000', 'bc-lbl')" class="bg-white p-3 rounded-xl border flex flex-col items-center justify-center cursor-pointer active:scale-95 transition-all">
                 <span id="bc-lbl" class="text-[8px] font-black text-slate-400 uppercase mb-1">BANCOLOMBIA</span>
-                <span class="font-title text-lg text-slate-700 leading-none">000-000</span>
+                <span class="font-title text-lg text-slate-700">000-0000</span>
             </div>
-            <div onclick="copiarTexto('300000000', 'nq-lbl')" class="bg-white p-3 rounded-xl border border-t-4 border-t-[#FF00BF] flex flex-col items-center justify-center cursor-pointer active:scale-95 transition-transform">
+            <div onclick="copiarTexto('300 000 0000', 'nq-lbl')" class="bg-white p-3 rounded-xl border-b-4 border-b-[#FF00BF] flex flex-col items-center justify-center cursor-pointer active:scale-95 transition-all text-center">
                 <span id="nq-lbl" class="text-[8px] font-black text-[#FF00BF] uppercase mb-1">NEQUI</span>
-                <span class="font-title text-lg text-slate-700 leading-none">300 000</span>
+                <span class="font-title text-lg text-slate-700 leading-none">COPIAR</span>
             </div>
             <div class="bg-white p-3 rounded-xl border flex flex-col items-center justify-center">
-                <span id="vendidos-count" class="font-title text-2xl text-orange-600 leading-none">0</span>
-                <span class="text-[8px] font-bold text-slate-300 uppercase leading-none tracking-tighter">VENDIDOS</span>
+                <span id="vendidos-count" class="font-title text-3xl text-orange-600 leading-none">0</span>
+                <span class="text-[8px] font-bold text-slate-300 uppercase tracking-tighter mt-1">VENDIDOS</span>
             </div>
         </div>
 
-        <!-- CUADRÍCULA -->
-        <div id="grid-rifa" class="grid grid-cols-4 gap-3 p-6 flex-1"></div>
+        <!-- TABLERO DE NÚMEROS -->
+        <div id="grid-rifa" class="grid grid-cols-4 gap-3 p-5 flex-1 bg-white"></div>
 
-        <div class="p-6 text-center opacity-30">
-            <p class="text-[8px] font-black tracking-[0.5em] text-slate-400 uppercase">Plataforma Premium de Rifa</p>
+        <div class="p-4 text-center">
+            <p class="text-[8px] font-black tracking-[0.4em] text-slate-300 uppercase">PLATAFORMA PREMIUM V4.0</p>
         </div>
     </div>
 
-    <!-- MODAL REGISTRO -->
-    <div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm">
-        <div class="bg-white rounded-[2.5rem] w-full max-w-xs overflow-hidden shadow-2xl">
-            <div class="p-8 text-center bg-slate-50 border-b">
-                <p id="num-badge" class="text-8xl font-title text-orange-600 leading-none">#--</p>
+    <!-- MODAL DE ACCIÓN -->
+    <div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-md">
+        <div class="bg-white rounded-[2rem] w-full max-w-xs overflow-hidden shadow-2xl">
+            <div class="p-6 text-center bg-slate-50 border-b">
+                <p id="num-badge" class="text-8xl font-title text-orange-600 leading-none">#00</p>
             </div>
             <div class="p-6 space-y-4">
                 <div id="view-registro" class="space-y-3">
-                    <input type="text" id="in-nombre" class="w-full bg-slate-50 border-2 border-slate-100 p-4 rounded-xl font-bold outline-none focus:border-orange-500" placeholder="Nombre completo">
+                    <input type="text" id="in-nombre" class="w-full bg-slate-50 border-2 border-slate-100 p-4 rounded-xl font-bold outline-none focus:border-orange-500" placeholder="Tu Nombre">
                     <input type="tel" id="in-tel" class="w-full bg-slate-50 border-2 border-slate-100 p-4 rounded-xl font-bold outline-none focus:border-orange-500" placeholder="WhatsApp">
                 </div>
-                <div id="view-ocupado" class="hidden text-center bg-orange-50 p-4 rounded-xl">
-                    <p class="text-[10px] font-black text-orange-400 uppercase mb-1">RESERVADO POR</p>
-                    <p id="modal-info-nombre" class="text-xl font-bold text-slate-800">---</p>
-                    <p id="modal-info-tel" class="text-xs font-mono text-slate-400">---</p>
+                <div id="view-ocupado" class="hidden text-center bg-orange-50 p-4 rounded-2xl border border-orange-100">
+                    <p class="text-[9px] font-black text-orange-400 uppercase mb-2">RESERVADO POR</p>
+                    <p id="modal-info-nombre" class="text-xl font-black text-slate-800">---</p>
+                    <p id="modal-info-tel" class="text-xs font-medium text-slate-400 mt-1">---</p>
                 </div>
-                <button id="btn-guardar-modal" onclick="guardarReserva()" class="w-full bg-orange-600 text-white py-4 rounded-xl font-title text-2xl uppercase tracking-widest active:scale-95 transition-all">RESERVAR</button>
-                <button id="btn-liberar-directo" onclick="liberarConClave()" class="hidden w-full text-red-500 font-bold text-xs uppercase py-2">Liberar Cupo</button>
-                <button onclick="cerrarVentana()" class="w-full text-slate-400 text-[10px] font-bold uppercase py-2">Cancelar</button>
+                <button id="btn-guardar-modal" onclick="guardarReserva()" class="w-full bg-orange-600 text-white py-4 rounded-xl font-title text-2xl uppercase tracking-widest active:scale-95 transition-all shadow-lg shadow-orange-600/30">RESERVAR</button>
+                <button id="btn-liberar-directo" onclick="liberarConClave()" class="hidden w-full text-red-500 font-bold text-[10px] uppercase py-2 tracking-widest">Liberar Cupo</button>
+                <button onclick="cerrarVentana()" class="w-full text-slate-400 text-[10px] font-bold uppercase py-2 tracking-widest">Cerrar</button>
             </div>
         </div>
     </div>
