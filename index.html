@@ -3,59 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SISTEMA DE RIFA EN VIVO</title>
+<title>RIFA - Gana $1.000.000</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@400;700;900&display=swap');
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+.font-impact {
+  font-family: 'Archivo Black', sans-serif;
+}
+.glow-text {
+  text-shadow: 0 0 20px rgba(255,255,255,0.5);
+}
+.bg-gradient-rifa {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+.bg-card {
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+}
+.cuenta-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+</style>
 </head>
 
-<body class="bg-zinc-50 min-h-screen font-sans text-zinc-900 select-none">
+<body class="bg-gradient-rifa min-h-screen">
 
-<!-- HEADER -->
-<div class="bg-red-600 text-white p-6 shadow-lg">
-  <div class="max-w-6xl mx-auto">
-    <h1 class="text-3xl font-black tracking-tighter">🎰 RIFA EN VIVO</h1>
-    <p class="text-sm opacity-80 mt-1">Selecciona tu número de la suerte</p>
+<!-- HEADER MEJORADO -->
+<div class="relative overflow-hidden bg-gradient-to-r from-red-700 via-red-600 to-red-700 text-white p-8 shadow-2xl">
+  <div class="absolute top-0 right-0 opacity-10">
+    <div class="text-9xl">🎰</div>
+  </div>
+  <div class="max-w-6xl mx-auto text-center">
+    <h1 class="text-5xl md:text-7xl font-impact tracking-wider glow-text mb-2">
+      RIFA
+    </h1>
+    <div class="flex flex-col md:flex-row justify-center gap-4 mt-4">
+      <div class="bg-yellow-500 text-red-900 px-6 py-3 rounded-full font-black text-xl shadow-lg">
+        $1.000.000
+      </div>
+      <div class="bg-white text-red-700 px-6 py-3 rounded-full font-black text-xl shadow-lg">
+        VALOR: $20.000
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="max-w-6xl mx-auto p-4">
-  <!-- INFO PANEL -->
-  <div class="bg-white rounded-2xl p-4 shadow-md mb-6 flex justify-between items-center">
-    <div>
-      <span class="text-xs font-bold text-zinc-400 uppercase">Números vendidos</span>
-      <p class="text-3xl font-black text-red-600" id="vendidos-count">0</p>
+  <!-- INFO PANEL MEJORADO -->
+  <div class="bg-card rounded-2xl p-4 shadow-xl mb-6">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="text-center md:text-left">
+        <span class="text-xs font-black text-zinc-500 uppercase tracking-wider">Números disponibles</span>
+        <p class="text-4xl font-black text-red-600" id="vendidos-count">0</p>
+        <span class="text-xs text-zinc-400">de 100 números</span>
+      </div>
+      
+      <!-- CUENTAS BANCARIAS EDITABLES -->
+      <div class="flex flex-col md:flex-row gap-3">
+        <div class="cuenta-card rounded-xl p-3 shadow-lg min-w-[200px]">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-2xl">🏦</span>
+            <span class="text-xs font-bold text-white opacity-90">BANCOLOMBIA</span>
+          </div>
+          <input type="text" id="cuenta-bancolombia" placeholder="Número de cuenta" 
+                 class="w-full bg-white/20 text-white placeholder-white/60 rounded-lg p-2 text-sm font-bold text-center border border-white/30 focus:outline-none focus:border-yellow-400">
+        </div>
+        
+        <div class="cuenta-card rounded-xl p-3 shadow-lg min-w-[200px]" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-2xl">⚡</span>
+            <span class="text-xs font-bold text-white opacity-90">NEQUI</span>
+          </div>
+          <input type="text" id="cuenta-nequi" placeholder="Número de cuenta" 
+                 class="w-full bg-white/20 text-white placeholder-white/60 rounded-lg p-2 text-sm font-bold text-center border border-white/30 focus:outline-none focus:border-yellow-400">
+        </div>
+      </div>
+      
+      <button onclick="panelAdmin()" class="bg-zinc-800 hover:bg-black text-white px-6 py-3 rounded-full text-xs font-black uppercase transition transform hover:scale-105 shadow-lg">
+        🔐 ADMINISTRADOR
+      </button>
     </div>
-    <button onclick="panelAdmin()" class="bg-zinc-800 hover:bg-black text-white px-6 py-2 rounded-full text-xs font-bold uppercase transition">
-      🔐 Admin
-    </button>
   </div>
 
   <!-- GRID DE NÚMEROS -->
   <div id="grid-rifa" class="grid grid-cols-5 md:grid-cols-10 gap-3 mb-6"></div>
+  
+  <!-- INFO ADICIONAL DE PAGO -->
+  <div class="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl p-4 text-center shadow-lg">
+    <p class="text-white font-black text-sm uppercase tracking-wider">
+      💰 ¡APROVECHA! COMPRA TU NÚMERO POR SOLO $20.000 - GÁNATE $1.000.000 💰
+    </p>
+  </div>
 </div>
 
-<!-- MODAL DE RESERVA/LIBERACIÓN -->
-<div id="modal-main" class="bg-blur fixed inset-0 z-50 hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);">
-  <div class="bg-white rounded-[2rem] w-full max-w-sm overflow-hidden shadow-2xl">
-    <div class="bg-red-600 p-6 text-white text-center">
-      <h2 id="modal-titulo" class="text-xs font-bold uppercase tracking-widest opacity-80 mb-1">Elegir Número</h2>
-      <p id="num-badge" class="text-5xl font-black tracking-tighter">#--</p>
+<!-- MODAL DE RESERVA/LIBERACIÓN MEJORADO -->
+<div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(8px);">
+  <div class="bg-white rounded-[2rem] w-full max-w-md overflow-hidden shadow-2xl transform transition-all">
+    <div class="bg-gradient-to-r from-red-700 to-red-600 p-8 text-white text-center">
+      <h2 id="modal-titulo" class="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">✨ Elegir Número ✨</h2>
+      <p id="num-badge" class="text-7xl font-impact tracking-tighter">#--</p>
+      <div class="mt-3 text-sm">
+        <span class="bg-yellow-500 text-red-900 px-3 py-1 rounded-full font-bold text-xs">Valor: $20.000</span>
+      </div>
     </div>
     <div class="p-6 space-y-4">
       <div class="space-y-1">
-        <label class="text-[10px] font-bold text-zinc-400 uppercase ml-1">Nombre del Comprador</label>
-        <input type="text" id="in-nombre" class="w-full bg-zinc-50 border-2 border-zinc-200 rounded-xl p-3 text-sm font-bold">
+        <label class="text-[10px] font-bold text-zinc-400 uppercase ml-1">👤 Nombre del Comprador</label>
+        <input type="text" id="in-nombre" class="w-full bg-zinc-50 border-2 border-zinc-200 rounded-xl p-3 text-sm font-bold focus:border-red-500 focus:outline-none" placeholder="Nombre completo">
       </div>
       <div class="space-y-1">
-        <label class="text-[10px] font-bold text-zinc-400 uppercase ml-1">Teléfono</label>
-        <input type="tel" id="in-tel" class="w-full bg-zinc-50 border-2 border-zinc-200 rounded-xl p-3 text-sm">
+        <label class="text-[10px] font-bold text-zinc-400 uppercase ml-1">📱 Teléfono</label>
+        <input type="tel" id="in-tel" class="w-full bg-zinc-50 border-2 border-zinc-200 rounded-xl p-3 text-sm focus:border-red-500 focus:outline-none" placeholder="Número de contacto">
       </div>
-      <button id="btn-confirmar" onclick="confirmarReserva()" class="w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl transition">
-        ✅ CONFIRMAR RESERVA
+      
+      <!-- Mostrar cuentas para consignación -->
+      <div class="bg-blue-50 rounded-xl p-3 text-xs">
+        <p class="font-bold text-blue-800 mb-2">💳 REALIZA TU CONSIGNACIÓN A:</p>
+        <div id="info-pagos" class="space-y-1 text-blue-700"></div>
+      </div>
+      
+      <button id="btn-confirmar" onclick="confirmarReserva()" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-black py-3 rounded-xl transition transform hover:scale-105">
+        ✅ CONFIRMAR COMPRA
       </button>
-      <button id="btn-borrar" onclick="liberarNumero()" class="hidden w-full bg-zinc-800 hover:bg-black text-white font-black py-3 rounded-xl transition">
+      <button id="btn-borrar" onclick="liberarNumero()" class="hidden w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-black py-3 rounded-xl transition">
         🗑️ LIBERAR NÚMERO
       </button>
-      <button onclick="cerrarVentana()" class="w-full border-2 border-zinc-200 py-3 rounded-xl font-bold text-sm">
+      <button onclick="cerrarVentana()" class="w-full border-2 border-zinc-200 py-3 rounded-xl font-bold text-sm hover:bg-zinc-50 transition">
         CANCELAR
       </button>
     </div>
@@ -64,37 +140,59 @@
 
 <!-- MODAL VERIFICACIÓN CLAVE -->
 <div id="modal-pass" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(8px);">
-  <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center">
+  <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center transform transition-all">
     <div class="text-6xl mb-4">🔐</div>
     <h3 class="text-xl font-black mb-4">Verificación Administrador</h3>
-    <input type="password" id="input-pass" placeholder="Ingresa la clave maestra" class="w-full border-2 border-zinc-200 rounded-xl p-3 text-center text-lg font-bold mb-4">
-    <button onclick="verificarClave()" class="w-full bg-red-600 text-white font-black py-3 rounded-xl">
-      VERIFICAR
+    <input type="password" id="input-pass" placeholder="Ingresa la clave maestra" class="w-full border-2 border-zinc-200 rounded-xl p-3 text-center text-lg font-bold mb-4 focus:border-red-500 focus:outline-none">
+    <button onclick="verificarClave()" class="w-full bg-gradient-to-r from-red-600 to-red-700 text-white font-black py-3 rounded-xl transform hover:scale-105 transition">
+      VERIFICAR ACCESO
     </button>
-    <button onclick="document.getElementById('modal-pass').classList.add('hidden')" class="w-full mt-3 text-sm text-zinc-500 py-2">
+    <button onclick="document.getElementById('modal-pass').classList.add('hidden')" class="w-full mt-3 text-sm text-zinc-500 py-2 hover:text-zinc-800 transition">
       Cancelar
     </button>
   </div>
 </div>
 
-<!-- PANEL ADMINISTRADOR -->
+<!-- PANEL ADMINISTRADOR MEJORADO -->
 <div id="panel-admin" class="fixed inset-0 z-50 hidden bg-white overflow-auto">
-  <div class="sticky top-0 bg-red-600 text-white p-4 flex justify-between items-center shadow-lg">
-    <h2 class="text-xl font-black">📊 REPORTE ADMINISTRADOR</h2>
-    <button onclick="document.getElementById('panel-admin').classList.add('hidden')" class="bg-white text-red-600 w-10 h-10 rounded-full font-bold text-xl">✕</button>
+  <div class="sticky top-0 bg-gradient-to-r from-red-700 to-red-600 text-white p-4 flex justify-between items-center shadow-2xl">
+    <div>
+      <h2 class="text-2xl font-black">PANEL ADMINISTRADOR</h2>
+      <p class="text-xs opacity-80">Gestión completa de la rifa</p>
+    </div>
+    <button onclick="cerrarPanelAdmin()" class="bg-white text-red-600 w-10 h-10 rounded-full font-bold text-xl hover:scale-110 transition">✕</button>
   </div>
   
-  <div class="p-4 max-w-4xl mx-auto">
+  <div class="p-4 max-w-6xl mx-auto">
+    <!-- Sección de cuentas bancarias -->
+    <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-6 mb-6 text-white shadow-xl">
+      <h3 class="text-lg font-black mb-3">💰 CONFIGURAR CUENTAS DE PAGO</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="text-xs font-bold opacity-80">🏦 Bancolombia</label>
+          <input type="text" id="admin-cuenta-bancolombia" class="w-full bg-white/20 rounded-lg p-2 text-white placeholder-white/60 border border-white/30" placeholder="Número de cuenta">
+        </div>
+        <div>
+          <label class="text-xs font-bold opacity-80">⚡ Nequi</label>
+          <input type="text" id="admin-cuenta-nequi" class="w-full bg-white/20 rounded-lg p-2 text-white placeholder-white/60 border border-white/30" placeholder="Número de cuenta">
+        </div>
+      </div>
+      <button onclick="guardarCuentas()" class="mt-4 bg-yellow-500 text-red-900 font-black px-6 py-2 rounded-full text-sm hover:bg-yellow-400 transition">
+        💾 GUARDAR CAMBIOS
+      </button>
+    </div>
+    
     <!-- TABLA DE VENDIDOS -->
     <div class="mb-8">
       <h3 class="text-lg font-black mb-3">🎯 NÚMEROS VENDIDOS</h3>
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto shadow-lg rounded-xl">
         <table class="w-full border-collapse">
-          <thead class="bg-zinc-100">
+          <thead class="bg-zinc-800 text-white">
             <tr>
               <th class="p-3 text-left text-xs font-black">NÚMERO</th>
               <th class="p-3 text-left text-xs font-black">COMPRADOR</th>
               <th class="p-3 text-left text-xs font-black">TELÉFONO</th>
+              <th class="p-3 text-left text-xs font-black">FECHA</th>
             </tr>
           </thead>
           <tbody id="lista-cuerpo"></tbody>
@@ -102,15 +200,22 @@
       </div>
     </div>
 
-    <!-- ESTADÍSTICAS -->
-    <div class="grid grid-cols-2 gap-4">
+    <!-- ESTADÍSTICAS MEJORADAS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200">
         <p class="text-xs font-bold text-green-600 uppercase">Total Vendidos</p>
         <p class="text-3xl font-black text-green-700" id="total-vendidos">0</p>
+        <p class="text-xs text-green-600">Números ocupados</p>
       </div>
       <div class="bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
         <p class="text-xs font-bold text-blue-600 uppercase">Disponibles</p>
         <p class="text-3xl font-black text-blue-700" id="total-disponibles">100</p>
+        <p class="text-xs text-blue-600">Por vender</p>
+      </div>
+      <div class="bg-purple-50 p-4 rounded-xl border-2 border-purple-200">
+        <p class="text-xs font-bold text-purple-600 uppercase">Recaudado</p>
+        <p class="text-3xl font-black text-purple-700" id="total-recaudado">$0</p>
+        <p class="text-xs text-purple-600">$20.000 c/u</p>
       </div>
     </div>
   </div>
@@ -118,10 +223,10 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getFirestore, doc, onSnapshot, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-// 🔑 CONFIGURACIÓN DE FIREBASE - ¡DEBES REEMPLAZAR ESTOS DATOS!
+// 🔑 CONFIGURACIÓN DE FIREBASE - DEBES REEMPLAZAR ESTOS DATOS
 const firebaseConfig = {
   apiKey: "TU_API_KEY",
   authDomain: "TU_PROYECTO.firebaseapp.com",
@@ -143,7 +248,66 @@ let accionPendiente = null;
 
 const CLAVE_MAESTRA = "1234";
 const COLECCION_RIFA = "rifas";
-const DOCUMENTO_ID = "numeros_vendidos";
+const DOCUMENTO_NUMEROS = "numeros_vendidos";
+const DOCUMENTO_CONFIG = "configuracion";
+
+// Cargar cuentas guardadas
+async function cargarCuentasGuardadas() {
+  try {
+    const configRef = doc(db, COLECCION_RIFA, DOCUMENTO_CONFIG);
+    const docSnap = await getDoc(configRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      if (data.bancolombia) {
+        document.getElementById('cuenta-bancolombia').value = data.bancolombia;
+        document.getElementById('admin-cuenta-bancolombia').value = data.bancolombia;
+      }
+      if (data.nequi) {
+        document.getElementById('cuenta-nequi').value = data.nequi;
+        document.getElementById('admin-cuenta-nequi').value = data.nequi;
+      }
+    }
+    actualizarInfoPagos();
+  } catch (error) {
+    console.error("Error cargando cuentas:", error);
+  }
+}
+
+// Guardar cuentas
+window.guardarCuentas = async function() {
+  const bancolombia = document.getElementById('admin-cuenta-bancolombia').value;
+  const nequi = document.getElementById('admin-cuenta-nequi').value;
+  
+  try {
+    const configRef = doc(db, COLECCION_RIFA, DOCUMENTO_CONFIG);
+    await setDoc(configRef, { bancolombia, nequi }, { merge: true });
+    
+    // Actualizar inputs públicos
+    document.getElementById('cuenta-bancolombia').value = bancolombia;
+    document.getElementById('cuenta-nequi').value = nequi;
+    
+    actualizarInfoPagos();
+    alert("✅ Cuentas guardadas correctamente");
+  } catch (error) {
+    console.error("Error guardando cuentas:", error);
+    alert("❌ Error al guardar las cuentas");
+  }
+};
+
+// Actualizar información de pagos en el modal
+function actualizarInfoPagos() {
+  const bancolombia = document.getElementById('cuenta-bancolombia')?.value || 'No configurado';
+  const nequi = document.getElementById('cuenta-nequi')?.value || 'No configurado';
+  const infoDiv = document.getElementById('info-pagos');
+  
+  if (infoDiv) {
+    infoDiv.innerHTML = `
+      ${bancolombia !== 'No configurado' ? `<p> <strong>Bancolombia:</strong> ${bancolombia}</p>` : ''}
+      ${nequi !== 'No configurado' ? `<p> <strong>Nequi:</strong> ${nequi}</p>` : ''}
+      ${bancolombia === 'No configurado' && nequi === 'No configurado' ? '<p class="text-red-500">⚠️ Contacta al administrador para los datos de pago</p>' : ''}
+    `;
+  }
+}
 
 // Autenticación anónima
 const initAuth = async () => {
@@ -151,16 +315,15 @@ const initAuth = async () => {
     await signInAnonymously(auth);
   } catch (error) {
     console.error("Error de autenticación:", error);
-    // Modo demo local si falla Firebase
-    console.log("Modo offline - usando datos locales");
     renderizarPantalla();
   }
 };
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    console.log("✅ Sesión activa:", user.uid);
+    console.log("✅ Sesión activa");
     conectarBaseDeDatos();
+    cargarCuentasGuardadas();
   } else {
     initAuth();
   }
@@ -168,7 +331,7 @@ onAuthStateChanged(auth, (user) => {
 
 // Referencia al documento en Firestore
 function getDocRef() {
-  return doc(db, COLECCION_RIFA, DOCUMENTO_ID);
+  return doc(db, COLECCION_RIFA, DOCUMENTO_NUMEROS);
 }
 
 // Conectar a Firestore
@@ -180,7 +343,6 @@ function conectarBaseDeDatos() {
       const data = docSnap.data();
       rifaData = data.numeros || Array(100).fill(null);
     } else {
-      // Primer uso: crear documento
       actualizarServidor(Array(100).fill(null));
     }
     renderizarPantalla();
@@ -189,7 +351,6 @@ function conectarBaseDeDatos() {
     }
   }, (error) => {
     console.error("❌ Error de lectura:", error);
-    // Si falla Firebase, usar datos locales
     if (!rifaData) rifaData = Array(100).fill(null);
     renderizarPantalla();
   });
@@ -204,17 +365,15 @@ async function actualizarServidor(nuevaData) {
     const dataLimpia = nuevaData.map(item => item ? { 
       nombre: item.nombre, 
       telefono: item.telefono,
-      fecha: new Date().toISOString()
+      fecha: new Date().toLocaleString()
     } : null);
     
     await setDoc(docRef, { 
       numeros: dataLimpia,
       ultimaActualizacion: new Date().toISOString()
     });
-    console.log("✅ Datos guardados en Firebase");
   } catch (error) {
     console.error("❌ Error al guardar:", error);
-    alert("Error de conexión. Los datos se guardarán localmente.");
   }
 }
 
@@ -229,8 +388,8 @@ window.renderizarPantalla = function() {
   rifaData.forEach((dato, i) => {
     const ocupado = dato !== null;
     const celda = document.createElement('div');
-    celda.className = `h-14 flex items-center justify-center rounded-xl text-2xl font-black cursor-pointer transition-all active:scale-90 select-none shadow-sm ${
-      ocupado ? 'bg-red-600 text-white shadow-inner border-b-4 border-red-800' : 'bg-white text-zinc-800 border-2 border-zinc-100 hover:border-red-400'
+    celda.className = `h-14 flex items-center justify-center rounded-xl text-2xl font-black cursor-pointer transition-all active:scale-90 select-none shadow-lg ${
+      ocupado ? 'bg-gradient-to-br from-red-600 to-red-800 text-white' : 'bg-white text-zinc-800 border-2 border-zinc-200 hover:border-red-400 hover:shadow-xl'
     }`;
     celda.innerText = i.toString().padStart(2, '0');
     celda.onclick = () => abrirVentana(i);
@@ -239,7 +398,7 @@ window.renderizarPantalla = function() {
   });
   
   const vendidosCount = document.getElementById('vendidos-count');
-  if (vendidosCount) vendidosCount.innerText = contador;
+  if (vendidosCount) vendidosCount.innerText = `${contador}/100`;
 };
 
 // Abrir modal de número
@@ -248,7 +407,7 @@ window.abrirVentana = function(index) {
   const data = rifaData[index];
   const estaOcupado = data !== null;
   
-  document.getElementById('modal-titulo').innerText = estaOcupado ? "🔒 Número Reservado" : "✨ Elegir Número";
+  document.getElementById('modal-titulo').innerText = estaOcupado ? "🔒 Número Reservado" : "✨ Comprar Número";
   document.getElementById('num-badge').innerText = `#${index.toString().padStart(2, '0')}`;
   document.getElementById('in-nombre').value = estaOcupado ? data.nombre : '';
   document.getElementById('in-tel').value = estaOcupado ? data.telefono : '';
@@ -260,6 +419,7 @@ window.abrirVentana = function(index) {
   if (btnBorrar) btnBorrar.classList.toggle('hidden', !estaOcupado);
   
   document.getElementById('modal-main').classList.remove('hidden');
+  actualizarInfoPagos();
 };
 
 // Cerrar modal
@@ -287,16 +447,17 @@ window.confirmarReserva = async function() {
   await actualizarServidor(rifaData);
   cerrarVentana();
   renderizarPantalla();
+  alert("✅ ¡Número reservado");
 };
 
-// Liberar número (solo admin)
+// Liberar número
 window.liberarNumero = function() {
   accionPendiente = 'liberar';
   document.getElementById('input-pass').value = '';
   document.getElementById('modal-pass').classList.remove('hidden');
 };
 
-// Verificar clave maestra
+// Verificar clave
 window.verificarClave = async function() {
   const pass = document.getElementById('input-pass').value;
   
@@ -306,7 +467,7 @@ window.verificarClave = async function() {
       await actualizarServidor(rifaData);
       cerrarVentana();
       renderizarPantalla();
-      alert("✅ Número liberado correctamente");
+      alert("✅ Número liberado");
     }
     if (accionPendiente === 'admin') {
       abrirPanelAdmin();
@@ -325,6 +486,10 @@ window.panelAdmin = function() {
   document.getElementById('modal-pass').classList.remove('hidden');
 };
 
+window.cerrarPanelAdmin = function() {
+  document.getElementById('panel-admin').classList.add('hidden');
+};
+
 // Actualizar panel admin
 function actualizarPanelAdmin() {
   const listado = document.getElementById('lista-cuerpo');
@@ -341,20 +506,23 @@ function actualizarPanelAdmin() {
           <td class="p-3 font-bold text-red-600">#${i.toString().padStart(2, '0')}</td>
           <td class="p-3 font-bold uppercase text-xs">${escapeHtml(d.nombre)}</td>
           <td class="p-3 text-xs">${escapeHtml(d.telefono)}</td>
+          <td class="p-3 text-xs">${d.fecha || new Date().toLocaleString()}</td>
         </tr>
       `;
     }
   });
   
   if (vendidos === 0) {
-    listado.innerHTML = '<tr><td colspan="3" class="p-10 text-center text-zinc-400 font-bold uppercase text-xs">📭 No hay números vendidos aún</td></tr>';
+    listado.innerHTML = '<tr><td colspan="4" class="p-10 text-center text-zinc-400 font-bold uppercase text-xs">📭 No hay números vendidos aún</td></tr>';
   }
   
   const totalVendidos = document.getElementById('total-vendidos');
   const totalDisponibles = document.getElementById('total-disponibles');
+  const totalRecaudado = document.getElementById('total-recaudado');
   
   if (totalVendidos) totalVendidos.innerText = vendidos;
   if (totalDisponibles) totalDisponibles.innerText = 100 - vendidos;
+  if (totalRecaudado) totalRecaudado.innerText = `$${(vendidos * 20000).toLocaleString('es-CO')}`;
 }
 
 // Abrir panel admin con datos actualizados
@@ -363,7 +531,7 @@ function abrirPanelAdmin() {
   document.getElementById('panel-admin').classList.remove('hidden');
 }
 
-// Helper para evitar XSS
+// Helper
 function escapeHtml(str) {
   if (!str) return '';
   return str.replace(/[&<>]/g, function(m) {
@@ -376,13 +544,11 @@ function escapeHtml(str) {
 
 // Iniciar
 initAuth();
-</script>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
-.font-impact { font-family: 'Archivo Black', sans-serif; }
-body { -webkit-tap-highlight-color: transparent; }
-</style>
+// Event listeners para inputs de cuentas
+document.getElementById('cuenta-bancolombia')?.addEventListener('change', () => actualizarInfoPagos());
+document.getElementById('cuenta-nequi')?.addEventListener('change', () => actualizarInfoPagos());
+</script>
 
 </body>
 </html>
