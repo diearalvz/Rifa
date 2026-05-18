@@ -8,48 +8,11 @@
     <style>
         * { box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         .bg-gradient-rifa { background: radial-gradient(circle at top, #2d0b0b 0%, #11111e 100%); }
-        
-        /* TÍTULO NEÓN MEJORADO */
-        .neon-title { 
-            color: #fff; 
-            text-shadow: 
-                0 0 5px #fff,
-                0 0 10px #fff,
-                0 0 20px #fff,
-                0 0 30px #ff0000,
-                0 0 40px #ff0000,
-                0 0 55px #ff0000,
-                0 0 70px #ff0000;
-            animation: neon-pulse 1.5s ease-in-out infinite alternate;
-        }
-        
-        @keyframes neon-pulse {
-            from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000; }
-            to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 50px #ff0000, 0 0 70px #ff0000; }
-        }
-        
-        /* PREMIO CON IMPACTO */
-        .premio-impactante {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
-            animation: premio-blink 1s ease-in-out infinite alternate;
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
-            border: 3px solid #fff;
-        }
-        
-        @keyframes premio-blink {
-            from { transform: scale(1); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
-            to { transform: scale(1.05); box-shadow: 0 0 70px rgba(255, 215, 0, 0.9); }
-        }
-        
-        .premio-texto {
-            font-family: 'Archivo Black', sans-serif;
-            text-shadow: 3px 3px 0px rgba(0,0,0,0.3);
-            letter-spacing: 2px;
-        }
-        
-        @keyframes blink-smooth { 0%, 100% { opacity: 1; } 50% { opacity: 0.85; } }
-        .prize-blink { animation: blink-smooth 2s infinite ease-in-out; }
-        
+        .neon-title { color: #fff; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 55px #ff0000; animation: neon-pulse 1.5s ease-in-out infinite alternate; }
+        @keyframes neon-pulse { from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000; } to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 50px #ff0000, 0 0 70px #ff0000; } }
+        .premio-impactante { background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%); animation: premio-blink 1s ease-in-out infinite alternate; box-shadow: 0 0 50px rgba(255, 215, 0, 0.6); border: 3px solid #fff; }
+        @keyframes premio-blink { from { transform: scale(1); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); } to { transform: scale(1.05); box-shadow: 0 0 70px rgba(255, 215, 0, 0.9); } }
+        .premio-texto { font-family: 'Archivo Black', sans-serif; text-shadow: 3px 3px 0px rgba(0,0,0,0.3); letter-spacing: 2px; }
         .bg-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .cell-disponible { background: rgba(254, 240, 138, 0.05); border: 2px solid #eab308; color: #fef08a; transition: all 0.3s; cursor: pointer; }
         .cell-disponible:hover { transform: translateY(-4px) scale(1.05); background: rgba(234, 179, 8, 0.2); }
@@ -60,26 +23,8 @@
         @media (min-width: 768px) { .numero-cell { font-size: 1.25rem; } }
         .cuenta-card { background: rgba(255, 255, 255, 0.04); border-left: 4px solid #ef4444; transition: transform 0.2s; }
         .cuenta-card:hover { transform: scale(1.02); }
-        
-        .form-label {
-            color: #1a1a1a !important;
-            font-weight: 800 !important;
-            font-size: 10px !important;
-            text-transform: uppercase !important;
-            letter-spacing: 1px !important;
-            margin-bottom: 4px !important;
-            display: block !important;
-        }
-        .form-input {
-            color: #1a1a1a !important;
-            background-color: #f5f5f5 !important;
-            border: 2px solid #e0e0e0 !important;
-            border-radius: 12px !important;
-            padding: 12px !important;
-            width: 100% !important;
-            font-size: 14px !important;
-            font-weight: 500 !important;
-        }
+        .form-label { color: #1a1a1a !important; font-weight: 800 !important; font-size: 10px !important; text-transform: uppercase !important; letter-spacing: 1px !important; margin-bottom: 4px !important; display: block !important; }
+        .form-input { color: #1a1a1a !important; background-color: #f5f5f5 !important; border: 2px solid #e0e0e0 !important; border-radius: 12px !important; padding: 12px !important; width: 100% !important; font-size: 14px !important; font-weight: 500 !important; }
         .form-input:focus { border-color: #ef4444 !important; outline: none !important; }
         .form-input::placeholder { color: #999 !important; }
     </style>
@@ -90,19 +35,13 @@
     <div class="max-w-6xl mx-auto">
         <h1 class="text-7xl md:text-9xl font-impact neon-title mb-6 tracking-wider italic">RIFA</h1>
         <div class="flex flex-col items-center gap-4">
-            
-            <!-- PREMIO CON MÁS IMPACTO - VERSIÓN MEJORADA -->
             <div class="premio-impactante rounded-2xl px-6 py-4 md:px-10 md:py-6 text-center">
                 <span class="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-white block mb-1 opacity-90">PREMIO</span>
-                <span class="premio-texto text-5xl md:text-7xl font-black text-white block">
-                    $1.000.000
-                </span>
+                <span class="premio-texto text-5xl md:text-7xl font-black text-white block">$1.000.000</span>
                 <span class="text-[9px] md:text-[10px] font-bold text-white/80 block mt-1">EN EFECTIVO</span>
             </div>
-            
-            <!-- Valor del ticket -->
             <div class="bg-white text-zinc-900 px-6 py-2 rounded-full border-4 border-red-600 font-black text-lg md:text-xl shadow-lg">
-                VALOR: <span class="text-red-600 text-xl md:text-2xl">$20.000</span>
+                🎫 VALOR: <span class="text-red-600 text-xl md:text-2xl">$20.000</span>
             </div>
         </div>
     </div>
@@ -122,32 +61,30 @@
                         <span class="text-2xl">🏦</span>
                         <span class="text-[9px] font-black text-zinc-400">BANCOLOMBIA</span>
                     </div>
-                    <!-- 🔑 CAMBIA ESTE NÚMERO POR EL TUYO DE BANCOLOMBIA -->
-                    <span class="text-sm md:text-base font-bold text-white">24569061268</span>
+                    <span class="text-sm md:text-base font-bold text-white" id="cuenta-bancolombia">Cargando...</span>
                 </div>
                 <div class="cuenta-card rounded-xl p-3">
                     <div class="flex items-center gap-2 mb-1">
                         <span class="text-2xl">⚡</span>
                         <span class="text-[9px] font-black text-zinc-400">NEQUI</span>
                     </div>
-                    <!-- 🔑 CAMBIA ESTE NÚMERO POR EL TUYO DE NEQUI -->
-                    <span class="text-sm md:text-base font-bold text-white">3042194324</span>
+                    <span class="text-sm md:text-base font-bold text-white" id="cuenta-nequi">Cargando...</span>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="mb-8">
-        <h3 class="text-center text-[10px] font-black uppercase tracking-[0.3em] mb-4 text-zinc-400">🎲 SELECCIONA TU NÚMERO DE LA SUERTE 🎲</h3>
+        <h3 class="text-center text-[10px] font-black uppercase tracking-[0.3em] mb-4 text-zinc-400">SELECCIONA TU NÚMERO</h3>
         <div id="grid-rifa" class="grid-rifa-container"></div>
     </div>
 </main>
 
 <footer class="bg-gradient-to-r from-red-700 to-orange-600 py-4 text-center border-t-4 border-yellow-500">
-    <p class="font-black text-sm md:text-base uppercase italic animate-pulse">🔥 ¡APROVECHA! SOLO QUEDAN 100 NÚMEROS - SORTEO 29 DE MAYO 🔥</p>
+    <p class="font-black text-sm md:text-base uppercase italic animate-pulse">🔥 ¡BUENA SUERTE - SORTEO 29 DE MAYO 🔥</p>
 </footer>
 
-<!-- MODAL DE COMPRA -->
+<!-- MODALES -->
 <div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(12px);">
   <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
     <div class="bg-zinc-950 p-5 text-white text-center">
@@ -164,15 +101,11 @@
         <label class="form-label">📱 TELÉFONO / WHATSAPP</label>
         <input type="tel" id="in-tel" class="form-input" placeholder="Ej: 3001234567">
       </div>
-      
-      <!-- 🔑 CAMBIA TUS CUENTAS AQUÍ TAMBIÉN -->
       <div class="bg-red-50 rounded-xl p-3 text-xs">
         <p class="font-bold text-red-800 text-center text-[11px] mb-2">💳 TRANSFIERE A:</p>
-        <p class="text-red-700 text-[11px]">🏦 Bancolombia Ahorros: 24569061268</p>
-        <p class="text-red-700 text-[11px]">⚡ Nequi: 3042194324</p>
-        <p class="text-red-500 text-[9px] text-center mt-2">✅ Envía el comprobante después de pagar</p>
+        <p class="text-red-700 text-[11px]" id="modal-cuenta-bancolombia">🏦 Bancolombia: Cargando...</p>
+        <p class="text-red-700 text-[11px]" id="modal-cuenta-nequi">⚡ Nequi: Cargando...</p>
       </div>
-      
       <button id="btn-confirmar" onclick="confirmarReserva()" class="w-full bg-green-600 hover:bg-green-700 text-white font-black py-3 rounded-xl transition text-sm">✅ CONFIRMAR COMPRA</button>
       <button id="btn-borrar" onclick="abrirModalLiberar()" class="hidden w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl transition text-sm">🗑️ LIBERAR NÚMERO</button>
       <button onclick="cerrarVentana()" class="w-full py-2 text-zinc-500 hover:text-zinc-700 transition text-sm font-medium">REGRESAR</button>
@@ -180,7 +113,6 @@
   </div>
 </div>
 
-<!-- MODAL CLAVE ADMIN -->
 <div id="modal-pass" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(15px);">
   <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl">
     <div class="text-5xl mb-3">🔐</div>
@@ -192,7 +124,6 @@
   </div>
 </div>
 
-<!-- PANEL ADMIN -->
 <div id="panel-admin" class="fixed inset-0 z-50 hidden bg-white overflow-auto">
   <div class="sticky top-0 bg-zinc-900 text-white p-4 flex justify-between items-center">
     <h2 class="text-lg font-black">📊 PANEL DE CONTROL</h2>
@@ -219,7 +150,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
 import { getFirestore, doc, onSnapshot, setDoc, runTransaction } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-// 🔑 ¡PEGA AQUÍ TUS CREDENCIALES DE FIREBASE!
+// ============================================================
+// 🔑 ¡IMPORTANTE! PEGA AQUÍ TUS CREDENCIALES DE FIREBASE
+// ============================================================
 const firebaseConfig = {
   apiKey: "AIzaSyC97R-E7mk-MEnL3RnaMAFUyjyc6UET1I8",
   authDomain: "rifa-mayo-5a905.firebaseapp.com",
@@ -228,6 +161,20 @@ const firebaseConfig = {
   messagingSenderId: "287125024290",
   appId: "1:287125024290:web:d139fa82d386c6400c647b"
 };
+// ============================================================
+
+// ============================================================
+// 🔑 CAMBIA TUS NÚMEROS DE CUENTA AQUÍ
+// ============================================================
+const MI_CUENTA_BANCOLOMBIA = "24569061268";
+const MI_CUENTA_NEQUI = "3042194324";
+// ============================================================
+
+// ============================================================
+// 🔑 CAMBIA LA CLAVE MAESTRA AQUÍ (opcional)
+// ============================================================
+const CLAVE_MAESTRA = "1234";
+// ============================================================
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -238,172 +185,195 @@ let currentNumIndex = null;
 let accionPendiente = null;
 let comprando = false;
 
-// 🔑 CAMBIA ESTA CLAVE POR LA QUE QUIERAS
-const CLAVE_MAESTRA = "1234";
+// Mostrar cuentas en la interfaz
+function mostrarCuentas() {
+    document.getElementById('cuenta-bancolombia').innerText = MI_CUENTA_BANCOLOMBIA;
+    document.getElementById('cuenta-nequi').innerText = MI_CUENTA_NEQUI;
+    document.getElementById('modal-cuenta-bancolombia').innerHTML = `🏦 Bancolombia: ${MI_CUENTA_BANCOLOMBIA}`;
+    document.getElementById('modal-cuenta-nequi').innerHTML = `⚡ Nequi: ${MI_CUENTA_NEQUI}`;
+}
 
 onAuthStateChanged(auth, (user) => {
-  if (user) conectarFirestore();
-  else signInAnonymously(auth);
+    if (user) {
+        console.log("✅ Conectado a Firebase");
+        conectarFirestore();
+        mostrarCuentas();
+    } else {
+        signInAnonymously(auth);
+    }
 });
 
 function conectarFirestore() {
-  const docRef = doc(db, "rifas", "numeros_vendidos");
-  onSnapshot(docRef, (docSnap) => {
-    if (docSnap.exists()) rifaData = docSnap.data().numeros || new Array(100).fill(null);
-    else setDoc(docRef, { numeros: new Array(100).fill(null) });
-    renderizarPantalla();
-    if (document.getElementById('panel-admin') && !document.getElementById('panel-admin').classList.contains('hidden')) actualizarPanelAdmin();
-  });
+    const docRef = doc(db, "rifas", "numeros_vendidos");
+    onSnapshot(docRef, (docSnap) => {
+        if (docSnap.exists()) {
+            rifaData = docSnap.data().numeros || new Array(100).fill(null);
+        } else {
+            setDoc(docRef, { numeros: new Array(100).fill(null) });
+        }
+        renderizarPantalla();
+        if (document.getElementById('panel-admin') && !document.getElementById('panel-admin').classList.contains('hidden')) {
+            actualizarPanelAdmin();
+        }
+    }, (error) => {
+        console.error("Error de conexión:", error);
+    });
 }
 
 async function guardarNumero(index, datos) {
-  const docRef = doc(db, "rifas", "numeros_vendidos");
-  await runTransaction(db, async (transaction) => {
-    const docSnap = await transaction.get(docRef);
-    const numerosActuales = docSnap.exists() ? docSnap.data().numeros : new Array(100).fill(null);
-    if (numerosActuales[index] !== null) throw new Error("El número ya fue tomado por otra persona");
-    numerosActuales[index] = datos;
-    transaction.set(docRef, { numeros: numerosActuales });
-  });
+    const docRef = doc(db, "rifas", "numeros_vendidos");
+    await runTransaction(db, async (transaction) => {
+        const docSnap = await transaction.get(docRef);
+        const numerosActuales = docSnap.exists() ? docSnap.data().numeros : new Array(100).fill(null);
+        if (numerosActuales[index] !== null) {
+            throw new Error("El número ya fue tomado por otra persona");
+        }
+        numerosActuales[index] = datos;
+        transaction.set(docRef, { numeros: numerosActuales });
+    });
 }
 
 async function liberarNumeroFirestore(index) {
-  const docRef = doc(db, "rifas", "numeros_vendidos");
-  await runTransaction(db, async (transaction) => {
-    const docSnap = await transaction.get(docRef);
-    const numerosActuales = docSnap.exists() ? docSnap.data().numeros : new Array(100).fill(null);
-    numerosActuales[index] = null;
-    transaction.set(docRef, { numeros: numerosActuales });
-  });
+    const docRef = doc(db, "rifas", "numeros_vendidos");
+    await runTransaction(db, async (transaction) => {
+        const docSnap = await transaction.get(docRef);
+        const numerosActuales = docSnap.exists() ? docSnap.data().numeros : new Array(100).fill(null);
+        numerosActuales[index] = null;
+        transaction.set(docRef, { numeros: numerosActuales });
+    });
 }
 
 window.renderizarPantalla = function() {
-  const grid = document.getElementById('grid-rifa');
-  if (!grid) return;
-  grid.innerHTML = '';
-  let disponibles = 0;
-  for (let i = 0; i < 100; i++) {
-    const ocupado = rifaData[i] !== null;
-    const celda = document.createElement('div');
-    celda.className = `numero-cell ${ocupado ? 'cell-ocupado' : 'cell-disponible'}`;
-    if (ocupado) celda.innerHTML = `${i.toString().padStart(2, '0')}<span class="absolute text-[10px] text-red-400 font-bold top-0 right-1">✕</span>`;
-    else { celda.innerText = i.toString().padStart(2, '0'); disponibles++; }
-    celda.onclick = (idx => () => abrirVentana(idx))(i);
-    grid.appendChild(celda);
-  }
-  document.getElementById('vendidos-count').innerText = disponibles;
+    const grid = document.getElementById('grid-rifa');
+    if (!grid) return;
+    grid.innerHTML = '';
+    let disponibles = 0;
+    for (let i = 0; i < 100; i++) {
+        const ocupado = rifaData[i] !== null;
+        const celda = document.createElement('div');
+        celda.className = `numero-cell ${ocupado ? 'cell-ocupado' : 'cell-disponible'}`;
+        if (ocupado) {
+            celda.innerHTML = `${i.toString().padStart(2, '0')}<span class="absolute text-[10px] text-red-400 font-bold top-0 right-1">✕</span>`;
+        } else {
+            celda.innerText = i.toString().padStart(2, '0');
+            disponibles++;
+        }
+        celda.onclick = (idx => () => abrirVentana(idx))(i);
+        grid.appendChild(celda);
+    }
+    document.getElementById('vendidos-count').innerText = disponibles;
 };
 
 window.abrirVentana = function(index) {
-  currentNumIndex = index;
-  const data = rifaData[index];
-  const ocupado = data !== null;
-  document.getElementById('modal-titulo').innerText = ocupado ? "🔒 Número Reservado" : "✨ Reserva de Número";
-  document.getElementById('num-badge').innerText = `#${index.toString().padStart(2, '0')}`;
-  document.getElementById('in-nombre').value = ocupado ? data.nombre : '';
-  document.getElementById('in-tel').value = ocupado ? data.telefono : '';
-  document.getElementById('btn-confirmar').classList.toggle('hidden', ocupado);
-  document.getElementById('btn-borrar').classList.toggle('hidden', !ocupado);
-  document.getElementById('modal-main').classList.remove('hidden');
+    currentNumIndex = index;
+    const data = rifaData[index];
+    const ocupado = data !== null;
+    document.getElementById('modal-titulo').innerText = ocupado ? "🔒 Número Reservado" : "✨ Reserva de Número";
+    document.getElementById('num-badge').innerText = `#${index.toString().padStart(2, '0')}`;
+    document.getElementById('in-nombre').value = ocupado ? data.nombre : '';
+    document.getElementById('in-tel').value = ocupado ? data.telefono : '';
+    document.getElementById('btn-confirmar').classList.toggle('hidden', ocupado);
+    document.getElementById('btn-borrar').classList.toggle('hidden', !ocupado);
+    document.getElementById('modal-main').classList.remove('hidden');
 };
 
 window.cerrarVentana = () => document.getElementById('modal-main').classList.add('hidden');
 
 window.confirmarReserva = async function() {
-  if (comprando) return alert("⏳ Procesando, espera...");
-  if (currentNumIndex === null) return;
-  const nom = document.getElementById('in-nombre').value.trim();
-  const tel = document.getElementById('in-tel').value.trim() || "Sin Teléfono";
-  if (!nom) return alert("⚠️ El nombre del comprador es obligatorio");
-  if (rifaData[currentNumIndex] !== null) return alert("❌ Este número ya fue tomado por otra persona");
-  comprando = true;
-  const btn = document.getElementById('btn-confirmar');
-  const originalText = btn.innerText;
-  btn.innerText = "⏳ VERIFICANDO...";
-  btn.disabled = true;
-  try {
-    await guardarNumero(currentNumIndex, { nombre: nom, telefono: tel, fecha: new Date().toLocaleString() });
-    alert("✅ ¡Compra exitosa! Realiza el pago a las cuentas indicadas.");
-    window.cerrarVentana();
-  } catch (error) {
-    alert(`❌ ${error.message}`);
-  } finally {
-    comprando = false;
-    btn.innerText = originalText;
-    btn.disabled = false;
-  }
+    if (comprando) return alert("⏳ Procesando, espera...");
+    if (currentNumIndex === null) return;
+    const nom = document.getElementById('in-nombre').value.trim();
+    const tel = document.getElementById('in-tel').value.trim() || "Sin Teléfono";
+    if (!nom) return alert("⚠️ El nombre del comprador es obligatorio");
+    if (rifaData[currentNumIndex] !== null) return alert("❌ Este número ya fue tomado por otra persona");
+    comprando = true;
+    const btn = document.getElementById('btn-confirmar');
+    const originalText = btn.innerText;
+    btn.innerText = "⏳ VERIFICANDO...";
+    btn.disabled = true;
+    try {
+        await guardarNumero(currentNumIndex, { nombre: nom, telefono: tel, fecha: new Date().toLocaleString() });
+        alert("✅ ¡Compra exitosa! Realiza el pago a las cuentas indicadas.");
+        window.cerrarVentana();
+    } catch (error) {
+        alert(`❌ ${error.message}`);
+    } finally {
+        comprando = false;
+        btn.innerText = originalText;
+        btn.disabled = false;
+    }
 };
 
 window.abrirModalLiberar = function() {
-  if (!rifaData[currentNumIndex]) return alert("Este número no está ocupado");
-  accionPendiente = 'liberar';
-  document.getElementById('modal-pass-titulo').innerText = '🗑️ Liberar Número';
-  document.getElementById('modal-pass-mensaje').innerText = `Liberar #${currentNumIndex.toString().padStart(2, '0')}`;
-  document.getElementById('input-pass').value = '';
-  document.getElementById('modal-pass').classList.remove('hidden');
+    if (!rifaData[currentNumIndex]) return alert("Este número no está ocupado");
+    accionPendiente = 'liberar';
+    document.getElementById('modal-pass-titulo').innerText = '🗑️ Liberar Número';
+    document.getElementById('modal-pass-mensaje').innerText = `Liberar #${currentNumIndex.toString().padStart(2, '0')}`;
+    document.getElementById('input-pass').value = '';
+    document.getElementById('modal-pass').classList.remove('hidden');
 };
 
 window.panelAdmin = function() {
-  accionPendiente = 'admin';
-  document.getElementById('modal-pass-titulo').innerText = '🔐 Panel Administrador';
-  document.getElementById('modal-pass-mensaje').innerText = 'Ingresa la clave maestra';
-  document.getElementById('input-pass').value = '';
-  document.getElementById('modal-pass').classList.remove('hidden');
+    accionPendiente = 'admin';
+    document.getElementById('modal-pass-titulo').innerText = '🔐 Panel Administrador';
+    document.getElementById('modal-pass-mensaje').innerText = 'Ingresa la clave maestra';
+    document.getElementById('input-pass').value = '';
+    document.getElementById('modal-pass').classList.remove('hidden');
 };
 
 window.cerrarModalPass = () => document.getElementById('modal-pass').classList.add('hidden');
 
 window.verifyPassword = async function() {
-  const pass = document.getElementById('input-pass').value;
-  if (pass === CLAVE_MAESTRA) {
-    if (accionPendiente === 'liberar' && rifaData[currentNumIndex]) {
-      await liberarNumeroFirestore(currentNumIndex);
-      window.cerrarVentana();
-      alert(`✅ Número #${currentNumIndex.toString().padStart(2, '0')} liberado correctamente`);
-      currentNumIndex = null;
-    } else if (accionPendiente === 'admin') {
-      window.abrirPanelAdmin();
+    const pass = document.getElementById('input-pass').value;
+    if (pass === CLAVE_MAESTRA) {
+        if (accionPendiente === 'liberar' && rifaData[currentNumIndex]) {
+            await liberarNumeroFirestore(currentNumIndex);
+            window.cerrarVentana();
+            alert(`✅ Número #${currentNumIndex.toString().padStart(2, '0')} liberado correctamente`);
+            currentNumIndex = null;
+        } else if (accionPendiente === 'admin') {
+            window.abrirPanelAdmin();
+        }
+        window.cerrarModalPass();
+    } else {
+        alert("❌ Clave incorrecta");
+        document.getElementById('input-pass').value = '';
     }
-    window.cerrarModalPass();
-  } else {
-    alert("❌ Clave incorrecta");
-    document.getElementById('input-pass').value = '';
-  }
 };
 
 window.abrirPanelAdmin = function() {
-  actualizarPanelAdmin();
-  document.getElementById('panel-admin').classList.remove('hidden');
+    actualizarPanelAdmin();
+    document.getElementById('panel-admin').classList.remove('hidden');
 };
 
 function actualizarPanelAdmin() {
-  const tbody = document.getElementById('lista-cuerpo');
-  if (!tbody) return;
-  tbody.innerHTML = '';
-  let vendidos = 0;
-  for (let i = 0; i < 100; i++) {
-    const d = rifaData[i];
-    if (d && d.nombre) {
-      vendidos++;
-      tbody.innerHTML += `<tr class="border-b"><td class="p-2 font-bold text-red-600">#${i.toString().padStart(2, '0')}</td><td class="p-2 font-bold text-zinc-800 text-xs">${escapeHtml(d.nombre)}</td><td class="p-2 text-zinc-500 text-xs">${escapeHtml(d.telefono)}</td></tr>`;
+    const tbody = document.getElementById('lista-cuerpo');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    let vendidos = 0;
+    for (let i = 0; i < 100; i++) {
+        const d = rifaData[i];
+        if (d && d.nombre) {
+            vendidos++;
+            tbody.innerHTML += `<tr class="border-b"><td class="p-2 font-bold text-red-600">#${i.toString().padStart(2, '0')}</td><td class="p-2 font-bold text-zinc-800 text-xs">${escapeHtml(d.nombre)}</td><td class="p-2 text-zinc-500 text-xs">${escapeHtml(d.telefono)}</td></tr>`;
+        }
     }
-  }
-  if (vendidos === 0) tbody.innerHTML = '<tr><td colspan="3" class="p-6 text-center text-zinc-400 text-xs">📭 No hay números vendidos aún</td></tr>';
-  document.getElementById('total-vendidos').innerText = vendidos;
-  document.getElementById('total-disponibles').innerText = 100 - vendidos;
-  document.getElementById('total-recaudado').innerText = `$${(vendidos * 20000).toLocaleString('es-CO')}`;
+    if (vendidos === 0) tbody.innerHTML = '<tr><td colspan="3" class="p-6 text-center text-zinc-400 text-xs">📭 No hay números vendidos aún</td></tr>';
+    document.getElementById('total-vendidos').innerText = vendidos;
+    document.getElementById('total-disponibles').innerText = 100 - vendidos;
+    document.getElementById('total-recaudado').innerText = `$${(vendidos * 20000).toLocaleString('es-CO')}`;
 }
 
 window.cerrarPanelAdmin = () => document.getElementById('panel-admin').classList.add('hidden');
 
 function escapeHtml(str) {
-  if (!str) return '';
-  return str.replace(/[&<>]/g, function(m) {
-    if (m === '&') return '&amp;';
-    if (m === '<') return '&lt;';
-    if (m === '>') return '&gt;';
-    return m;
-  });
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+    });
 }
 </script>
 </body>
