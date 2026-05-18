@@ -31,7 +31,6 @@
 
 <body class="bg-gradient-rifa min-h-screen">
 
-<!-- HEADER MEJORADO -->
 <div class="relative overflow-hidden bg-gradient-to-r from-red-700 via-red-600 to-red-700 text-white p-8 shadow-2xl">
   <div class="absolute top-0 right-0 opacity-10">
     <div class="text-9xl"></div>
@@ -52,7 +51,6 @@
 </div>
 
 <div class="max-w-6xl mx-auto p-4">
-  <!-- INFO PANEL MEJORADO -->
   <div class="bg-card rounded-2xl p-4 shadow-xl mb-6">
     <div class="flex flex-col md:flex-row justify-between items-center gap-4">
       <div class="text-center md:text-left">
@@ -61,7 +59,6 @@
         <span class="text-xs text-zinc-400">de 100 números</span>
       </div>
       
-      <!-- CUENTAS BANCARIAS SOLO LECTURA EN LA VISTA PÚBLICA -->
       <div class="flex flex-col md:flex-row gap-3">
         <div class="cuenta-card rounded-xl p-3 shadow-lg min-w-[200px] flex flex-col justify-center items-center">
           <div class="flex items-center gap-2 mb-1">
@@ -86,10 +83,8 @@
     </div>
   </div>
 
-  <!-- GRID DE NÚMEROS -->
   <div id="grid-rifa" class="grid grid-cols-5 md:grid-cols-10 gap-3 mb-6"></div>
   
-  <!-- INFO ADICIONAL DE PAGO -->
   <div class="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl p-4 text-center shadow-lg">
     <p class="text-white font-black text-sm uppercase tracking-wider">
       💰 ¡APROVECHA! COMPRA TU NÚMERO POR SOLO $20.000 - GÁNATE $1.000.000 💰
@@ -97,7 +92,6 @@
   </div>
 </div>
 
-<!-- MODAL DE RESERVA/LIBERACIÓN MEJORADO -->
 <div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(8px);">
   <div class="bg-white rounded-[2rem] w-full max-w-md overflow-hidden shadow-2xl transform transition-all">
     <div class="bg-gradient-to-r from-red-700 to-red-600 p-8 text-white text-center">
@@ -117,7 +111,6 @@
         <input type="tel" id="in-tel" class="w-full bg-zinc-50 border-2 border-zinc-200 rounded-xl p-3 text-sm focus:border-red-500 focus:outline-none" placeholder="Número de contacto">
       </div>
       
-      <!-- Mostrar cuentas para consignación -->
       <div class="bg-blue-50 rounded-xl p-3 text-xs">
         <p class="font-bold text-blue-800 mb-2">💳 REALIZA TU CONSIGNACIÓN A:</p>
         <div id="info-pagos" class="space-y-1 text-blue-700"></div>
@@ -136,7 +129,6 @@
   </div>
 </div>
 
-<!-- MODAL VERIFICACIÓN CLAVE -->
 <div id="modal-pass" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(8px);">
   <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center transform transition-all">
     <div class="text-6xl mb-4">🔐</div>
@@ -151,7 +143,6 @@
   </div>
 </div>
 
-<!-- PANEL ADMINISTRADOR MEJORADO -->
 <div id="panel-admin" class="fixed inset-0 z-50 hidden bg-white overflow-auto">
   <div class="sticky top-0 bg-gradient-to-r from-red-700 to-red-600 text-white p-4 flex justify-between items-center shadow-2xl">
     <div>
@@ -162,7 +153,6 @@
   </div>
   
   <div class="p-4 max-w-6xl mx-auto">
-    <!-- Sección de cuentas bancarias EDITABLES SÓLO AQUÍ -->
     <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-6 mb-6 text-white shadow-xl">
       <h3 class="text-lg font-black mb-3">💰 CONFIGURAR CUENTAS DE PAGO</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -180,7 +170,6 @@
       </button>
     </div>
     
-    <!-- TABLA DE VENDIDOS -->
     <div class="mb-8">
       <h3 class="text-lg font-black mb-3">🎯 NÚMEROS VENDIDOS</h3>
       <div class="overflow-x-auto shadow-lg rounded-xl">
@@ -198,7 +187,6 @@
       </div>
     </div>
 
-    <!-- ESTADÍSTICAS MEJORADAS -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div class="bg-green-50 p-4 rounded-xl border-2 border-green-200">
         <p class="text-xs font-bold text-green-600 uppercase">Total Vendidos</p>
@@ -318,7 +306,7 @@ function actualizarInfoPagos() {
       infoDiv.innerHTML = '<p class="text-red-500 font-bold">⚠️ Contacta al administrador para los datos de pago</p>';
     } else {
       infoDiv.innerHTML = `
-        ${tieneBancolombia ? `p><strong>Bancolombia:</strong> ${bancolombia}</p>` : ''}
+        ${tieneBancolombia ? `<p><strong>Bancolombia:</strong> ${bancolombia}</p>` : ''}
         ${tieneNequi ? `<p><strong>Nequi:</strong> ${nequi}</p>` : ''}
       `;
     }
