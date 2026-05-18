@@ -36,7 +36,6 @@
         .loader { border: 3px solid rgba(234, 179, 8, 0.3); border-top: 3px solid #eab308; border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin: 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        /* Estilos mejorados para el panel admin - LETRAS MÁS OSCURAS Y VISIBLES */
         .tabla-compradores th {
             background-color: #f3f4f6 !important;
             color: #1f2937 !important;
@@ -83,6 +82,19 @@
         }
         .btn-nequi:hover {
             background-color: #6A1B9A !important;
+            transform: scale(1.02);
+        }
+        .btn-excel {
+            background-color: #10b981 !important;
+            color: white !important;
+            font-size: 11px !important;
+            font-weight: bold !important;
+            padding: 8px 16px !important;
+            border-radius: 10px !important;
+            transition: all 0.2s !important;
+        }
+        .btn-excel:hover {
+            background-color: #059669 !important;
             transform: scale(1.02);
         }
         .estado-pendiente-texto {
@@ -190,11 +202,14 @@
   </div>
 </div>
 
-<!-- PANEL ADMIN MEJORADO - CON VISIBILIDAD ÓPTIMA -->
+<!-- PANEL ADMIN CON BOTÓN DE EXCEL -->
 <div id="panel-admin" class="fixed inset-0 z-50 hidden bg-white overflow-auto">
   <div class="sticky top-0 bg-zinc-900 text-white p-3 flex justify-between items-center shadow-lg">
     <h2 class="text-base font-black">📊 PANEL DE CONTROL</h2>
-    <button onclick="cerrarPanelAdmin()" class="bg-red-600 w-8 h-8 rounded-full font-bold hover:scale-105 transition text-sm">✕</button>
+    <div class="flex gap-2">
+      <button onclick="descargarExcel()" class="btn-excel">📥 DESCARGAR EXCEL</button>
+      <button onclick="cerrarPanelAdmin()" class="bg-red-600 w-8 h-8 rounded-full font-bold hover:scale-105 transition text-sm">✕</button>
+    </div>
   </div>
   <div class="p-4">
     <h3 class="font-black text-sm mb-3 text-zinc-800">📋 LISTA DE COMPRADORES</h3>
@@ -239,12 +254,12 @@ import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gsta
 // 🔑 CONFIGURACIÓN - ¡CAMBIAR AQUÍ TUS DATOS!
 // ============================================================
 const firebaseConfig = {
-  apiKey: "AIzaSyC97R-E7mk-MEnL3RnaMAFUyjyc6UET1I8",
-  authDomain: "rifa-mayo-5a905.firebaseapp.com",
-  projectId: "rifa-mayo-5a905",
-  storageBucket: "rifa-mayo-5a905.firebasestorage.app",
-  messagingSenderId: "287125024290",
-  appId: "1:287125024290:web:d139fa82d386c6400c647b"
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_PROYECTO.firebaseapp.com",
+  projectId: "TU_PROJECT_ID",
+  storageBucket: "TU_PROYECTO.appspot.com",
+  messagingSenderId: "TU_SENDER_ID",
+  appId: "TU_APP_ID"
 };
 
 const MI_CUENTA_BANCOLOMBIA = "24569061268";
@@ -338,6 +353,51 @@ async function marcarComoPagado(index, medioPago) {
         }
     });
 }
+
+// FUNCIÓN PARA DESCARGAR EXCEL
+window.descargarExcel = function() {
+    // Recopilar datos de compradores
+    const compradores = [];
+    for (let i = 0; i < 100; i++) {
+        const d = rifaData[i];
+        if (d && d.nombre) {
+            compradores.push({
+                numero: `#${i.toString().padStart(2, '0')}`,
+                nombre: d.nombre,
+                telefono: d.telefono,
+                fecha: d.fecha || '',
+                medioPago: d.medioPago || 'No asignado',
+                estado: d.estadoPago === 'pagado' ? 'PAGADO' : 'PENDIENTE'
+            });
+        }
+    }
+    
+    // Crear contenido del archivo CSV (compatible con Excel)
+    let contenido = "\uFEFFNUMERO,NOMBRE,TELEFONO,FECHA,MEDIO DE PAGO,ESTADO\n";
+    
+    for (const c of compradores) {
+        contenido += `"${c.numero}","${c.nombre}","${c.telefono}","${c.fecha}","${c.medioPago}","${c.estado}"\n`;
+    }
+    
+    if (compradores.length === 0) {
+        contenido += "No hay compradores registrados,,,,,\n";
+    }
+    
+    // Crear archivo y descargar
+    const blob = new Blob([contenido], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    const fecha = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+    
+    link.setAttribute("href", url);
+    link.setAttribute("download", `compradores_rifa_${fecha}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    alert(`✅ Se descargaron ${compradores.length} compradores`);
+};
 
 window.marcarPago = async function(index, medio) {
     const medioTexto = medio === 'nequi' ? 'Nequi' : 'Bancolombia';
@@ -502,27 +562,4 @@ function actualizarPanelAdmin() {
     }
     
     if (vendidos === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-gray-400 py-6">📭 No hay números vendidos aún</td></tr>';
-    }
-    
-    const totalRecaudado = pagados * 20000;
-    
-    document.getElementById('total-vendidos').innerText = vendidos;
-    document.getElementById('total-disponibles').innerText = 100 - vendidos;
-    document.getElementById('total-recaudado').innerText = `$${totalRecaudado.toLocaleString('es-CO')}`;
-}
-
-window.cerrarPanelAdmin = () => document.getElementById('panel-admin').classList.add('hidden');
-
-function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-    });
-}
-</script>
-</body>
-</html>
+        tbody.innerHTML = '<tr><td
