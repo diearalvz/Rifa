@@ -3,482 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>RIFA</title>
+    <title>RIFA PRO - EN VIVO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@400;700;900&display=swap');
-        
-        * { 
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif; 
-        }
-        .font-impact { font-family: 'Archivo Black', sans-serif; }
-
-        .bg-gradient-rifa {
-            background: radial-gradient(circle at top, #2d0b0b 0%, #11111e 100%);
-        }
-
-        .neon-title {
-            color: #fff;
-            text-shadow: 
-                0 0 7px #fff,
-                0 0 10px #fff,
-                0 0 21px #fff,
-                0 0 42px #ff0000,
-                0 0 82px #ff0000,
-                0 0 92px #ff0000;
-        }
-
-        @keyframes blink-smooth {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.85; transform: scale(1.03); }
-        }
-        .prize-blink {
-            animation: blink-smooth 2s infinite ease-in-out;
-        }
-
-        .bg-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .cell-disponible {
-            background: rgba(254, 240, 138, 0.05);
-            border: 2px solid #eab308;
-            color: #fef08a;
-            text-shadow: 0 0 8px rgba(234, 179, 8, 0.6);
-            box-shadow: inset 0 0 8px rgba(234, 179, 8, 0.2), 0 0 10px rgba(234, 179, 8, 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .cell-disponible:hover {
-            transform: translateY(-4px) scale(1.05);
-            background: rgba(234, 179, 8, 0.2);
-            box-shadow: 0 0 20px rgba(234, 179, 8, 0.6), inset 0 0 10px rgba(234, 179, 8, 0.4);
-        }
-
-        .cell-ocupado {
-            background: rgba(239, 68, 68, 0.05);
-            border: 2px solid rgba(239, 68, 68, 0.2);
-            color: rgba(239, 68, 68, 0.4);
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .cell-ocupado:hover {
-            background: rgba(239, 68, 68, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .cuenta-card {
-            background: rgba(255, 255, 255, 0.04);
-            border-left: 4px solid #ef4444;
-            transition: transform 0.2s;
-        }
-        .cuenta-card:hover {
-            transform: scale(1.02);
-        }
-
-        /* Grid perfecto: 10 columnas exactas, ancho flexible pero cuadrado */
-        .grid-rifa-container {
-            display: grid;
-            grid-template-columns: repeat(10, minmax(0, 1fr));
-            gap: 0.5rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .numero-cell {
-            aspect-ratio: 1 / 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 1rem;
-            border-radius: 9999px;
-            transition: all 0.2s ease;
-            width: 100%;
-        }
-        @media (min-width: 640px) {
-            .numero-cell {
-                font-size: 1.125rem;
-            }
-        }
-        @media (min-width: 768px) {
-            .numero-cell {
-                font-size: 1.25rem;
-            }
-        }
-
-        .cell-disponible-custom {
-            background: rgba(254, 240, 138, 0.05);
-            border: 2px solid #eab308;
-            color: #fef08a;
-            text-shadow: 0 0 8px rgba(234, 179, 8, 0.6);
-            box-shadow: inset 0 0 8px rgba(234, 179, 8, 0.2), 0 0 10px rgba(234, 179, 8, 0.1);
-        }
-        .cell-disponible-custom:hover {
-            transform: translateY(-4px) scale(1.05);
-            background: rgba(234, 179, 8, 0.2);
-            box-shadow: 0 0 20px rgba(234, 179, 8, 0.6), inset 0 0 10px rgba(234, 179, 8, 0.4);
-        }
-
-        .cell-ocupado-custom {
-            background: rgba(239, 68, 68, 0.05);
-            border: 2px solid rgba(239, 68, 68, 0.2);
-            color: rgba(239, 68, 68, 0.4);
-            position: relative;
-        }
-        .cell-ocupado-custom:hover {
-            background: rgba(239, 68, 68, 0.15);
-            transform: translateY(-2px);
-        }
+        * { box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        .bg-gradient-rifa { background: radial-gradient(circle at top, #2d0b0b 0%, #11111e 100%); }
+        .neon-title { color: #fff; text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #ff0000, 0 0 82px #ff0000; }
+        @keyframes blink-smooth { 0%, 100% { opacity: 1; } 50% { opacity: 0.85; } }
+        .prize-blink { animation: blink-smooth 2s infinite ease-in-out; }
+        .bg-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .cell-disponible { background: rgba(254, 240, 138, 0.05); border: 2px solid #eab308; color: #fef08a; transition: all 0.3s; }
+        .cell-disponible:hover { transform: translateY(-4px) scale(1.05); background: rgba(234, 179, 8, 0.2); }
+        .cell-ocupado { background: rgba(239, 68, 68, 0.05); border: 2px solid rgba(239, 68, 68, 0.2); color: rgba(239, 68, 68, 0.4); cursor: pointer; position: relative; }
+        .grid-rifa-container { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 0.5rem; max-width: 800px; margin: 0 auto; }
+        .numero-cell { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; border-radius: 9999px; width: 100%; }
+        @media (min-width: 640px) { .numero-cell { font-size: 1.125rem; } }
+        @media (min-width: 768px) { .numero-cell { font-size: 1.25rem; } }
+        .cuenta-card { background: rgba(255, 255, 255, 0.04); border-left: 4px solid #ef4444; transition: transform 0.2s; }
+        .cuenta-card:hover { transform: scale(1.02); }
     </style>
 </head>
-<body class="bg-gradient-rifa min-h-screen text-white flex flex-col justify-between">
+<body class="bg-gradient-rifa min-h-screen text-white">
 
-<header class="relative overflow-hidden bg-zinc-950 py-12 px-4 text-center border-b border-zinc-800 shadow-[0_15px_40px_rgba(0,0,0,0.7)]">
-    <div class="absolute -top-24 -right-24 w-72 h-72 bg-red-600 rounded-full opacity-10 blur-3xl"></div>
-    <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-red-800 rounded-full opacity-20 blur-3xl"></div>
-
-    <div class="max-w-6xl mx-auto relative z-10">
-        <h1 class="text-7xl md:text-9xl font-impact neon-title mb-8 tracking-wider italic">
-            RIFA
-        </h1>
-
+<header class="bg-zinc-950 py-12 px-4 text-center border-b border-zinc-800">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-7xl md:text-9xl font-impact neon-title mb-8 tracking-wider italic">RIFA</h1>
         <div class="flex flex-col items-center gap-6">
-            <div class="prize-blink bg-yellow-500 text-zinc-950 px-10 py-5 rounded-[2rem] shadow-[0_0_35px_rgba(234,179,8,0.4)] inline-block select-none">
-                <span class="text-xs font-black uppercase tracking-[0.2em] block mb-1 opacity-80">Premio</span>
+            <div class="prize-blink bg-yellow-500 text-zinc-950 px-10 py-5 rounded-[2rem] shadow-[0_0_35px_rgba(234,179,8,0.4)]">
+                <span class="text-xs font-black uppercase tracking-[0.2em] block mb-1">Gran Premio</span>
                 <span class="text-5xl md:text-7xl font-impact tracking-tighter block">$1.000.000</span>
             </div>
-
-            <div class="bg-white text-zinc-900 px-8 py-3 rounded-full shadow-xl inline-block border-4 border-red-600 font-black text-xl md:text-2xl tracking-tight select-none">
-                VALOR: <span class="text-red-600 font-black">$20.000</span>
+            <div class="bg-white text-zinc-900 px-8 py-3 rounded-full border-4 border-red-600 font-black text-xl md:text-2xl">
+                VALOR: <span class="text-red-600">$20.000</span>
             </div>
         </div>
     </div>
 </header>
 
-<main class="max-w-6xl w-full mx-auto p-4 md:p-8 flex-grow">
-    
+<main class="max-w-6xl mx-auto p-4 md:p-8">
     <div class="bg-card rounded-[2rem] p-6 md:p-8 shadow-2xl mb-10">
         <div class="flex flex-col lg:flex-row justify-between items-center gap-8">
-            
-            <div class="text-center lg:text-left cursor-pointer group active:scale-95 transition-transform select-none" onclick="panelAdmin()">
-                <span class="text-[10px] font-black text-red-400 uppercase tracking-[0.3em] group-hover:text-red-300 transition-colors">Números disponibles</span>
+            <div class="text-center lg:text-left cursor-pointer" onclick="panelAdmin()">
+                <span class="text-[10px] font-black text-red-400 uppercase tracking-[0.3em]">Números disponibles</span>
                 <p class="text-6xl font-impact text-white mt-1" id="vendidos-count">100</p>
-                <div class="w-12 h-1 bg-red-600 mx-auto lg:mx-0 mt-2 rounded-full shadow-[0_0_8px_#ff0000]"></div>
+                <div class="w-12 h-1 bg-red-600 mx-auto lg:mx-0 mt-2 rounded-full"></div>
             </div>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full lg:w-auto">
-                <div class="cuenta-card rounded-2xl p-4 min-w-[240px]">
+            <div class="flex gap-4">
+                <div class="cuenta-card rounded-2xl p-4">
                     <div class="flex items-center gap-3 mb-2">
                         <span class="text-3xl">🏦</span>
-                        <span class="text-[10px] font-black tracking-widest text-zinc-400">BANCOLOMBIA</span>
+                        <span class="text-[10px] font-black text-zinc-400">BANCOLOMBIA</span>
                     </div>
-                    <span id="cuenta-bancolombia" class="text-xl font-bold tracking-wider text-white block">24569061268</span>
+                    <span class="text-xl font-bold text-white">24569061268</span>
                 </div>
-                
-                <div class="cuenta-card rounded-2xl p-4 min-w-[240px]" style="border-left-color: #f5576c;">
+                <div class="cuenta-card rounded-2xl p-4">
                     <div class="flex items-center gap-3 mb-2">
                         <span class="text-3xl">⚡</span>
-                        <span class="text-[10px] font-black tracking-widest text-zinc-400">NEQUI</span>
+                        <span class="text-[10px] font-black text-zinc-400">NEQUI</span>
                     </div>
-                    <span id="cuenta-nequi" class="text-xl font-bold tracking-wider text-white block">3042194324</span>
+                    <span class="text-xl font-bold text-white">3042194324</span>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="mb-10">
-        <h3 class="text-center text-xs font-black uppercase tracking-[0.4em] mb-6 text-zinc-400"></h3>
+        <h3 class="text-center text-xs font-black uppercase tracking-[0.4em] mb-6 text-zinc-400">SELECCIONA TU NÚMERO DE LA SUERTE</h3>
         <div id="grid-rifa" class="grid-rifa-container"></div>
     </div>
 </main>
 
-<footer class="w-full bg-gradient-to-r from-red-700 to-orange-600 py-6 text-center shadow-[0_-10px_30px_rgba(0,0,0,0.5)] border-t-4 border-yellow-500">
-    <p class="font-black text-lg md:text-xl uppercase italic tracking-wider text-white animate-pulse">
-        🔥 Elige tu número hoy mismo 🔥
-    </p>
+<footer class="bg-gradient-to-r from-red-700 to-orange-600 py-6 text-center border-t-4 border-yellow-500">
+    <p class="font-black text-lg md:text-xl uppercase italic animate-pulse">🔥 ¡ELIGE TU NÚMERO HOY MISMO! 🔥</p>
 </footer>
 
-<!-- MODAL DE COMPRA/LIBERACIÓN -->
 <div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);">
-  <div class="bg-white text-zinc-900 rounded-[2.5rem] w-full max-w-md overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.15)]">
-    <div class="bg-zinc-950 p-8 text-white text-center relative border-b-4 border-red-600">
-      <h2 id="modal-titulo" class="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-2">✨ Reserva de Número ✨</h2>
-      <p id="num-badge" class="text-7xl font-impact tracking-tighter text-yellow-400">#--</p>
+  <div class="bg-white rounded-[2.5rem] w-full max-w-md overflow-hidden">
+    <div class="bg-zinc-950 p-6 text-white text-center border-b-4 border-red-600">
+      <h2 id="modal-titulo" class="text-xs font-bold uppercase tracking-widest">✨ Reserva ✨</h2>
+      <p id="num-badge" class="text-6xl font-impact text-yellow-400">#--</p>
     </div>
-    <div class="p-6 space-y-5">
-      <div class="space-y-1">
-        <label class="text-[10px] font-black text-zinc-400 uppercase tracking-widest ml-1">👤 Nombre del Comprador</label>
-        <input type="text" id="in-nombre" class="w-full bg-zinc-100 border-2 border-transparent rounded-xl p-3.5 font-bold focus:border-red-600 focus:bg-white focus:outline-none transition-all text-sm" placeholder="Nombre completo">
+    <div class="p-5 space-y-4">
+      <input type="text" id="in-nombre" class="w-full bg-zinc-100 rounded-xl p-3 font-bold" placeholder="Nombre completo">
+      <input type="tel" id="in-tel" class="w-full bg-zinc-100 rounded-xl p-3" placeholder="Teléfono">
+      <div class="bg-red-50 rounded-xl p-3 text-xs">
+        <p class="font-bold text-red-900 text-center">💳 TRANSFIERE A:</p>
+        <p class="text-red-700">🏦 Bancolombia: 24569061268</p>
+        <p class="text-red-700">⚡ Nequi: 3042194324</p>
       </div>
-      <div class="space-y-1">
-        <label class="text-[10px] font-black text-zinc-400 uppercase tracking-widest ml-1">📱 Teléfono / WhatsApp</label>
-        <input type="tel" id="in-tel" class="w-full bg-zinc-100 border-2 border-transparent rounded-xl p-3.5 focus:border-red-600 focus:bg-white focus:outline-none transition-all text-sm" placeholder="Número de celular">
-      </div>
-      
-      <div class="bg-red-50 rounded-xl p-4 text-xs border border-red-200">
-        <p class="font-black text-red-900 mb-2 uppercase tracking-wider text-[9px]">💳 REALIZA TU TRANSFERENCIA A:</p>
-        <div id="info-pagos" class="space-y-1 text-red-700 font-bold">
-            <p>🏦 Bancolombia Ahorros: 24569061268</p>
-            <p>⚡ Cuenta Nequi: 3042194324</p>
-        </div>
-      </div>
-      
-      <div class="space-y-2 pt-2">
-        <button id="btn-confirmar" onclick="confirmarReserva()" class="w-full bg-green-600 hover:bg-green-700 text-white font-black py-4 rounded-xl shadow-lg transition transform hover:scale-[1.01] uppercase text-xs tracking-wider">✅ CONFIRMAR MI NÚMERO</button>
-        <button id="btn-borrar" onclick="abrirModalLiberar()" class="hidden w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 rounded-xl transition uppercase text-xs tracking-wider">🗑️ LIBERAR NÚMERO (ADMIN)</button>
-        <button onclick="cerrarVentana()" class="w-full py-2 rounded-xl font-bold text-zinc-400 hover:text-zinc-600 transition text-sm">REGRESAR</button>
-      </div>
+      <button id="btn-confirmar" onclick="confirmarReserva()" class="w-full bg-green-600 text-white font-black py-3 rounded-xl">✅ CONFIRMAR</button>
+      <button id="btn-borrar" onclick="abrirModalLiberar()" class="hidden w-full bg-red-600 text-white font-black py-3 rounded-xl">🗑️ LIBERAR</button>
+      <button onclick="cerrarVentana()" class="w-full py-2 text-zinc-400 text-sm">REGRESAR</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL DE VERIFICACIÓN DE CLAVE (UNIFICADO) -->
 <div id="modal-pass" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.9); backdrop-filter: blur(15px);">
-  <div class="bg-zinc-900 border border-zinc-800 rounded-3xl max-w-sm w-full p-6 text-center">
-    <div class="text-4xl mb-4">🔐</div>
-    <h3 class="text-lg font-black text-white mb-2" id="modal-pass-titulo">Panel Protegido</h3>
-    <p class="text-xs text-zinc-400 mb-4" id="modal-pass-mensaje">Ingresa la clave maestra del sistema</p>
-    <input type="password" id="input-pass" class="w-full bg-zinc-800 text-white text-center text-xl font-black rounded-xl p-3.5 mb-4 border-2 border-transparent focus:border-red-600 outline-none">
-    <div class="space-y-2">
-        <button onclick="verifyPassword()" class="w-full bg-red-600 text-white font-black py-3 rounded-xl shadow-xl hover:bg-red-700 transition text-xs tracking-wider">VERIFICAR ACCESO</button>
-        <button onclick="cerrarModalPass()" class="w-full text-xs text-zinc-500 py-2 hover:text-zinc-300 transition">CANCELAR</button>
+  <div class="bg-zinc-900 rounded-3xl max-w-sm w-full p-6 text-center">
+    <div class="text-4xl mb-3">🔐</div>
+    <h3 class="text-lg font-black text-white mb-2" id="modal-pass-titulo">Verificación</h3>
+    <p class="text-xs text-zinc-400 mb-3" id="modal-pass-mensaje">Ingresa la clave</p>
+    <input type="password" id="input-pass" class="w-full bg-zinc-800 text-white text-center text-xl font-black rounded-xl p-3 mb-3">
+    <button onclick="verifyPassword()" class="w-full bg-red-600 text-white font-black py-3 rounded-xl">VERIFICAR</button>
+    <button onclick="cerrarModalPass()" class="w-full mt-2 text-xs text-zinc-500">CANCELAR</button>
+  </div>
+</div>
+
+<div id="panel-admin" class="fixed inset-0 z-50 hidden bg-white overflow-auto">
+  <div class="sticky top-0 bg-zinc-950 text-white p-4 flex justify-between">
+    <h2 class="text-xl font-black">PANEL DE CONTROL</h2>
+    <button onclick="cerrarPanelAdmin()" class="bg-red-600 w-8 h-8 rounded-full">✕</button>
+  </div>
+  <div class="p-4">
+    <h3 class="font-black mb-2">COMPRADORES</h3>
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead class="bg-zinc-100"><tr><th class="p-2">#</th><th>NOMBRE</th><th>TELÉFONO</th></tr></thead>
+        <tbody id="lista-cuerpo"></tbody>
+      能有
+    </div>
+    <div class="grid grid-cols-3 gap-3 mt-4">
+      <div class="bg-green-50 p-3 rounded"><p class="text-xs">VENDIDOS</p><p class="text-2xl font-black" id="total-vendidos">0</p></div>
+      <div class="bg-blue-50 p-3 rounded"><p class="text-xs">DISPONIBLES</p><p class="text-2xl font-black" id="total-disponibles">100</p></div>
+      <div class="bg-purple-50 p-3 rounded"><p class="text-xs">RECAUDADO</p><p class="text-2xl font-black" id="total-recaudado">$0</p></div>
     </div>
   </div>
 </div>
 
-<!-- PANEL ADMINISTRADOR -->
-<div id="panel-admin" class="fixed inset-0 z-50 hidden bg-zinc-50 text-zinc-900 overflow-auto">
-  <nav class="sticky top-0 bg-zinc-950 text-white p-5 flex justify-between items-center shadow-xl z-20">
-    <div>
-      <h2 class="text-xl font-black italic tracking-tight text-white">PANEL DE CONTROL</h2>
-      <p class="text-[9px] text-red-500 font-black uppercase tracking-widest">Monitoreo de números e ingresos</p>
-    </div>
-    <button onclick="cerrarPanelAdmin()" class="bg-red-600 w-10 h-10 rounded-full font-black text-lg hover:scale-105 transition-transform flex items-center justify-center">✕</button>
-  </nav>
-  
-  <div class="p-4 md:p-8 max-w-5xl mx-auto space-y-6">
-    <div>
-      <h3 class="text-xs font-black uppercase mb-3 text-zinc-400 tracking-wider">LISTA OFICIAL DE COMPRADORES</h3>
-      <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-zinc-200">
-        <table class="w-full text-left border-collapse">
-          <thead class="bg-zinc-100 text-zinc-500 text-xs border-b border-zinc-200">
-            <tr>
-              <th class="p-4 font-black uppercase w-20">NUM</th>
-              <th class="p-4 font-black uppercase">NOMBRE</th>
-              <th class="p-4 font-black uppercase">TELÉFONO</th>
-            </tr>
-          </thead>
-          <tbody id="lista-cuerpo" class="divide-y divide-zinc-100 text-sm font-medium"></tbody>
-        </table>
-      </div>
-    </div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import { getFirestore, doc, onSnapshot, setDoc, runTransaction } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div class="bg-white p-5 rounded-2xl shadow border-b-4 border-green-500">
-        <p class="text-[9px] font-black text-zinc-400 uppercase tracking-wider">TICKETS VENDIDOS</p>
-        <p class="text-3xl font-black text-zinc-900 mt-1" id="total-vendidos">0</p>
-      </div>
-      <div class="bg-white p-5 rounded-2xl shadow border-b-4 border-red-500">
-        <p class="text-[9px] font-black text-zinc-400 uppercase tracking-wider">RESTANTES</p>
-        <p class="text-3xl font-black text-zinc-900 mt-1" id="total-disponibles">100</p>
-      </div>
-      <div class="bg-white p-5 rounded-2xl shadow border-b-4 border-yellow-500">
-        <p class="text-[9px] font-black text-zinc-400 uppercase tracking-wider">RECAUDACIÓN ESTIMADA</p>
-        <p class="text-3xl font-black text-zinc-900 mt-1" id="total-recaudado">$0</p>
-      </div>
-    </div>
-  </div>
-</div>
+// 🔑 AQUÍ DEBES PEGAR TUS CREDENCIALES DE FIREBASE
+const firebaseConfig = {
+  apiKey: "AIzaSyC97R-E7mk-MEnL3RnaMAFUyjyc6UET1I8",
+  authDomain: "rifa-mayo-5a905.firebaseapp.com",
+  projectId: "rifa-mayo-5a905",
+  storageBucket: "rifa-mayo-5a905.firebasestorage.app",
+  messagingSenderId: "287125024290",
+  appId: "1:287125024290:web:d139fa82d386c6400c647b"
+};
 
-<script>
-// ============ VERSIÓN COMPLETAMENTE FUNCIONAL ============
-let rifaData = [];
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+let rifaData = new Array(100).fill(null);
 let currentNumIndex = null;
 let accionPendiente = null;
-
+let comprando = false;
 const CLAVE_MAESTRA = "1234";
 
-function inicializarDatos() {
-    rifaData = new Array(100).fill(null);
-    const datosGuardados = localStorage.getItem('rifaData');
-    if (datosGuardados) {
-        try {
-            const parsed = JSON.parse(datosGuardados);
-            if (parsed && parsed.length === 100) rifaData = parsed;
-        } catch(e) {}
-    }
+onAuthStateChanged(auth, (user) => {
+  if (user) conectarFirestore();
+  else signInAnonymously(auth);
+});
+
+function conectarFirestore() {
+  const docRef = doc(db, "rifas", "numeros_vendidos");
+  onSnapshot(docRef, (docSnap) => {
+    if (docSnap.exists()) rifaData = docSnap.data().numeros || new Array(100).fill(null);
+    else setDoc(docRef, { numeros: new Array(100).fill(null) });
     renderizarPantalla();
+    if (!document.getElementById('panel-admin').classList.contains('hidden')) actualizarPanelAdmin();
+  });
 }
 
-function guardarDatos() {
-    localStorage.setItem('rifaData', JSON.stringify(rifaData));
+async function guardarNumero(index, datos) {
+  const docRef = doc(db, "rifas", "numeros_vendidos");
+  await runTransaction(db, async (transaction) => {
+    const docSnap = await transaction.get(docRef);
+    const numerosActuales = docSnap.exists() ? docSnap.data().numeros : new Array(100).fill(null);
+    if (numerosActuales[index] !== null) throw new Error("El número ya fue tomado por otra persona");
+    numerosActuales[index] = datos;
+    transaction.set(docRef, { numeros: numerosActuales });
+  });
+}
+
+async function liberarNumeroFirestore(index) {
+  const docRef = doc(db, "rifas", "numeros_vendidos");
+  await runTransaction(db, async (transaction) => {
+    const docSnap = await transaction.get(docRef);
+    const numerosActuales = docSnap.exists() ? docSnap.data().numeros : new Array(100).fill(null);
+    numerosActuales[index] = null;
+    transaction.set(docRef, { numeros: numerosActuales });
+  });
 }
 
 window.renderizarPantalla = function() {
-    const grid = document.getElementById('grid-rifa');
-    if (!grid) return;
-    grid.innerHTML = '';
-    let contador = 0;
-    
-    for (let i = 0; i < 100; i++) {
-        const ocupado = rifaData[i] !== null;
-        const celda = document.createElement('div');
-        celda.className = `numero-cell ${ocupado ? 'cell-ocupado-custom' : 'cell-disponible-custom'}`;
-        
-        if (ocupado) {
-            celda.innerHTML = `${i.toString().padStart(2, '0')}<span class="absolute text-[10px] text-red-500 font-bold top-0 right-1">✕</span>`;
-        } else {
-            celda.innerText = i.toString().padStart(2, '0');
-        }
-        
-        celda.onclick = (function(idx) {
-            return function() { abrirVentana(idx); };
-        })(i);
-        
-        grid.appendChild(celda);
-        if (ocupado) contador++;
-    }
-    
-    const disponibles = 100 - contador;
-    const vendidosCount = document.getElementById('vendidos-count');
-    if (vendidosCount) vendidosCount.innerText = disponibles;
+  const grid = document.getElementById('grid-rifa');
+  if (!grid) return;
+  grid.innerHTML = '';
+  let disponibles = 0;
+  for (let i = 0; i < 100; i++) {
+    const ocupado = rifaData[i] !== null;
+    const celda = document.createElement('div');
+    celda.className = `numero-cell ${ocupado ? 'cell-ocupado' : 'cell-disponible'}`;
+    if (ocupado) celda.innerHTML = `${i.toString().padStart(2, '0')}<span class="absolute text-[10px] text-red-500 font-bold top-0 right-1">✕</span>`;
+    else { celda.innerText = i.toString().padStart(2, '0'); disponibles++; }
+    celda.onclick = (idx => () => abrirVentana(idx))(i);
+    grid.appendChild(celda);
+  }
+  document.getElementById('vendidos-count').innerText = disponibles;
 };
 
 window.abrirVentana = function(index) {
-    currentNumIndex = index;
-    const data = rifaData[index];
-    const ocupado = data !== null;
-    
-    const modalTitulo = document.getElementById('modal-titulo');
-    if (modalTitulo) modalTitulo.innerText = ocupado ? "🔒 Número Reservado" : "✨ Reserva de Número";
-    
-    document.getElementById('num-badge').innerText = `#${index.toString().padStart(2, '0')}`;
-    document.getElementById('in-nombre').value = ocupado ? data.nombre : '';
-    document.getElementById('in-tel').value = ocupado ? data.telefono : '';
-    
-    const btnConfirmar = document.getElementById('btn-confirmar');
-    const btnBorrar = document.getElementById('btn-borrar');
-    if (btnConfirmar) btnConfirmar.classList.toggle('hidden', ocupado);
-    if (btnBorrar) btnBorrar.classList.toggle('hidden', !ocupado);
-    
-    document.getElementById('modal-main').classList.remove('hidden');
+  currentNumIndex = index;
+  const data = rifaData[index];
+  const ocupado = data !== null;
+  document.getElementById('modal-titulo').innerText = ocupado ? "🔒 Número Reservado" : "✨ Reserva";
+  document.getElementById('num-badge').innerText = `#${index.toString().padStart(2, '0')}`;
+  document.getElementById('in-nombre').value = ocupado ? data.nombre : '';
+  document.getElementById('in-tel').value = ocupado ? data.telefono : '';
+  document.getElementById('btn-confirmar').classList.toggle('hidden', ocupado);
+  document.getElementById('btn-borrar').classList.toggle('hidden', !ocupado);
+  document.getElementById('modal-main').classList.remove('hidden');
 };
 
-window.cerrarVentana = function() {
-    document.getElementById('modal-main').classList.add('hidden');
-    currentNumIndex = null;
-};
+window.cerrarVentana = () => document.getElementById('modal-main').classList.add('hidden');
 
-window.confirmarReserva = function() {
-    if (currentNumIndex === null) { alert("Error: No se ha seleccionado un número"); return; }
-    const nom = document.getElementById('in-nombre').value.trim();
-    const tel = document.getElementById('in-tel').value.trim() || "Sin Teléfono";
-    if (!nom) { alert("⚠️ El nombre del comprador es obligatorio"); return; }
-    if (rifaData[currentNumIndex] !== null) { alert("❌ Este número ya está reservado"); cerrarVentana(); return; }
-    
-    rifaData[currentNumIndex] = { nombre: nom, telefono: tel, fecha: new Date().toLocaleString() };
-    guardarDatos();
-    cerrarVentana();
-    renderizarPantalla();
-    alert("✅ ¡Número reservado con éxito!");
+window.confirmarReserva = async function() {
+  if (comprando) return alert("Espera...");
+  if (currentNumIndex === null) return;
+  const nom = document.getElementById('in-nombre').value.trim();
+  const tel = document.getElementById('in-tel').value.trim() || "Sin Teléfono";
+  if (!nom) return alert("⚠️ Nombre obligatorio");
+  if (rifaData[currentNumIndex] !== null) return alert("❌ Número ya tomado");
+  comprando = true;
+  const btn = document.getElementById('btn-confirmar');
+  const originalText = btn.innerText;
+  btn.innerText = "⏳ VERIFICANDO...";
+  btn.disabled = true;
+  try {
+    await guardarNumero(currentNumIndex, { nombre: nom, telefono: tel, fecha: new Date().toLocaleString() });
+    alert("✅ ¡Compra exitosa! Realiza el pago.");
+    window.cerrarVentana();
+  } catch (error) {
+    alert(`❌ ${error.message}`);
+  } finally {
+    comprando = false;
+    btn.innerText = originalText;
+    btn.disabled = false;
+  }
 };
 
 window.abrirModalLiberar = function() {
-    if (currentNumIndex === null) { alert("Error: No se ha seleccionado un número"); return; }
-    const data = rifaData[currentNumIndex];
-    if (!data) { alert("Este número no está ocupado"); return; }
-    
-    accionPendiente = 'liberar';
-    const passModal = document.getElementById('modal-pass');
-    const titulo = document.getElementById('modal-pass-titulo');
-    const mensaje = document.getElementById('modal-pass-mensaje');
-    if (titulo) titulo.innerText = '🗑️ Liberar Número';
-    if (mensaje) mensaje.innerText = `Ingresa la clave para liberar el número #${currentNumIndex.toString().padStart(2, '0')}`;
-    document.getElementById('input-pass').value = '';
-    passModal.classList.remove('hidden');
+  if (!rifaData[currentNumIndex]) return alert("Este número no está ocupado");
+  accionPendiente = 'liberar';
+  document.getElementById('modal-pass-titulo').innerText = '🗑️ Liberar';
+  document.getElementById('modal-pass-mensaje').innerText = `Liberar #${currentNumIndex.toString().padStart(2, '0')}`;
+  document.getElementById('input-pass').value = '';
+  document.getElementById('modal-pass').classList.remove('hidden');
 };
 
 window.panelAdmin = function() {
-    accionPendiente = 'admin';
-    const passModal = document.getElementById('modal-pass');
-    const titulo = document.getElementById('modal-pass-titulo');
-    const mensaje = document.getElementById('modal-pass-mensaje');
-    if (titulo) titulo.innerText = '🔐 Panel de Administración';
-    if (mensaje) mensaje.innerText = 'Ingresa la clave maestra para acceder al panel';
-    document.getElementById('input-pass').value = '';
-    passModal.classList.remove('hidden');
+  accionPendiente = 'admin';
+  document.getElementById('modal-pass-titulo').innerText = '🔐 Admin';
+  document.getElementById('modal-pass-mensaje').innerText = 'Ingresa la clave';
+  document.getElementById('input-pass').value = '';
+  document.getElementById('modal-pass').classList.remove('hidden');
 };
 
-window.cerrarModalPass = function() {
-    document.getElementById('modal-pass').classList.add('hidden');
-    accionPendiente = null;
+window.cerrarModalPass = () => document.getElementById('modal-pass').classList.add('hidden');
+
+window.verifyPassword = async function() {
+  const pass = document.getElementById('input-pass').value;
+  if (pass === CLAVE_MAESTRA) {
+    if (accionPendiente === 'liberar' && rifaData[currentNumIndex]) {
+      await liberarNumeroFirestore(currentNumIndex);
+      window.cerrarVentana();
+      alert(`✅ Número #${currentNumIndex.toString().padStart(2, '0')} liberado`);
+    } else if (accionPendiente === 'admin') window.abrirPanelAdmin();
+    window.cerrarModalPass();
+  } else alert("❌ Clave incorrecta");
 };
 
-window.verifyPassword = function() {
-    const pass = document.getElementById('input-pass').value;
-    if (pass === CLAVE_MAESTRA) {
-        if (accionPendiente === 'liberar') {
-            if (currentNumIndex !== null && rifaData[currentNumIndex] !== null) {
-                const nombreLiberado = rifaData[currentNumIndex].nombre;
-                const numeroLiberado = currentNumIndex.toString().padStart(2, '0');
-                rifaData[currentNumIndex] = null;
-                guardarDatos();
-                cerrarVentana();
-                renderizarPantalla();
-                alert(`✅ Número #${numeroLiberado} liberado correctamente (${nombreLiberado})`);
-                currentNumIndex = null;
-            } else { alert("❌ Este número ya está libre"); }
-        } else if (accionPendiente === 'admin') {
-            abrirPanelAdmin();
-        }
-        cerrarModalPass();
-    } else {
-        alert("❌ Clave maestra incorrecta");
-        document.getElementById('input-pass').value = '';
-    }
+window.abrirPanelAdmin = function() {
+  actualizarPanelAdmin();
+  document.getElementById('panel-admin').classList.remove('hidden');
 };
-
-function abrirPanelAdmin() {
-    actualizarPanelAdmin();
-    document.getElementById('panel-admin').classList.remove('hidden');
-}
 
 function actualizarPanelAdmin() {
-    const listado = document.getElementById('lista-cuerpo');
-    if (!listado) return;
-    listado.innerHTML = '';
-    let vendidos = 0;
-    for (let i = 0; i < rifaData.length; i++) {
-        const d = rifaData[i];
-        if (d && d.nombre) {
-            vendidos++;
-            listado.innerHTML += `<tr class="border-b hover:bg-zinc-50 transition"><td class="p-4 font-black text-red-600">#${i.toString().padStart(2, '0')}</td><td class="p-4 font-bold uppercase text-zinc-800 text-xs">${escapeHtml(d.nombre)}</td><td class="p-4 text-zinc-500 text-xs">${escapeHtml(d.telefono)}</td></tr>`;
-        }
+  const tbody = document.getElementById('lista-cuerpo');
+  tbody.innerHTML = '';
+  let vendidos = 0;
+  for (let i = 0; i < 100; i++) {
+    const d = rifaData[i];
+    if (d) {
+      vendidos++;
+      tbody.innerHTML += `<tr><td class="p-2 font-bold text-red-600">#${i.toString().padStart(2, '0')}</td><td class="p-2">${d.nombre}</td><td class="p-2">${d.telefono}</td></tr>`;
     }
-    if (vendidos === 0) listado.innerHTML = '<tr><td colspan="3" class="p-8 text-center text-zinc-400 text-xs">📭 No hay números vendidos aún</td></tr>';
-    document.getElementById('total-vendidos').innerText = vendidos;
-    document.getElementById('total-disponibles').innerText = 100 - vendidos;
-    document.getElementById('total-recaudado').innerText = `$${(vendidos * 20000).toLocaleString('es-CO')}`;
+  }
+  if (vendidos === 0) tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">📭 Sin ventas</td></tr>';
+  document.getElementById('total-vendidos').innerText = vendidos;
+  document.getElementById('total-disponibles').innerText = 100 - vendidos;
+  document.getElementById('total-recaudado').innerText = `$${(vendidos * 20000).toLocaleString('es-CO')}`;
 }
 
-window.cerrarPanelAdmin = function() { document.getElementById('panel-admin').classList.add('hidden'); };
-
-function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-    });
-}
-
-document.addEventListener('DOMContentLoaded', inicializarDatos);
+window.cerrarPanelAdmin = () => document.getElementById('panel-admin').classList.add('hidden');
 </script>
 </body>
 </html>
