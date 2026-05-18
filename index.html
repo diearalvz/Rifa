@@ -68,8 +68,8 @@
             <span class="text-2xl">🏦</span>
             <span class="text-xs font-bold text-white opacity-90">BANCOLOMBIA</span>
           </div>
-          <input type="text" id="cuenta-bancolombia" placeholder="Número de cuenta" 
-                 class="w-full bg-white/20 text-white placeholder-white/60 rounded-lg p-2 text-sm font-bold text-center border border-white/30 focus:outline-none focus:border-yellow-400">
+          <input type="text" id="cuenta-bancolombia" placeholder="Número de cuenta" readonly
+                 class="w-full bg-white/20 text-white placeholder-white/60 rounded-lg p-2 text-sm font-bold text-center border border-white/30 focus:outline-none">
         </div>
         
         <div class="cuenta-card rounded-xl p-3 shadow-lg min-w-[200px]" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
@@ -77,8 +77,8 @@
             <span class="text-2xl">⚡</span>
             <span class="text-xs font-bold text-white opacity-90">NEQUI</span>
           </div>
-          <input type="text" id="cuenta-nequi" placeholder="Número de cuenta" 
-                 class="w-full bg-white/20 text-white placeholder-white/60 rounded-lg p-2 text-sm font-bold text-center border border-white/30 focus:outline-none focus:border-yellow-400">
+          <input type="text" id="cuenta-nequi" placeholder="Número de cuenta" readonly
+                 class="w-full bg-white/20 text-white placeholder-white/60 rounded-lg p-2 text-sm font-bold text-center border border-white/30 focus:outline-none">
         </div>
       </div>
       
@@ -226,7 +226,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
 import { getFirestore, doc, onSnapshot, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-// 🔑 CONFIGURACIÓN DE FIREBASE - DEBES REEMPLAZAR ESTOS DATOS
+// 🔑 CONFIGURACIÓN DE FIREBASE
 const firebaseConfig = {
   apiKey: "TU_API_KEY",
   authDomain: "TU_PROYECTO.firebaseapp.com",
@@ -273,21 +273,21 @@ async function cargarCuentasGuardadas() {
   }
 }
 
-// Guardar cuentas
+// Guardar cuentas (Se expone a window para que funcione con el onclick del HTML)
 window.guardarCuentas = async function() {
-  const bancolombia = document.getElementById('admin-cuenta-bancolombia').value;
-  const nequi = document.getElementById('admin-cuenta-nequi').value;
+  const bancolombia = document.getElementById('admin-cuenta-bancolombia').value.trim();
+  const nequi = document.getElementById('admin-cuenta-nequi').value.trim();
   
   try {
     const configRef = doc(db, COLECCION_RIFA, DOCUMENTO_CONFIG);
     await setDoc(configRef, { bancolombia, nequi }, { merge: true });
     
-    // Actualizar inputs públicos
-    document.getElementById('cuenta-bancolombia').value = bancolombia;
-    document.getElementById('cuenta-nequi').value = nequi;
+    // Actualizar los campos públicos superiores de la interfaz
+    if (document.getElementById('cuenta-bancolombia')) document.getElementById('cuenta-bancolombia').value = bancolombia;
+    if (document.getElementById('cuenta-nequi')) document.getElementById('cuenta-nequi').value = nequi;
     
     actualizarInfoPagos();
-    alert("✅ Cuentas guardadas correctamente");
+    alert("✅ Cuentas guardadas correctamente en la base de datos");
   } catch (error) {
     console.error("Error guardando cuentas:", error);
     alert("❌ Error al guardar las cuentas");
@@ -296,16 +296,19 @@ window.guardarCuentas = async function() {
 
 // Actualizar información de pagos en el modal
 function actualizarInfoPagos() {
-  const bancolombia = document.getElementById('cuenta-bancolombia')?.value || 'No configurado';
-  const nequi = document.getElementById('cuenta-nequi')?.value || 'No configurado';
+  const bancolombia = document.getElementById('cuenta-bancolombia')?.value || '';
+  const nequi = document.getElementById('cuenta-nequi')?.value || '';
   const infoDiv = document.getElementById('info-pagos');
   
   if (infoDiv) {
-    infoDiv.innerHTML = `
-      ${bancolombia !== 'No configurado' ? `<p> <strong>Bancolombia:</strong> ${bancolombia}</p>` : ''}
-      ${nequi !== 'No configurado' ? `<p> <strong>Nequi:</strong> ${nequi}</p>` : ''}
-      ${bancolombia === 'No configurado' && nequi === 'No configurado' ? '<p class="text-red-500">⚠️ Contacta al administrador para los datos de pago</p>' : ''}
-    `;
+    if (!bancolombia && !nequi) {
+      infoDiv.innerHTML = '<p class="text-red-500 font-bold">⚠️ Contacta al administrador para los datos de pago</p>';
+    } else {
+      infoDiv.innerHTML = `
+        ${bancolombia ? `<p><strong>Bancolombia:</strong> ${bancolombia}</p>` : ''}
+        ${nequi ? `<p><strong>Nequi:</strong> ${nequi}</p>` : ''}
+      `;
+    }
   }
 }
 
@@ -365,7 +368,7 @@ async function actualizarServidor(nuevaData) {
     const dataLimpia = nuevaData.map(item => item ? { 
       nombre: item.nombre, 
       telefono: item.telefono,
-      fecha: new Date().toLocaleString()
+      fecha: item.fecha || new Date().toLocaleString()
     } : null);
     
     await setDoc(docRef, { 
@@ -398,7 +401,7 @@ window.renderizarPantalla = function() {
   });
   
   const vendidosCount = document.getElementById('vendidos-count');
-  if (vendidosCount) vendidosCount.innerText = `${contador}/100`;
+  if (vendidosCount) vendidosCount.innerText = `${100 - contador}`; // Muestra los restantes/disponibles reales
 };
 
 // Abrir modal de número
@@ -443,11 +446,11 @@ window.confirmarReserva = async function() {
     return;
   }
   
-  rifaData[currentNumIndex] = { nombre: nom, telefono: tel };
+  rifaData[currentNumIndex] = { nombre: nom, telefono: tel, fecha: new Date().toLocaleString() };
   await actualizarServidor(rifaData);
   cerrarVentana();
   renderizarPantalla();
-  alert("✅ ¡Número reservado");
+  alert("✅ ¡Número reservado!");
 };
 
 // Liberar número
@@ -544,10 +547,6 @@ function escapeHtml(str) {
 
 // Iniciar
 initAuth();
-
-// Event listeners para inputs de cuentas
-document.getElementById('cuenta-bancolombia')?.addEventListener('change', () => actualizarInfoPagos());
-document.getElementById('cuenta-nequi')?.addEventListener('change', () => actualizarInfoPagos());
 </script>
 
 </body>
