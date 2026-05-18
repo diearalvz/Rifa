@@ -31,8 +31,6 @@
         .form-input { color: #1a1a1a !important; background-color: #f5f5f5 !important; border: 2px solid #e0e0e0 !important; border-radius: 12px !important; padding: 12px !important; width: 100% !important; font-size: 14px !important; font-weight: 500 !important; }
         .form-input:focus { border-color: #ef4444 !important; outline: none !important; }
         .form-input::placeholder { color: #999 !important; }
-        .estado-pendiente { background: #f59e0b; color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 20px; }
-        .estado-pagado { background: #10b981; color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 20px; }
         .loader { border: 3px solid rgba(234, 179, 8, 0.3); border-top: 3px solid #eab308; border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin: 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
@@ -153,14 +151,14 @@
     </div>
 
     <div class="mb-6">
-        <h3 class="text-center text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] mb-3 text-zinc-400"> SELECCIONA TU NÚMERO </h3>
+        <h3 class="text-center text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] mb-3 text-zinc-400">SELECCIONA TU NÚMERO</h3>
         <div id="loader" class="loader"></div>
         <div id="grid-rifa" class="grid-rifa-container" style="display: none;"></div>
     </div>
 </main>
 
 <footer class="bg-gradient-to-r from-red-700 to-orange-600 py-3 text-center border-t-4 border-yellow-500">
-    <p class="font-black text-[10px] md:text-sm uppercase italic animate-pulse">🔥 BUENA SUERTE - SORTEO 29 DE MAYO - LOTERIA DE MEDELLIN🔥</p>
+    <p class="font-black text-[10px] md:text-sm uppercase italic animate-pulse">🔥 BUENA SUERTE - SORTEO 29 DE MAYO - LOTERIA DE MEDELLIN 🔥</p>
 </footer>
 
 <div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(12px);">
@@ -202,7 +200,6 @@
   </div>
 </div>
 
-<!-- PANEL ADMIN CON BOTÓN DE EXCEL -->
 <div id="panel-admin" class="fixed inset-0 z-50 hidden bg-white overflow-auto">
   <div class="sticky top-0 bg-zinc-900 text-white p-3 flex justify-between items-center shadow-lg">
     <h2 class="text-base font-black">📊 PANEL DE CONTROL</h2>
@@ -226,7 +223,7 @@
           </tr>
         </thead>
         <tbody id="lista-cuerpo"></tbody>
-      </table>
+      能有
     </div>
     <div class="grid grid-cols-3 gap-3 mt-6">
       <div class="bg-green-100 p-3 rounded-xl text-center">
@@ -250,9 +247,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
 import { getFirestore, doc, onSnapshot, setDoc, runTransaction } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-// ============================================================
-// 🔑 CONFIGURACIÓN - ¡CAMBIAR AQUÍ TUS DATOS!
-// ============================================================
 const firebaseConfig = {
   apiKey: "AIzaSyC97R-E7mk-MEnL3RnaMAFUyjyc6UET1I8",
   authDomain: "rifa-mayo-5a905.firebaseapp.com",
@@ -265,7 +259,6 @@ const firebaseConfig = {
 const MI_CUENTA_BANCOLOMBIA = "24569061268";
 const MI_CUENTA_NEQUI = "3042194324";
 const CLAVE_MAESTRA = "1234";
-// ============================================================
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -354,9 +347,7 @@ async function marcarComoPagado(index, medioPago) {
     });
 }
 
-// FUNCIÓN PARA DESCARGAR EXCEL
 window.descargarExcel = function() {
-    // Recopilar datos de compradores
     const compradores = [];
     for (let i = 0; i < 100; i++) {
         const d = rifaData[i];
@@ -372,9 +363,7 @@ window.descargarExcel = function() {
         }
     }
     
-    // Crear contenido del archivo CSV (compatible con Excel)
     let contenido = "\uFEFFNUMERO,NOMBRE,TELEFONO,FECHA,MEDIO DE PAGO,ESTADO\n";
-    
     for (const c of compradores) {
         contenido += `"${c.numero}","${c.nombre}","${c.telefono}","${c.fecha}","${c.medioPago}","${c.estado}"\n`;
     }
@@ -383,7 +372,6 @@ window.descargarExcel = function() {
         contenido += "No hay compradores registrados,,,,,\n";
     }
     
-    // Crear archivo y descargar
     const blob = new Blob([contenido], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
@@ -542,7 +530,7 @@ function actualizarPanelAdmin() {
             const estadoColor = estadoPago === 'pagado' ? 'estado-pagado-texto' : 'estado-pendiente-texto';
             
             tbody.innerHTML += `
-                <tr>
+                <tr class="border-b">
                     <td class="numero">#${i.toString().padStart(2, '0')}</td>
                     <td class="nombre-cliente">${escapeHtml(d.nombre)}</td>
                     <td>${escapeHtml(d.telefono)}</td>
@@ -562,4 +550,27 @@ function actualizarPanelAdmin() {
     }
     
     if (vendidos === 0) {
-        tbody.innerHTML = '<tr><td
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-gray-400 py-6">📭 No hay números vendidos aún</td></tr>';
+    }
+    
+    const totalRecaudado = pagados * 20000;
+    
+    document.getElementById('total-vendidos').innerText = vendidos;
+    document.getElementById('total-disponibles').innerText = 100 - vendidos;
+    document.getElementById('total-recaudado').innerText = `$${totalRecaudado.toLocaleString('es-CO')}`;
+}
+
+window.cerrarPanelAdmin = () => document.getElementById('panel-admin').classList.add('hidden');
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+    });
+}
+</script>
+</body>
+</html>
