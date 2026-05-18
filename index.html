@@ -19,7 +19,7 @@
             background: radial-gradient(circle at top, #2d0b0b 0%, #11111e 100%);
         }
 
-        /* EFECTO NEÓN PARA EL TÍTULO */
+        /* EFECTO NEÓN REAL PARA EL TÍTULO */
         .neon-title {
             color: #fff;
             text-shadow: 
@@ -31,7 +31,7 @@
                 0 0 92px #ff0000;
         }
 
-        /* ANIMACIÓN PARPADEANTE SUAVE PARA EL PREMIO */
+        /* ANIMACIÓN PARPADEANTE SUAVE Y CONTROLADA PARA EL PREMIO */
         @keyframes blink-smooth {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.85; transform: scale(1.03); }
@@ -311,12 +311,11 @@ window.renderizarPantalla = function() {
     const ocupado = dato !== null;
     const celda = document.createElement('div');
     
-    // Asignación explícita de clases de neón circulares según el estado
     if (ocupado) {
         celda.className = "cell-ocupado h-14 w-14 sm:h-16 sm:w-16 flex items-center justify-center rounded-full text-sm font-black mx-auto select-none opacity-40 line-through";
         celda.innerHTML = `${i.toString().padStart(2, '0')}<span class="absolute text-[10px] text-red-500 font-bold top-1 right-1">✕</span>`;
     } else {
-        celda.className = "cell-disponible h-14 w-14 sm:h-16 sm:w-16 flex items-center justify-center rounded-full text-xl font-black mx-auto select-none";
+        celda.className = "cell-disponible h-14 w-14 sm:h-16 sm:w-16 flex items-center justify-center rounded-full text-xl font-black mx-auto select-none cursor-pointer";
         celda.innerText = i.toString().padStart(2, '0');
     }
     
@@ -358,6 +357,7 @@ window.panelAdmin = function() {
   document.getElementById('modal-pass').classList.remove('hidden');
 };
 
+// Vinculación explícita corregida: coincide con el onclick="verifyPassword()" de los modales HTML
 window.verifyPassword = async function() {
   if (document.getElementById('input-pass').value === CLAVE_MAESTRA) {
     if (accionPendiente === 'liberar') { rifaData[currentNumIndex] = null; await actualizarServidor(rifaData); cerrarVentana(); }
