@@ -8,9 +8,48 @@
     <style>
         * { box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         .bg-gradient-rifa { background: radial-gradient(circle at top, #2d0b0b 0%, #11111e 100%); }
-        .neon-title { color: #fff; text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #ff0000; }
+        
+        /* TÍTULO NEÓN MEJORADO */
+        .neon-title { 
+            color: #fff; 
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 20px #fff,
+                0 0 30px #ff0000,
+                0 0 40px #ff0000,
+                0 0 55px #ff0000,
+                0 0 70px #ff0000;
+            animation: neon-pulse 1.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes neon-pulse {
+            from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000; }
+            to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 50px #ff0000, 0 0 70px #ff0000; }
+        }
+        
+        /* PREMIO CON IMPACTO */
+        .premio-impactante {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+            animation: premio-blink 1s ease-in-out infinite alternate;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
+            border: 3px solid #fff;
+        }
+        
+        @keyframes premio-blink {
+            from { transform: scale(1); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
+            to { transform: scale(1.05); box-shadow: 0 0 70px rgba(255, 215, 0, 0.9); }
+        }
+        
+        .premio-texto {
+            font-family: 'Archivo Black', sans-serif;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+        }
+        
         @keyframes blink-smooth { 0%, 100% { opacity: 1; } 50% { opacity: 0.85; } }
         .prize-blink { animation: blink-smooth 2s infinite ease-in-out; }
+        
         .bg-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .cell-disponible { background: rgba(254, 240, 138, 0.05); border: 2px solid #eab308; color: #fef08a; transition: all 0.3s; cursor: pointer; }
         .cell-disponible:hover { transform: translateY(-4px) scale(1.05); background: rgba(234, 179, 8, 0.2); }
@@ -21,7 +60,7 @@
         @media (min-width: 768px) { .numero-cell { font-size: 1.25rem; } }
         .cuenta-card { background: rgba(255, 255, 255, 0.04); border-left: 4px solid #ef4444; transition: transform 0.2s; }
         .cuenta-card:hover { transform: scale(1.02); }
-        /* Estilos para inputs y labels VISIBLES */
+        
         .form-label {
             color: #1a1a1a !important;
             font-weight: 800 !important;
@@ -41,27 +80,29 @@
             font-size: 14px !important;
             font-weight: 500 !important;
         }
-        .form-input:focus {
-            border-color: #ef4444 !important;
-            outline: none !important;
-        }
-        .form-input::placeholder {
-            color: #999 !important;
-        }
+        .form-input:focus { border-color: #ef4444 !important; outline: none !important; }
+        .form-input::placeholder { color: #999 !important; }
     </style>
 </head>
 <body class="bg-gradient-rifa min-h-screen text-white">
 
 <header class="bg-zinc-950 py-8 md:py-12 px-4 text-center border-b border-zinc-800">
     <div class="max-w-6xl mx-auto">
-        <h1 class="text-6xl md:text-8xl font-impact neon-title mb-6 tracking-wider italic">RIFA</h1>
+        <h1 class="text-7xl md:text-9xl font-impact neon-title mb-6 tracking-wider italic">RIFA</h1>
         <div class="flex flex-col items-center gap-4">
-            <div class="prize-blink bg-yellow-500 text-zinc-950 px-8 py-4 rounded-[2rem] shadow-[0_0_35px_rgba(234,179,8,0.4)]">
-                <span class="text-xs font-black uppercase tracking-[0.2em] block mb-1">Gran Premio</span>
-                <span class="text-4xl md:text-6xl font-impact tracking-tighter block">$1.000.000</span>
+            
+            <!-- PREMIO CON MÁS IMPACTO - VERSIÓN MEJORADA -->
+            <div class="premio-impactante rounded-2xl px-6 py-4 md:px-10 md:py-6 text-center">
+                <span class="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-white block mb-1 opacity-90">🎯 GRAN PREMIO 🎯</span>
+                <span class="premio-texto text-5xl md:text-7xl font-black text-white block">
+                    $1.000.000
+                </span>
+                <span class="text-[9px] md:text-[10px] font-bold text-white/80 block mt-1">EN EFECTIVO</span>
             </div>
-            <div class="bg-white text-zinc-900 px-6 py-2 rounded-full border-4 border-red-600 font-black text-lg md:text-xl">
-                VALOR: <span class="text-red-600">$20.000</span>
+            
+            <!-- Valor del ticket -->
+            <div class="bg-white text-zinc-900 px-6 py-2 rounded-full border-4 border-red-600 font-black text-lg md:text-xl shadow-lg">
+                🎫 VALOR TICKET: <span class="text-red-600 text-xl md:text-2xl">$20.000</span>
             </div>
         </div>
     </div>
@@ -81,6 +122,7 @@
                         <span class="text-2xl">🏦</span>
                         <span class="text-[9px] font-black text-zinc-400">BANCOLOMBIA</span>
                     </div>
+                    <!-- 🔑 CAMBIA ESTE NÚMERO POR EL TUYO DE BANCOLOMBIA -->
                     <span class="text-sm md:text-base font-bold text-white">24569061268</span>
                 </div>
                 <div class="cuenta-card rounded-xl p-3">
@@ -88,6 +130,7 @@
                         <span class="text-2xl">⚡</span>
                         <span class="text-[9px] font-black text-zinc-400">NEQUI</span>
                     </div>
+                    <!-- 🔑 CAMBIA ESTE NÚMERO POR EL TUYO DE NEQUI -->
                     <span class="text-sm md:text-base font-bold text-white">3042194324</span>
                 </div>
             </div>
@@ -95,43 +138,41 @@
     </div>
 
     <div class="mb-8">
-        <h3 class="text-center text-[10px] font-black uppercase tracking-[0.3em] mb-4 text-zinc-400">SELECCIONA TU NÚMERO</h3>
+        <h3 class="text-center text-[10px] font-black uppercase tracking-[0.3em] mb-4 text-zinc-400">🎲 SELECCIONA TU NÚMERO DE LA SUERTE 🎲</h3>
         <div id="grid-rifa" class="grid-rifa-container"></div>
     </div>
 </main>
 
 <footer class="bg-gradient-to-r from-red-700 to-orange-600 py-4 text-center border-t-4 border-yellow-500">
-    <p class="font-black text-sm md:text-base uppercase italic animate-pulse">🔥 ¡ELIGE TU NÚMERO HOY MISMO! 🔥</p>
+    <p class="font-black text-sm md:text-base uppercase italic animate-pulse">🔥 ¡APROVECHA! SOLO QUEDAN 100 NÚMEROS - SORTEO 29 DE MAYO 🔥</p>
 </footer>
 
-<!-- MODAL DE COMPRA - CORREGIDO CON LABLES VISIBLES -->
+<!-- MODAL DE COMPRA -->
 <div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(12px);">
   <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
     <div class="bg-zinc-950 p-5 text-white text-center">
       <h2 id="modal-titulo" class="text-xs font-bold uppercase tracking-widest text-yellow-400">✨ RESERVA ✨</h2>
       <p id="num-badge" class="text-6xl font-impact text-yellow-400 mt-1">#--</p>
+      <div class="mt-2 inline-block bg-yellow-500 text-zinc-900 px-3 py-1 rounded-full text-[10px] font-black">VALOR: $20.000</div>
     </div>
     <div class="p-5 space-y-4">
-      <!-- Campo Nombre con LABEL visible -->
       <div>
         <label class="form-label">👤 NOMBRE DEL COMPRADOR</label>
         <input type="text" id="in-nombre" class="form-input" placeholder="Ej: Juan Pérez">
       </div>
-      
-      <!-- Campo Teléfono con LABEL visible -->
       <div>
         <label class="form-label">📱 TELÉFONO / WHATSAPP</label>
         <input type="tel" id="in-tel" class="form-input" placeholder="Ej: 3001234567">
       </div>
       
-      <!-- Información de pagos -->
+      <!-- 🔑 CAMBIA TUS CUENTAS AQUÍ TAMBIÉN -->
       <div class="bg-red-50 rounded-xl p-3 text-xs">
         <p class="font-bold text-red-800 text-center text-[11px] mb-2">💳 TRANSFIERE A:</p>
         <p class="text-red-700 text-[11px]">🏦 Bancolombia Ahorros: 24569061268</p>
         <p class="text-red-700 text-[11px]">⚡ Nequi: 3042194324</p>
+        <p class="text-red-500 text-[9px] text-center mt-2">✅ Envía el comprobante después de pagar</p>
       </div>
       
-      <!-- Botones -->
       <button id="btn-confirmar" onclick="confirmarReserva()" class="w-full bg-green-600 hover:bg-green-700 text-white font-black py-3 rounded-xl transition text-sm">✅ CONFIRMAR COMPRA</button>
       <button id="btn-borrar" onclick="abrirModalLiberar()" class="hidden w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl transition text-sm">🗑️ LIBERAR NÚMERO</button>
       <button onclick="cerrarVentana()" class="w-full py-2 text-zinc-500 hover:text-zinc-700 transition text-sm font-medium">REGRESAR</button>
@@ -180,12 +221,12 @@ import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gsta
 
 // 🔑 ¡PEGA AQUÍ TUS CREDENCIALES DE FIREBASE!
 const firebaseConfig = {
-  apiKey: "AIzaSyC97R-E7mk-MEnL3RnaMAFUyjyc6UET1I8",
-  authDomain: "rifa-mayo-5a905.firebaseapp.com",
-  projectId: "rifa-mayo-5a905",
-  storageBucket: "rifa-mayo-5a905.firebasestorage.app",
-  messagingSenderId: "287125024290",
-  appId: "1:287125024290:web:d139fa82d386c6400c647b"
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_PROYECTO.firebaseapp.com",
+  projectId: "TU_PROJECT_ID",
+  storageBucket: "TU_PROYECTO.appspot.com",
+  messagingSenderId: "TU_SENDER_ID",
+  appId: "TU_APP_ID"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -196,6 +237,8 @@ let rifaData = new Array(100).fill(null);
 let currentNumIndex = null;
 let accionPendiente = null;
 let comprando = false;
+
+// 🔑 CAMBIA ESTA CLAVE POR LA QUE QUIERAS
 const CLAVE_MAESTRA = "1234";
 
 onAuthStateChanged(auth, (user) => {
