@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>RIFA PRO - EN VIVO</title>
+    <title>RIFA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * { box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
@@ -114,7 +114,7 @@
         <h1 class="text-5xl md:text-7xl font-impact neon-title mb-4 tracking-wider italic">RIFA</h1>
         <div class="flex flex-col items-center gap-3">
             <div class="premio-impactante rounded-xl px-4 py-3 md:px-8 md:py-4 text-center">
-                <span class="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white block mb-0.5 opacity-90">🎯 GRAN PREMIO 🎯</span>
+                <span class="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white block mb-0.5 opacity-90">PREMIO</span>
                 <span class="premio-texto text-3xl md:text-6xl font-black text-white block">$1.000.000</span>
                 <span class="text-[7px] md:text-[9px] font-bold text-white/80 block mt-0.5">EN EFECTIVO</span>
             </div>
@@ -153,14 +153,14 @@
     </div>
 
     <div class="mb-6">
-        <h3 class="text-center text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] mb-3 text-zinc-400">🎲 SELECCIONA TU NÚMERO 🎲</h3>
+        <h3 class="text-center text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] mb-3 text-zinc-400"> SELECCIONA TU NÚMERO </h3>
         <div id="loader" class="loader"></div>
         <div id="grid-rifa" class="grid-rifa-container" style="display: none;"></div>
     </div>
 </main>
 
 <footer class="bg-gradient-to-r from-red-700 to-orange-600 py-3 text-center border-t-4 border-yellow-500">
-    <p class="font-black text-[10px] md:text-sm uppercase italic animate-pulse">🔥 APROVECHA - SOLO 100 NÚMEROS - SORTEO 29 DE MAYO 🔥</p>
+    <p class="font-black text-[10px] md:text-sm uppercase italic animate-pulse">🔥 BUENA SUERTE - SORTEO 29 DE MAYO - LOTERIA DE MEDELLIN🔥</p>
 </footer>
 
 <div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(12px);">
@@ -470,7 +470,7 @@ window.confirmarReserva = async function() {
             estadoPago: 'pendiente',
             medioPago: null
         });
-        alert("✅ ¡Compra exitosa! Realiza el pago a las cuentas indicadas. El administrador confirmará tu pago.");
+        alert("✅ ¡Compra exitosa! Realiza el pago a las cuentas indicadas.");
         window.cerrarVentana();
     } catch (error) {
         alert(`❌ ${error.message}`);
@@ -493,7 +493,7 @@ window.abrirModalLiberar = function() {
 window.panelAdmin = function() {
     accionPendiente = 'admin';
     document.getElementById('modal-pass-titulo').innerText = '🔐 Panel Administrador';
-    document.getElementById('modal-pass-mensaje').innerText = 'Ingresa la clave maestra';
+    document.getElementById('modal-pass-mensaje').innerText = 'Ingresa la clave';
     document.getElementById('input-pass').value = '';
     document.getElementById('modal-pass').classList.remove('hidden');
 };
