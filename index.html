@@ -8,105 +8,31 @@
     <style>
         * { box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         .bg-gradient-rifa { background: radial-gradient(circle at top, #2d0b0b 0%, #11111e 100%); min-height: 100vh; }
-        
-        /* TÍTULO NEÓN MEJORADO */
-        .neon-title { 
-            color: #fff; 
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000;
-            animation: neon-pulse 1.5s ease-in-out infinite alternate;
-        }
-        
-        @keyframes neon-pulse {
-            from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000; }
-            to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 50px #ff0000; }
-        }
-        
-        /* PREMIO CON IMPACTO */
-        .premio-impactante { 
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%); 
-            animation: premio-blink 1s ease-in-out infinite alternate; 
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.6); 
-            border: 3px solid #fff;
-        }
-        
-        @keyframes premio-blink { 
-            from { transform: scale(1); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); } 
-            to { transform: scale(1.02); box-shadow: 0 0 70px rgba(255, 215, 0, 0.9); } 
-        }
-        
+        .neon-title { color: #fff; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000; animation: neon-pulse 1.5s ease-in-out infinite alternate; }
+        @keyframes neon-pulse { from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000; } to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 50px #ff0000; } }
+        .premio-impactante { background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%); animation: premio-blink 1s ease-in-out infinite alternate; box-shadow: 0 0 50px rgba(255, 215, 0, 0.6); border: 3px solid #fff; }
+        @keyframes premio-blink { from { transform: scale(1); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); } to { transform: scale(1.02); box-shadow: 0 0 70px rgba(255, 215, 0, 0.9); } }
         .premio-texto { font-family: 'Archivo Black', sans-serif; text-shadow: 3px 3px 0px rgba(0,0,0,0.3); letter-spacing: 2px; }
-        
         .bg-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        
-        /* MEJORAS PARA MÓVIL - NÚMEROS MÁS GRANDES Y TÁCTILES */
-        .cell-disponible { 
-            background: rgba(254, 240, 138, 0.05); 
-            border: 2px solid #eab308; 
-            color: #fef08a; 
-            transition: all 0.2s; 
-            cursor: pointer;
-            min-width: 44px;
-            min-height: 44px;
-        }
+        .cell-disponible { background: rgba(254, 240, 138, 0.05); border: 2px solid #eab308; color: #fef08a; transition: all 0.2s; cursor: pointer; min-width: 44px; min-height: 44px; }
         .cell-disponible:active { transform: scale(0.95); background: rgba(234, 179, 8, 0.3); }
-        
-        .cell-ocupado { 
-            background: rgba(239, 68, 68, 0.05); 
-            border: 2px solid rgba(239, 68, 68, 0.2); 
-            color: rgba(239, 68, 68, 0.4); 
-            cursor: pointer; 
-            position: relative;
-            min-width: 44px;
-            min-height: 44px;
-        }
+        .cell-ocupado { background: rgba(239, 68, 68, 0.05); border: 2px solid rgba(239, 68, 68, 0.2); color: rgba(239, 68, 68, 0.4); cursor: pointer; position: relative; min-width: 44px; min-height: 44px; }
         .cell-ocupado:active { background: rgba(239, 68, 68, 0.15); }
-        
-        .grid-rifa-container { 
-            display: grid; 
-            grid-template-columns: repeat(5, 1fr); 
-            gap: 0.75rem; 
-            max-width: 100%; 
-            margin: 0 auto;
-        }
-        
-        /* Tablets y desktop */
-        @media (min-width: 640px) {
-            .grid-rifa-container { grid-template-columns: repeat(8, 1fr); gap: 0.75rem; }
-            .numero-cell { font-size: 1.1rem; }
-        }
-        @media (min-width: 768px) {
-            .grid-rifa-container { grid-template-columns: repeat(10, 1fr); gap: 0.75rem; max-width: 800px; }
-            .numero-cell { font-size: 1.2rem; }
-        }
-        
-        .numero-cell { 
-            aspect-ratio: 1 / 1; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-weight: 900; 
-            font-size: 1rem; 
-            border-radius: 12px; 
-            width: 100%;
-            transition: all 0.2s;
-        }
-        
-        /* MEJORAS TÁCTILES */
+        .grid-rifa-container { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; max-width: 100%; margin: 0 auto; }
+        @media (min-width: 640px) { .grid-rifa-container { grid-template-columns: repeat(8, 1fr); gap: 0.75rem; } }
+        @media (min-width: 768px) { .grid-rifa-container { grid-template-columns: repeat(10, 1fr); gap: 0.75rem; max-width: 800px; } }
+        .numero-cell { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; border-radius: 12px; width: 100%; transition: all 0.2s; }
+        @media (min-width: 640px) { .numero-cell { font-size: 1.1rem; } }
+        @media (min-width: 768px) { .numero-cell { font-size: 1.2rem; } }
         button, .cursor-pointer { touch-action: manipulation; }
-        
         .cuenta-card { background: rgba(255, 255, 255, 0.04); border-left: 4px solid #ef4444; transition: transform 0.2s; }
         .cuenta-card:active { transform: scale(0.98); }
-        
         .form-label { color: #1a1a1a !important; font-weight: 800 !important; font-size: 10px !important; text-transform: uppercase !important; letter-spacing: 1px !important; margin-bottom: 4px !important; display: block !important; }
         .form-input { color: #1a1a1a !important; background-color: #f5f5f5 !important; border: 2px solid #e0e0e0 !important; border-radius: 12px !important; padding: 12px !important; width: 100% !important; font-size: 14px !important; font-weight: 500 !important; }
         .form-input:focus { border-color: #ef4444 !important; outline: none !important; }
         .form-input::placeholder { color: #999 !important; }
-        
-        /* LOADER */
         .loader { border: 3px solid rgba(234, 179, 8, 0.3); border-top: 3px solid #eab308; border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin: 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        /* Badge de estado de pago */
         .estado-pendiente { background: #f59e0b; color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 20px; }
         .estado-pagado { background: #10b981; color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 20px; }
     </style>
@@ -118,7 +44,7 @@
         <h1 class="text-5xl md:text-7xl font-impact neon-title mb-4 tracking-wider italic">RIFA</h1>
         <div class="flex flex-col items-center gap-3">
             <div class="premio-impactante rounded-xl px-4 py-3 md:px-8 md:py-4 text-center">
-                <span class="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white block mb-0.5 opacity-90">PREMIO</span>
+                <span class="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white block mb-0.5 opacity-90">🎯 GRAN PREMIO 🎯</span>
                 <span class="premio-texto text-3xl md:text-6xl font-black text-white block">$1.000.000</span>
                 <span class="text-[7px] md:text-[9px] font-bold text-white/80 block mt-0.5">EN EFECTIVO</span>
             </div>
@@ -158,7 +84,6 @@
 
     <div class="mb-6">
         <h3 class="text-center text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] mb-3 text-zinc-400">SELECCIONA TU NÚMERO</h3>
-        <div id="loader" class="loader" style="display: none;"></div>
         <div id="grid-rifa" class="grid-rifa-container"></div>
     </div>
 </main>
@@ -167,7 +92,7 @@
     <p class="font-black text-[10px] md:text-sm uppercase italic animate-pulse">🔥 BUENA SUERTE - SORTEO 29 DE MAYO 🔥</p>
 </footer>
 
-<!-- MODALES (Igual pero mejorados) -->
+<!-- MODAL DE COMPRA -->
 <div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(12px);">
   <div class="bg-white rounded-xl w-full max-w-md overflow-hidden shadow-2xl">
     <div class="bg-zinc-950 p-4 text-white text-center">
@@ -196,6 +121,7 @@
   </div>
 </div>
 
+<!-- MODAL CLAVE ADMIN -->
 <div id="modal-pass" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(15px);">
   <div class="bg-white rounded-xl max-w-sm w-full p-5 text-center shadow-2xl">
     <div class="text-4xl mb-2">🔐</div>
@@ -207,14 +133,14 @@
   </div>
 </div>
 
-<!-- PANEL ADMIN MEJORADO - CON GESTIÓN DE PAGOS -->
+<!-- PANEL ADMIN MEJORADO - CON TABLA DE COMPRADORES Y BOTONES DE PAGO -->
 <div id="panel-admin" class="fixed inset-0 z-50 hidden bg-white overflow-auto">
   <div class="sticky top-0 bg-zinc-900 text-white p-3 flex justify-between items-center">
     <h2 class="text-base font-black">📊 PANEL DE CONTROL</h2>
     <button onclick="cerrarPanelAdmin()" class="bg-red-600 w-8 h-8 rounded-full font-bold hover:scale-105 transition text-sm">✕</button>
   </div>
   <div class="p-3">
-    <h3 class="font-black text-sm mb-2">📋 GESTIÓN DE PAGOS</h3>
+    <h3 class="font-black text-sm mb-2">📋 LISTA DE COMPRADORES</h3>
     <div class="overflow-x-auto">
       <table class="w-full text-xs">
         <thead class="bg-gray-100 sticky top-10">
@@ -230,10 +156,10 @@
         <tbody id="lista-cuerpo"></tbody>
       </table>
     </div>
-    <div class="grid grid-cols-2 gap-2 mt-4">
+    <div class="grid grid-cols-3 gap-2 mt-4">
       <div class="bg-green-50 p-2 rounded-xl text-center"><p class="text-[8px] font-black text-green-600">VENDIDOS</p><p class="text-2xl font-black text-green-700" id="total-vendidos">0</p></div>
       <div class="bg-blue-50 p-2 rounded-xl text-center"><p class="text-[8px] font-black text-blue-600">DISPONIBLES</p><p class="text-2xl font-black text-blue-700" id="total-disponibles">100</p></div>
-      <div class="bg-purple-50 p-2 rounded-xl text-center col-span-2"><p class="text-[8px] font-black text-purple-600">RECAUDADO</p><p class="text-2xl font-black text-purple-700" id="total-recaudado">$0</p></div>
+      <div class="bg-purple-50 p-2 rounded-xl text-center"><p class="text-[8px] font-black text-purple-600">RECAUDADO</p><p class="text-2xl font-black text-purple-700" id="total-recaudado">$0</p></div>
     </div>
   </div>
 </div>
@@ -244,7 +170,7 @@ import { getFirestore, doc, onSnapshot, setDoc, runTransaction } from "https://w
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
 // ============================================================
-// 🔑 ¡PEGA AQUÍ TUS CREDENCIALES DE FIREBASE!
+// 🔑 CONFIGURACIÓN - CAMBIA SOLO ESTOS VALORES
 // ============================================================
 const firebaseConfig = {
   apiKey: "AIzaSyC97R-E7mk-MEnL3RnaMAFUyjyc6UET1I8",
@@ -254,18 +180,9 @@ const firebaseConfig = {
   messagingSenderId: "287125024290",
   appId: "1:287125024290:web:d139fa82d386c6400c647b"
 };
-// ============================================================
 
-// ============================================================
-// 🔑 CAMBIA TUS NÚMEROS DE CUENTA AQUÍ
-// ============================================================
 const MI_CUENTA_BANCOLOMBIA = "24569061268";
 const MI_CUENTA_NEQUI = "3042194324";
-// ============================================================
-
-// ============================================================
-// 🔑 CAMBIA LA CLAVE MAESTRA AQUÍ
-// ============================================================
 const CLAVE_MAESTRA = "1234";
 // ============================================================
 
@@ -330,23 +247,24 @@ async function liberarNumeroFirestore(index) {
     });
 }
 
-async function actualizarEstadoPago(index, medio, estado) {
+async function marcarComoPagado(index, medioPago) {
     const docRef = doc(db, "rifas", "numeros_vendidos");
     await runTransaction(db, async (transaction) => {
         const docSnap = await transaction.get(docRef);
         const numerosActuales = docSnap.exists() ? docSnap.data().numeros : new Array(100).fill(null);
         if (numerosActuales[index]) {
-            numerosActuales[index].medioPago = medio;
-            numerosActuales[index].estadoPago = estado;
+            numerosActuales[index].medioPago = medioPago;
+            numerosActuales[index].estadoPago = 'pagado';
             transaction.set(docRef, { numeros: numerosActuales });
         }
     });
 }
 
-window.actualizarPago = async function(index, medio) {
+// Función global para marcar pago
+window.marcarPago = async function(index, medio) {
     const medioTexto = medio === 'nequi' ? 'Nequi' : 'Bancolombia';
-    await actualizarEstadoPago(index, medioTexto, 'pagado');
-    alert(`✅ Pago marcado como confirmado - ${medioTexto}`);
+    await marcarComoPagado(index, medioTexto);
+    alert(`✅ Pago confirmado - ${medioTexto}`);
     actualizarPanelAdmin();
 };
 
@@ -464,13 +382,13 @@ function actualizarPanelAdmin() {
     if (!tbody) return;
     tbody.innerHTML = '';
     let vendidos = 0;
-    let recaudado = 0;
+    let pagados = 0;
     
     for (let i = 0; i < 100; i++) {
         const d = rifaData[i];
         if (d && d.nombre) {
             vendidos++;
-            if (d.estadoPago === 'pagado') recaudado += 20000;
+            if (d.estadoPago === 'pagado') pagados++;
             
             const estadoPago = d.estadoPago || 'pendiente';
             const medioPago = d.medioPago || '---';
@@ -479,28 +397,33 @@ function actualizarPanelAdmin() {
             
             tbody.innerHTML += `
                 <tr class="border-b">
-                    <td class="p-2 font-bold text-red-600 text-xs">#${i.toString().padStart(2, '0')}</td>
-                    <td class="p-2 font-bold text-zinc-800 text-xs">${escapeHtml(d.nombre)}</td>
-                    <td class="p-2 text-zinc-500 text-xs">${escapeHtml(d.telefono)}</td>
-                    <td class="p-2 text-zinc-500 text-xs">${medioPago}</td>
+                    <td class="p-2 font-bold text-red-600">#${i.toString().padStart(2, '0')}</td>
+                    <td class="p-2 font-bold text-zinc-800">${escapeHtml(d.nombre)}</td>
+                    <td class="p-2 text-zinc-500">${escapeHtml(d.telefono)}</td>
+                    <td class="p-2 text-zinc-500">${medioPago}</td>
                     <td class="p-2"><span class="${estadoClass}">${estadoTexto}</span></td>
                     <td class="p-2">
                         ${estadoPago !== 'pagado' ? `
                             <div class="flex gap-1">
-                                <button onclick="window.actualizarPago(${i}, 'bancolombia')" class="bg-blue-600 text-white text-[9px] px-1 py-0.5 rounded active:scale-95">🏦</button>
-                                <button onclick="window.actualizarPago(${i}, 'nequi')" class="bg-purple-600 text-white text-[9px] px-1 py-0.5 rounded active:scale-95">⚡</button>
+                                <button onclick="window.marcarPago(${i}, 'bancolombia')" class="bg-blue-600 text-white text-[9px] px-2 py-1 rounded active:scale-95">🏦 Bancolombia</button>
+                                <button onclick="window.marcarPago(${i}, 'nequi')" class="bg-purple-600 text-white text-[9px] px-2 py-1 rounded active:scale-95">⚡ Nequi</button>
                             </div>
-                        ` : '✅'}
+                        ` : '✅ Pagado'}
                     </td>
                 </tr>
             `;
         }
     }
-    if (vendidos === 0) tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-zinc-400 text-xs">📭 No hay números vendidos aún</td></tr>';
+    
+    if (vendidos === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-zinc-400">📭 No hay números vendidos aún</td></tr>';
+    }
+    
+    const totalRecaudado = pagados * 20000;
     
     document.getElementById('total-vendidos').innerText = vendidos;
     document.getElementById('total-disponibles').innerText = 100 - vendidos;
-    document.getElementById('total-recaudado').innerText = `$${recaudado.toLocaleString('es-CO')}`;
+    document.getElementById('total-recaudado').innerText = `$${totalRecaudado.toLocaleString('es-CO')}`;
 }
 
 window.cerrarPanelAdmin = () => document.getElementById('panel-admin').classList.add('hidden');
