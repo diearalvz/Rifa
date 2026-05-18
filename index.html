@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIFA</title>
+    <title>RIFA PRO - EDICIÓN ESPECIAL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@400;700;900&display=swap');
@@ -19,7 +19,7 @@
             background: radial-gradient(circle at top, #2d0b0b 0%, #11111e 100%);
         }
 
-        /* EFECTO NEÓN REAL PARA EL TÍTULO */
+        /* EFECTO NEÓN PARA EL TÍTULO */
         .neon-title {
             color: #fff;
             text-shadow: 
@@ -31,7 +31,7 @@
                 0 0 92px #ff0000;
         }
 
-        /* ANIMACIÓN PARPADEANTE SUAVE Y CONTROLADA PARA EL PREMIO */
+        /* ANIMACIÓN PARPADEANTE SUAVE PARA EL PREMIO */
         @keyframes blink-smooth {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.85; transform: scale(1.03); }
@@ -48,18 +48,32 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* CELDAS NUMÉRICAS CON ANIMACIÓN */
-        .num-cell {
+        /* ESTILOS DE NEÓN PARA LAS CELDAS NUMÉRICAS */
+        .cell-disponible {
+            background: rgba(254, 240, 138, 0.05);
+            border: 2px solid #eab308;
+            color: #fef08a;
+            text-shadow: 0 0 8px rgba(234, 179, 8, 0.6);
+            box-shadow: inset 0 0 8px rgba(234, 179, 8, 0.2), 0 0 10px rgba(234, 179, 8, 0.1);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .num-cell:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3);
+        .cell-disponible:hover {
+            transform: translateY(-4px) scale(1.05);
+            background: rgba(234, 179, 8, 0.2);
+            box-shadow: 0 0 20px rgba(234, 179, 8, 0.6), inset 0 0 10px rgba(234, 179, 8, 0.4);
+        }
+
+        .cell-ocupado {
+            background: rgba(239, 68, 68, 0.05);
+            border: 2px solid rgba(239, 68, 68, 0.2);
+            color: rgba(239, 68, 68, 0.4);
+            cursor: not-allowed;
+            position: relative;
         }
 
         /* TARJETAS DE CUENTAS DE BANCO */
         .cuenta-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
             border-left: 4px solid #ef4444;
             transition: transform 0.2s;
         }
@@ -81,12 +95,12 @@
 
         <div class="flex flex-col items-center gap-6">
             <div class="prize-blink bg-yellow-500 text-zinc-950 px-10 py-5 rounded-[2rem] shadow-[0_0_35px_rgba(234,179,8,0.4)] inline-block select-none">
-                <span class="text-xs font-black uppercase tracking-[0.2em] block mb-1 opacity-80">Premio</span>
+                <span class="text-xs font-black uppercase tracking-[0.2em] block mb-1 opacity-80">Gran Premio Extraordinario</span>
                 <span class="text-5xl md:text-7xl font-impact tracking-tighter block">$1.000.000</span>
             </div>
 
             <div class="bg-white text-zinc-900 px-8 py-3 rounded-full shadow-xl inline-block border-4 border-red-600 font-black text-xl md:text-2xl tracking-tight select-none">
-                VALOR: <span class="text-red-600 font-black">$20.000</span>
+                VALOR TICKET: <span class="text-red-600 font-black">$20.000</span>
             </div>
         </div>
     </div>
@@ -124,14 +138,14 @@
     </div>
 
     <div class="mb-10">
-        <h3 class="text-center text-xs font-black uppercase tracking-[0.4em] mb-6 text-zinc-500">Selecciona tu número de la suerte</h3>
-        <div id="grid-rifa" class="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-3"></div>
+        <h3 class="text-center text-xs font-black uppercase tracking-[0.4em] mb-6 text-zinc-400">Selecciona tu número de la suerte</h3>
+        <div id="grid-rifa" class="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-3 max-w-4xl mx-auto"></div>
     </div>
 </main>
 
 <footer class="w-full bg-gradient-to-r from-red-700 to-orange-600 py-6 text-center shadow-[0_-10px_30px_rgba(0,0,0,0.5)] border-t-4 border-yellow-500">
     <p class="font-black text-lg md:text-xl uppercase italic tracking-wider text-white animate-pulse">
-        🔥¡ Elige tu número hoy mismo ! 🔥
+        🔥 ¡No dejes pasar tu oportunidad! Elige tu número hoy mismo 🔥
     </p>
 </footer>
 
@@ -297,11 +311,15 @@ window.renderizarPantalla = function() {
     const ocupado = dato !== null;
     const celda = document.createElement('div');
     
-    // CORRECCIÓN VISUAL: Forzar texto negro ('text-zinc-900') y fondo blanco ('bg-white') para los disponibles
-    celda.className = `num-cell h-16 flex items-center justify-center rounded-2xl text-xl font-black cursor-pointer shadow-md select-none ${
-      ocupado ? 'bg-red-600 text-white opacity-25 cursor-not-allowed line-through' : 'bg-white text-zinc-900 border-2 border-zinc-200'
-    }`;
-    celda.innerText = i.toString().padStart(2, '0');
+    // Asignación explícita de clases de neón circulares según el estado
+    if (ocupado) {
+        celda.className = "cell-ocupado h-14 w-14 sm:h-16 sm:w-16 flex items-center justify-center rounded-full text-sm font-black mx-auto select-none opacity-40 line-through";
+        celda.innerHTML = `${i.toString().padStart(2, '0')}<span class="absolute text-[10px] text-red-500 font-bold top-1 right-1">✕</span>`;
+    } else {
+        celda.className = "cell-disponible h-14 w-14 sm:h-16 sm:w-16 flex items-center justify-center rounded-full text-xl font-black mx-auto select-none";
+        celda.innerText = i.toString().padStart(2, '0');
+    }
+    
     celda.onclick = () => abrirVentana(i);
     grid.appendChild(celda);
     if (ocupado) contador++;
@@ -340,7 +358,6 @@ window.panelAdmin = function() {
   document.getElementById('modal-pass').classList.remove('hidden');
 };
 
-// Vinculación explícita de la función global requerida por el botón HTML
 window.verifyPassword = async function() {
   if (document.getElementById('input-pass').value === CLAVE_MAESTRA) {
     if (accionPendiente === 'liberar') { rifaData[currentNumIndex] = null; await actualizarServidor(rifaData); cerrarVentana(); }
