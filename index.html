@@ -53,7 +53,7 @@
 <div class="max-w-6xl mx-auto p-4">
   <div class="bg-card rounded-2xl p-4 shadow-xl mb-6">
     <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-      <div class="text-center md:text-left">
+      <div class="text-center md:text-left cursor-pointer select-none" onclick="panelAdmin()">
         <span class="text-xs font-black text-zinc-500 uppercase tracking-wider">Números disponibles</span>
         <p class="text-4xl font-black text-red-600" id="vendidos-count">0</p>
         <span class="text-xs text-zinc-400">de 100 números</span>
@@ -153,23 +153,6 @@
   </div>
   
   <div class="p-4 max-w-6xl mx-auto">
-    <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-6 mb-6 text-white shadow-xl">
-      <h3 class="text-lg font-black mb-3">💰 CONFIGURAR CUENTAS DE PAGO</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="text-xs font-bold opacity-80">🏦 Bancolombia</label>
-          <input type="text" id="admin-cuenta-bancolombia" class="w-full bg-white/20 rounded-lg p-2 text-white placeholder-white/60 border border-white/30 font-bold" placeholder="Número de cuenta">
-        </div>
-        <div>
-          <label class="text-xs font-bold opacity-80">⚡ Nequi</label>
-          <input type="text" id="admin-cuenta-nequi" class="w-full bg-white/20 rounded-lg p-2 text-white placeholder-white/60 border border-white/30 font-bold" placeholder="Número de cuenta">
-        </div>
-      </div>
-      <button onclick="guardarCuentas()" class="mt-4 bg-yellow-500 text-red-900 font-black px-6 py-2 rounded-full text-sm hover:bg-yellow-400 transition">
-        💾 GUARDAR CAMBIOS
-      </button>
-    </div>
-    
     <div class="mb-8">
       <h3 class="text-lg font-black mb-3">🎯 NÚMEROS VENDIDOS</h3>
       <div class="overflow-x-auto shadow-lg rounded-xl">
@@ -209,8 +192,12 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getFirestore, doc, onSnapshot, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+// 💰 EDITA TUS NÚMEROS DE CUENTA DIRECTAMENTE AQUÍ:
+const CUENTA_BANCOLOMBIA = "24569061268";
+const CUENTA_NEQUI = "3042194324";
 
 // 🔑 CONFIGURACIÓN DE FIREBASE
 const firebaseConfig = {
@@ -235,79 +222,28 @@ let accionPendiente = null;
 const CLAVE_MAESTRA = "1234";
 const COLECCION_RIFA = "rifas";
 const DOCUMENTO_NUMEROS = "numeros_vendidos";
-const DOCUMENTO_CONFIG = "configuracion";
 
-// Cargar cuentas guardadas
-async function cargarCuentasGuardadas() {
-  try {
-    const configRef = doc(db, COLECCION_RIFA, DOCUMENTO_CONFIG);
-    const docSnap = await getDoc(configRef);
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      if (data.bancolombia) {
-        document.getElementById('cuenta-bancolombia').innerText = data.bancolombia;
-        document.getElementById('admin-cuenta-bancolombia').value = data.bancolombia;
-      } else {
-        document.getElementById('cuenta-bancolombia').innerText = 'No configurado';
-      }
-      if (data.nequi) {
-        document.getElementById('cuenta-nequi').innerText = data.nequi;
-        document.getElementById('admin-cuenta-nequi').value = data.nequi;
-      } else {
-        document.getElementById('cuenta-nequi').innerText = 'No configurado';
-      }
-    } else {
-      document.getElementById('cuenta-bancolombia').innerText = 'No configurado';
-      document.getElementById('cuenta-nequi').innerText = 'No configurado';
-    }
-    actualizarInfoPagos();
-  } catch (error) {
-    console.error("Error cargando cuentas:", error);
+// Cargar las cuentas estáticas en la interfaz pública
+function inicializarCuentasEstaticas() {
+  if (document.getElementById('cuenta-bancolombia')) {
+    document.getElementById('cuenta-bancolombia').innerText = CUENTA_BANCOLOMBIA || 'No configurado';
   }
+  if (document.getElementById('cuenta-nequi')) {
+    document.getElementById('cuenta-nequi').innerText = CUENTA_NEQUI || 'No configurado';
+  }
+  actualizarInfoPagos();
 }
-
-// Guardar cuentas
-window.guardarCuentas = async function() {
-  const bancolombia = document.getElementById('admin-cuenta-bancolombia').value.trim();
-  const nequi = document.getElementById('admin-cuenta-nequi').value.trim();
-  
-  try {
-    const configRef = doc(db, COLECCION_RIFA, DOCUMENTO_CONFIG);
-    await setDoc(configRef, { bancolombia, nequi }, { merge: true });
-    
-    // Sincronizar texto público superior
-    if (document.getElementById('cuenta-bancolombia')) {
-      document.getElementById('cuenta-bancolombia').innerText = bancolombia || 'No configurado';
-    }
-    if (document.getElementById('cuenta-nequi')) {
-      document.getElementById('cuenta-nequi').innerText = nequi || 'No configurado';
-    }
-    
-    actualizarInfoPagos();
-    alert("✅ Cuentas guardadas correctamente en la base de datos");
-  } catch (error) {
-    console.error("Error guardando cuentas:", error);
-    alert("❌ Error al guardar las cuentas");
-  }
-};
 
 // Actualizar información de pagos en el modal
 function actualizarInfoPagos() {
-  // Leemos desde el elemento de texto público
-  const bancolombia = document.getElementById('cuenta-bancolombia')?.innerText || '';
-  const nequi = document.getElementById('cuenta-nequi')?.innerText || '';
   const infoDiv = document.getElementById('info-pagos');
-  
   if (infoDiv) {
-    const tieneBancolombia = bancolombia && bancolombia !== 'No configurado' && bancolombia !== 'Cargando...';
-    const tieneNequi = nequi && nequi !== 'No configurado' && nequi !== 'Cargando...';
-
-    if (!tieneBancolombia && !tieneNequi) {
+    if (!CUENTA_BANCOLOMBIA && !CUENTA_NEQUI) {
       infoDiv.innerHTML = '<p class="text-red-500 font-bold">⚠️ Contacta al administrador para los datos de pago</p>';
     } else {
       infoDiv.innerHTML = `
-        ${tieneBancolombia ? `<p><strong>Bancolombia:</strong> ${bancolombia}</p>` : ''}
-        ${tieneNequi ? `<p><strong>Nequi:</strong> ${nequi}</p>` : ''}
+        ${CUENTA_BANCOLOMBIA ? `<p><strong>Bancolombia:</strong> ${CUENTA_BANCOLOMBIA}</p>` : ''}
+        ${CUENTA_NEQUI ? `<p><strong>Nequi:</strong> ${CUENTA_NEQUI}</p>` : ''}
       `;
     }
   }
@@ -327,7 +263,7 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log("✅ Sesión activa");
     conectarBaseDeDatos();
-    cargarCuentasGuardadas();
+    inicializarCuentasEstaticas();
   } else {
     initAuth();
   }
