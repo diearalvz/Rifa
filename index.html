@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>RIFA</title>
+    <title>RIFA PRO - EN VIVO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * { box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
@@ -31,8 +31,6 @@
         .form-input { color: #1a1a1a !important; background-color: #f5f5f5 !important; border: 2px solid #e0e0e0 !important; border-radius: 12px !important; padding: 12px !important; width: 100% !important; font-size: 14px !important; font-weight: 500 !important; }
         .form-input:focus { border-color: #ef4444 !important; outline: none !important; }
         .form-input::placeholder { color: #999 !important; }
-        .loader { border: 3px solid rgba(234, 179, 8, 0.3); border-top: 3px solid #eab308; border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin: 20px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .estado-pendiente { background: #f59e0b; color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 20px; }
         .estado-pagado { background: #10b981; color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 20px; }
     </style>
@@ -83,16 +81,15 @@
     </div>
 
     <div class="mb-6">
-        <h3 class="text-center text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] mb-3 text-zinc-400">SELECCIONA TU NÚMERO</h3>
+        <h3 class="text-center text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] mb-3 text-zinc-400">🎲 SELECCIONA TU NÚMERO 🎲</h3>
         <div id="grid-rifa" class="grid-rifa-container"></div>
     </div>
 </main>
 
 <footer class="bg-gradient-to-r from-red-700 to-orange-600 py-3 text-center border-t-4 border-yellow-500">
-    <p class="font-black text-[10px] md:text-sm uppercase italic animate-pulse">🔥 BUENA SUERTE - SORTEO 29 DE MAYO 🔥</p>
+    <p class="font-black text-[10px] md:text-sm uppercase italic animate-pulse">🔥 APROVECHA - SOLO 100 NÚMEROS - SORTEO 29 DE MAYO 🔥</p>
 </footer>
 
-<!-- MODAL DE COMPRA -->
 <div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(12px);">
   <div class="bg-white rounded-xl w-full max-w-md overflow-hidden shadow-2xl">
     <div class="bg-zinc-950 p-4 text-white text-center">
@@ -121,7 +118,6 @@
   </div>
 </div>
 
-<!-- MODAL CLAVE ADMIN -->
 <div id="modal-pass" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(15px);">
   <div class="bg-white rounded-xl max-w-sm w-full p-5 text-center shadow-2xl">
     <div class="text-4xl mb-2">🔐</div>
@@ -133,7 +129,6 @@
   </div>
 </div>
 
-<!-- PANEL ADMIN MEJORADO - CON TABLA DE COMPRADORES Y BOTONES DE PAGO -->
 <div id="panel-admin" class="fixed inset-0 z-50 hidden bg-white overflow-auto">
   <div class="sticky top-0 bg-zinc-900 text-white p-3 flex justify-between items-center">
     <h2 class="text-base font-black">📊 PANEL DE CONTROL</h2>
@@ -143,18 +138,18 @@
     <h3 class="font-black text-sm mb-2">📋 LISTA DE COMPRADORES</h3>
     <div class="overflow-x-auto">
       <table class="w-full text-xs">
-        <thead class="bg-gray-100 sticky top-10">
+        <thead class="bg-gray-100">
           <tr>
             <th class="p-2 text-left">#</th>
             <th class="p-2 text-left">COMPRADOR</th>
             <th class="p-2 text-left">TELÉFONO</th>
             <th class="p-2 text-left">MEDIO</th>
             <th class="p-2 text-left">ESTADO</th>
-            <th class="p-2 text-left">ACCION</th>
+            <th class="p-2 text-left">ACCIÓN</th>
           </tr>
         </thead>
         <tbody id="lista-cuerpo"></tbody>
-      </table>
+      能有
     </div>
     <div class="grid grid-cols-3 gap-2 mt-4">
       <div class="bg-green-50 p-2 rounded-xl text-center"><p class="text-[8px] font-black text-green-600">VENDIDOS</p><p class="text-2xl font-black text-green-700" id="total-vendidos">0</p></div>
@@ -173,12 +168,12 @@ import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gsta
 // 🔑 CONFIGURACIÓN - CAMBIA SOLO ESTOS VALORES
 // ============================================================
 const firebaseConfig = {
-  apiKey: "AIzaSyC97R-E7mk-MEnL3RnaMAFUyjyc6UET1I8",
-  authDomain: "rifa-mayo-5a905.firebaseapp.com",
-  projectId: "rifa-mayo-5a905",
-  storageBucket: "rifa-mayo-5a905.firebasestorage.app",
-  messagingSenderId: "287125024290",
-  appId: "1:287125024290:web:d139fa82d386c6400c647b"
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_PROYECTO.firebaseapp.com",
+  projectId: "TU_PROJECT_ID",
+  storageBucket: "TU_PROYECTO.appspot.com",
+  messagingSenderId: "TU_SENDER_ID",
+  appId: "TU_APP_ID"
 };
 
 const MI_CUENTA_BANCOLOMBIA = "24569061268";
@@ -226,16 +221,29 @@ function conectarFirestore() {
     });
 }
 
+// ============================================================
+// FUNCIÓN GUARDAR CORREGIDA - ESTE ES EL ARREGLO PRINCIPAL
+// ============================================================
 async function guardarNumero(index, datos) {
     const docRef = doc(db, "rifas", "numeros_vendidos");
     await runTransaction(db, async (transaction) => {
         const docSnap = await transaction.get(docRef);
         const numerosActuales = docSnap.exists() ? docSnap.data().numeros : new Array(100).fill(null);
         if (numerosActuales[index] !== null) throw new Error("El número ya fue tomado por otra persona");
-        numerosActuales[index] = datos;
+        
+        // Guardar con la estructura correcta
+        numerosActuales[index] = {
+            nombre: datos.nombre,
+            telefono: datos.telefono,
+            fecha: datos.fecha || new Date().toLocaleString(),
+            estadoPago: datos.estadoPago || 'pendiente',
+            medioPago: datos.medioPago || null
+        };
+        
         transaction.set(docRef, { numeros: numerosActuales });
     });
 }
+// ============================================================
 
 async function liberarNumeroFirestore(index) {
     const docRef = doc(db, "rifas", "numeros_vendidos");
@@ -260,7 +268,6 @@ async function marcarComoPagado(index, medioPago) {
     });
 }
 
-// Función global para marcar pago
 window.marcarPago = async function(index, medio) {
     const medioTexto = medio === 'nequi' ? 'Nequi' : 'Bancolombia';
     await marcarComoPagado(index, medioTexto);
@@ -326,6 +333,7 @@ window.confirmarReserva = async function() {
         });
         alert("✅ ¡Compra exitosa! Realiza el pago a las cuentas indicadas. El administrador confirmará tu pago.");
         window.cerrarVentana();
+        renderizarPantalla();
     } catch (error) {
         alert(`❌ ${error.message}`);
     } finally {
@@ -362,6 +370,7 @@ window.verifyPassword = async function() {
             window.cerrarVentana();
             alert(`✅ Número #${currentNumIndex.toString().padStart(2, '0')} liberado correctamente`);
             currentNumIndex = null;
+            renderizarPantalla();
         } else if (accionPendiente === 'admin') {
             window.abrirPanelAdmin();
         }
@@ -405,12 +414,12 @@ function actualizarPanelAdmin() {
                     <td class="p-2">
                         ${estadoPago !== 'pagado' ? `
                             <div class="flex gap-1">
-                                <button onclick="window.marcarPago(${i}, 'bancolombia')" class="bg-blue-600 text-white text-[9px] px-2 py-1 rounded active:scale-95">🏦 Bancolombia</button>
-                                <button onclick="window.marcarPago(${i}, 'nequi')" class="bg-purple-600 text-white text-[9px] px-2 py-1 rounded active:scale-95">⚡ Nequi</button>
+                                <button onclick="window.marcarPago(${i}, 'bancolombia')" class="bg-blue-600 text-white text-[9px] px-2 py-1 rounded active:scale-95">🏦</button>
+                                <button onclick="window.marcarPago(${i}, 'nequi')" class="bg-purple-600 text-white text-[9px] px-2 py-1 rounded active:scale-95">⚡</button>
                             </div>
                         ` : '✅ Pagado'}
                     </td>
-                </tr>
+                 </tr>
             `;
         }
     }
