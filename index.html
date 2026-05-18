@@ -21,17 +21,31 @@
         @media (min-width: 768px) { .numero-cell { font-size: 1.25rem; } }
         .cuenta-card { background: rgba(255, 255, 255, 0.04); border-left: 4px solid #ef4444; transition: transform 0.2s; }
         .cuenta-card:hover { transform: scale(1.02); }
-        /* Estilos para inputs visibles */
-        input {
+        /* Estilos para inputs y labels VISIBLES */
+        .form-label {
+            color: #1a1a1a !important;
+            font-weight: 800 !important;
+            font-size: 10px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+            margin-bottom: 4px !important;
+            display: block !important;
+        }
+        .form-input {
             color: #1a1a1a !important;
             background-color: #f5f5f5 !important;
             border: 2px solid #e0e0e0 !important;
+            border-radius: 12px !important;
+            padding: 12px !important;
+            width: 100% !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
         }
-        input:focus {
+        .form-input:focus {
             border-color: #ef4444 !important;
             outline: none !important;
         }
-        input::placeholder {
+        .form-input::placeholder {
             color: #999 !important;
         }
     </style>
@@ -90,7 +104,7 @@
     <p class="font-black text-sm md:text-base uppercase italic animate-pulse">🔥 ¡ELIGE TU NÚMERO HOY MISMO! 🔥</p>
 </footer>
 
-<!-- MODAL DE COMPRA -->
+<!-- MODAL DE COMPRA - CORREGIDO CON LABLES VISIBLES -->
 <div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(12px);">
   <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
     <div class="bg-zinc-950 p-5 text-white text-center">
@@ -98,13 +112,26 @@
       <p id="num-badge" class="text-6xl font-impact text-yellow-400 mt-1">#--</p>
     </div>
     <div class="p-5 space-y-4">
-      <input type="text" id="in-nombre" class="w-full rounded-xl p-3 font-bold text-sm text-black bg-gray-100 border-2 border-gray-300" placeholder="👤 Nombre completo">
-      <input type="tel" id="in-tel" class="w-full rounded-xl p-3 text-sm text-black bg-gray-100 border-2 border-gray-300" placeholder="📱 Teléfono / WhatsApp">
+      <!-- Campo Nombre con LABEL visible -->
+      <div>
+        <label class="form-label">👤 NOMBRE DEL COMPRADOR</label>
+        <input type="text" id="in-nombre" class="form-input" placeholder="Ej: Juan Pérez">
+      </div>
+      
+      <!-- Campo Teléfono con LABEL visible -->
+      <div>
+        <label class="form-label">📱 TELÉFONO / WHATSAPP</label>
+        <input type="tel" id="in-tel" class="form-input" placeholder="Ej: 3001234567">
+      </div>
+      
+      <!-- Información de pagos -->
       <div class="bg-red-50 rounded-xl p-3 text-xs">
         <p class="font-bold text-red-800 text-center text-[11px] mb-2">💳 TRANSFIERE A:</p>
         <p class="text-red-700 text-[11px]">🏦 Bancolombia Ahorros: 24569061268</p>
         <p class="text-red-700 text-[11px]">⚡ Nequi: 3042194324</p>
       </div>
+      
+      <!-- Botones -->
       <button id="btn-confirmar" onclick="confirmarReserva()" class="w-full bg-green-600 hover:bg-green-700 text-white font-black py-3 rounded-xl transition text-sm">✅ CONFIRMAR COMPRA</button>
       <button id="btn-borrar" onclick="abrirModalLiberar()" class="hidden w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl transition text-sm">🗑️ LIBERAR NÚMERO</button>
       <button onclick="cerrarVentana()" class="w-full py-2 text-zinc-500 hover:text-zinc-700 transition text-sm font-medium">REGRESAR</button>
