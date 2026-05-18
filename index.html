@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIFA PRO - EDICIÓN ESPECIAL</title>
+    <title>RIFA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@400;700;900&display=swap');
@@ -81,12 +81,12 @@
 
         <div class="flex flex-col items-center gap-6">
             <div class="prize-blink bg-yellow-500 text-zinc-950 px-10 py-5 rounded-[2rem] shadow-[0_0_35px_rgba(234,179,8,0.4)] inline-block select-none">
-                <span class="text-xs font-black uppercase tracking-[0.2em] block mb-1 opacity-80">Gran Premio Extraordinario</span>
+                <span class="text-xs font-black uppercase tracking-[0.2em] block mb-1 opacity-80">Premio</span>
                 <span class="text-5xl md:text-7xl font-impact tracking-tighter block">$1.000.000</span>
             </div>
 
             <div class="bg-white text-zinc-900 px-8 py-3 rounded-full shadow-xl inline-block border-4 border-red-600 font-black text-xl md:text-2xl tracking-tight select-none">
-                VALOR TICKET: <span class="text-red-600 font-black">$20.000</span>
+                VALOR: <span class="text-red-600 font-black">$20.000</span>
             </div>
         </div>
     </div>
@@ -131,7 +131,7 @@
 
 <footer class="w-full bg-gradient-to-r from-red-700 to-orange-600 py-6 text-center shadow-[0_-10px_30px_rgba(0,0,0,0.5)] border-t-4 border-yellow-500">
     <p class="font-black text-lg md:text-xl uppercase italic tracking-wider text-white animate-pulse">
-        🔥 ¡No dejes pasar tu oportunidad! Elige tu número hoy mismo 🔥
+        🔥¡ Elige tu número hoy mismo ! 🔥
     </p>
 </footer>
 
@@ -172,7 +172,7 @@
     <p class="text-xs text-zinc-400 mb-4">Ingresa la clave maestra del sistema</p>
     <input type="password" id="input-pass" class="w-full bg-zinc-800 text-white text-center text-xl font-black rounded-xl p-3.5 mb-4 border-2 border-transparent focus:border-red-600 outline-none">
     <div class="space-y-2">
-        <button onclick="verificarClave()" class="w-full bg-red-600 text-white font-black py-3 rounded-xl shadow-xl hover:bg-red-700 transition text-xs tracking-wider">VERIFICAR ACCESO</button>
+        <button onclick="verifyPassword()" class="w-full bg-red-600 text-white font-black py-3 rounded-xl shadow-xl hover:bg-red-700 transition text-xs tracking-wider">VERIFICAR ACCESO</button>
         <button onclick="document.getElementById('modal-pass').classList.add('hidden')" class="w-full text-xs text-zinc-500 py-2 hover:text-zinc-300 transition">Cancelar</button>
     </div>
   </div>
@@ -296,6 +296,8 @@ window.renderizarPantalla = function() {
   rifaData.forEach((dato, i) => {
     const ocupado = dato !== null;
     const celda = document.createElement('div');
+    
+    // CORRECCIÓN VISUAL: Forzar texto negro ('text-zinc-900') y fondo blanco ('bg-white') para los disponibles
     celda.className = `num-cell h-16 flex items-center justify-center rounded-2xl text-xl font-black cursor-pointer shadow-md select-none ${
       ocupado ? 'bg-red-600 text-white opacity-25 cursor-not-allowed line-through' : 'bg-white text-zinc-900 border-2 border-zinc-200'
     }`;
@@ -338,7 +340,8 @@ window.panelAdmin = function() {
   document.getElementById('modal-pass').classList.remove('hidden');
 };
 
-window.verificarClave = async function() {
+// Vinculación explícita de la función global requerida por el botón HTML
+window.verifyPassword = async function() {
   if (document.getElementById('input-pass').value === CLAVE_MAESTRA) {
     if (accionPendiente === 'liberar') { rifaData[currentNumIndex] = null; await actualizarServidor(rifaData); cerrarVentana(); }
     else { abrirPanelAdmin(); }
