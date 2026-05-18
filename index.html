@@ -35,6 +35,64 @@
         .estado-pagado { background: #10b981; color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 20px; }
         .loader { border: 3px solid rgba(234, 179, 8, 0.3); border-top: 3px solid #eab308; border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin: 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Estilos mejorados para el panel admin - LETRAS MÁS OSCURAS Y VISIBLES */
+        .tabla-compradores th {
+            background-color: #f3f4f6 !important;
+            color: #1f2937 !important;
+            font-weight: 800 !important;
+            font-size: 10px !important;
+            text-transform: uppercase !important;
+            padding: 10px 8px !important;
+        }
+        .tabla-compradores td {
+            color: #374151 !important;
+            font-size: 11px !important;
+            padding: 10px 8px !important;
+            border-bottom: 1px solid #e5e7eb !important;
+        }
+        .tabla-compradores .nombre-cliente {
+            font-weight: 800 !important;
+            color: #111827 !important;
+        }
+        .tabla-compradores .numero {
+            font-weight: 800 !important;
+            color: #dc2626 !important;
+        }
+        .btn-bancolombia {
+            background-color: #0066B3 !important;
+            color: white !important;
+            font-size: 10px !important;
+            font-weight: bold !important;
+            padding: 5px 10px !important;
+            border-radius: 8px !important;
+            transition: all 0.2s !important;
+        }
+        .btn-bancolombia:hover {
+            background-color: #004d8c !important;
+            transform: scale(1.02);
+        }
+        .btn-nequi {
+            background-color: #8A2BE2 !important;
+            color: white !important;
+            font-size: 10px !important;
+            font-weight: bold !important;
+            padding: 5px 10px !important;
+            border-radius: 8px !important;
+            transition: all 0.2s !important;
+        }
+        .btn-nequi:hover {
+            background-color: #6A1B9A !important;
+            transform: scale(1.02);
+        }
+        .estado-pendiente-texto {
+            color: #f59e0b !important;
+            font-weight: 800 !important;
+        }
+        .estado-pagado-texto {
+            color: #10b981 !important;
+            font-weight: 800 !important;
+        }
     </style>
 </head>
 <body class="bg-gradient-rifa min-h-screen text-white">
@@ -132,32 +190,42 @@
   </div>
 </div>
 
+<!-- PANEL ADMIN MEJORADO - CON VISIBILIDAD ÓPTIMA -->
 <div id="panel-admin" class="fixed inset-0 z-50 hidden bg-white overflow-auto">
-  <div class="sticky top-0 bg-zinc-900 text-white p-3 flex justify-between items-center">
+  <div class="sticky top-0 bg-zinc-900 text-white p-3 flex justify-between items-center shadow-lg">
     <h2 class="text-base font-black">📊 PANEL DE CONTROL</h2>
     <button onclick="cerrarPanelAdmin()" class="bg-red-600 w-8 h-8 rounded-full font-bold hover:scale-105 transition text-sm">✕</button>
   </div>
-  <div class="p-3">
-    <h3 class="font-black text-sm mb-2">📋 LISTA DE COMPRADORES</h3>
+  <div class="p-4">
+    <h3 class="font-black text-sm mb-3 text-zinc-800">📋 LISTA DE COMPRADORES</h3>
     <div class="overflow-x-auto">
-      <table class="w-full text-xs">
-        <thead class="bg-gray-100">
+      <table class="w-full text-xs tabla-compradores">
+        <thead>
           <tr>
-            <th class="p-2 text-left">#</th>
-            <th class="p-2 text-left">COMPRADOR</th>
-            <th class="p-2 text-left">TELÉFONO</th>
-            <th class="p-2 text-left">MEDIO</th>
-            <th class="p-2 text-left">ESTADO</th>
-            <th class="p-2 text-left">ACCIÓN</th>
+            <th class="text-left">#</th>
+            <th class="text-left">COMPRADOR</th>
+            <th class="text-left">TELÉFONO</th>
+            <th class="text-left">MEDIO</th>
+            <th class="text-left">ESTADO</th>
+            <th class="text-left">ACCIÓN</th>
           </tr>
         </thead>
         <tbody id="lista-cuerpo"></tbody>
-      能有
+      </table>
     </div>
-    <div class="grid grid-cols-3 gap-2 mt-4">
-      <div class="bg-green-50 p-2 rounded-xl text-center"><p class="text-[8px] font-black text-green-600">VENDIDOS</p><p class="text-2xl font-black text-green-700" id="total-vendidos">0</p></div>
-      <div class="bg-blue-50 p-2 rounded-xl text-center"><p class="text-[8px] font-black text-blue-600">DISPONIBLES</p><p class="text-2xl font-black text-blue-700" id="total-disponibles">100</p></div>
-      <div class="bg-purple-50 p-2 rounded-xl text-center"><p class="text-[8px] font-black text-purple-600">RECAUDADO</p><p class="text-2xl font-black text-purple-700" id="total-recaudado">$0</p></div>
+    <div class="grid grid-cols-3 gap-3 mt-6">
+      <div class="bg-green-100 p-3 rounded-xl text-center">
+        <p class="text-[9px] font-black text-green-700 uppercase">VENDIDOS</p>
+        <p class="text-2xl font-black text-green-800" id="total-vendidos">0</p>
+      </div>
+      <div class="bg-blue-100 p-3 rounded-xl text-center">
+        <p class="text-[9px] font-black text-blue-700 uppercase">DISPONIBLES</p>
+        <p class="text-2xl font-black text-blue-800" id="total-disponibles">100</p>
+      </div>
+      <div class="bg-purple-100 p-3 rounded-xl text-center">
+        <p class="text-[9px] font-black text-purple-700 uppercase">RECAUDADO</p>
+        <p class="text-2xl font-black text-purple-800" id="total-recaudado">$0</p>
+      </div>
     </div>
   </div>
 </div>
@@ -168,7 +236,7 @@ import { getFirestore, doc, onSnapshot, setDoc, runTransaction } from "https://w
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
 // ============================================================
-// 🔑 CONFIGURACIÓN - ¡CAMBIAR AQUÍ!
+// 🔑 CONFIGURACIÓN - ¡CAMBIAR AQUÍ TUS DATOS!
 // ============================================================
 const firebaseConfig = {
   apiKey: "AIzaSyC97R-E7mk-MEnL3RnaMAFUyjyc6UET1I8",
@@ -206,12 +274,10 @@ function mostrarCuentas() {
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        console.log("✅ Usuario autenticado");
         conectarFirestore();
         mostrarCuentas();
     } else {
-        console.log("🔄 Autenticando anónimamente...");
-        signInAnonymously(auth).catch(e => console.error("Error auth:", e));
+        signInAnonymously(auth);
     }
 });
 
@@ -219,7 +285,6 @@ function conectarFirestore() {
     const docRef = doc(db, "rifas", "numeros_vendidos");
     
     onSnapshot(docRef, (docSnap) => {
-        console.log("📡 Datos recibidos de Firebase");
         if (docSnap.exists()) {
             rifaData = docSnap.data().numeros || new Array(100).fill(null);
         } else {
@@ -229,11 +294,6 @@ function conectarFirestore() {
         if (document.getElementById('panel-admin') && !document.getElementById('panel-admin').classList.contains('hidden')) {
             actualizarPanelAdmin();
         }
-    }, (error) => {
-        console.error("❌ Error en Firestore:", error);
-        document.getElementById('loader').style.display = 'none';
-        document.getElementById('grid-rifa').style.display = 'grid';
-        renderizarPantalla();
     });
 }
 
@@ -292,7 +352,6 @@ window.renderizarPantalla = function() {
     
     if (!grid) return;
     
-    // Ocultar loader y mostrar grid
     if (loader) loader.style.display = 'none';
     grid.style.display = 'grid';
     
@@ -419,31 +478,31 @@ function actualizarPanelAdmin() {
             
             const estadoPago = d.estadoPago || 'pendiente';
             const medioPago = d.medioPago || '---';
-            const estadoClass = estadoPago === 'pagado' ? 'estado-pagado' : 'estado-pendiente';
             const estadoTexto = estadoPago === 'pagado' ? '✅ PAGADO' : '⏳ PENDIENTE';
+            const estadoColor = estadoPago === 'pagado' ? 'estado-pagado-texto' : 'estado-pendiente-texto';
             
             tbody.innerHTML += `
-                <tr class="border-b">
-                    <td class="p-2 font-bold text-red-600">#${i.toString().padStart(2, '0')}</td>
-                    <td class="p-2 font-bold text-zinc-800">${escapeHtml(d.nombre)}</td>
-                    <td class="p-2 text-zinc-500">${escapeHtml(d.telefono)}</td>
-                    <td class="p-2 text-zinc-500">${medioPago}</td>
-                    <td class="p-2"><span class="${estadoClass}">${estadoTexto}</span></td>
-                    <td class="p-2">
+                <tr>
+                    <td class="numero">#${i.toString().padStart(2, '0')}</td>
+                    <td class="nombre-cliente">${escapeHtml(d.nombre)}</td>
+                    <td>${escapeHtml(d.telefono)}</td>
+                    <td>${medioPago}</td>
+                    <td class="${estadoColor}">${estadoTexto}</td>
+                    <td>
                         ${estadoPago !== 'pagado' ? `
-                            <div class="flex gap-1">
-                                <button onclick="window.marcarPago(${i}, 'bancolombia')" class="bg-blue-600 text-white text-[9px] px-2 py-1 rounded active:scale-95">🏦</button>
-                                <button onclick="window.marcarPago(${i}, 'nequi')" class="bg-purple-600 text-white text-[9px] px-2 py-1 rounded active:scale-95">⚡</button>
+                            <div class="flex gap-2">
+                                <button onclick="window.marcarPago(${i}, 'bancolombia')" class="btn-bancolombia">🏦 Bancolombia</button>
+                                <button onclick="window.marcarPago(${i}, 'nequi')" class="btn-nequi">⚡ Nequi</button>
                             </div>
-                        ` : '✅ Pagado'}
+                        ` : '<span class="text-green-600 font-bold">✓ Pagado</span>'}
                     </td>
-                 </tr>
+                </tr>
             `;
         }
     }
     
     if (vendidos === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-zinc-400">📭 No hay números vendidos aún</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-gray-400 py-6">📭 No hay números vendidos aún</td></tr>';
     }
     
     const totalRecaudado = pagados * 20000;
