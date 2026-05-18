@@ -2,145 +2,238 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>RIFA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * { box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        .bg-gradient-rifa { background: radial-gradient(circle at top, #2d0b0b 0%, #11111e 100%); }
-        .neon-title { color: #fff; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 55px #ff0000; animation: neon-pulse 1.5s ease-in-out infinite alternate; }
-        @keyframes neon-pulse { from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000; } to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 50px #ff0000, 0 0 70px #ff0000; } }
-        .premio-impactante { background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%); animation: premio-blink 1s ease-in-out infinite alternate; box-shadow: 0 0 50px rgba(255, 215, 0, 0.6); border: 3px solid #fff; }
-        @keyframes premio-blink { from { transform: scale(1); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); } to { transform: scale(1.05); box-shadow: 0 0 70px rgba(255, 215, 0, 0.9); } }
+        .bg-gradient-rifa { background: radial-gradient(circle at top, #2d0b0b 0%, #11111e 100%); min-height: 100vh; }
+        
+        /* TÍTULO NEÓN MEJORADO */
+        .neon-title { 
+            color: #fff; 
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000;
+            animation: neon-pulse 1.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes neon-pulse {
+            from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000; }
+            to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 50px #ff0000; }
+        }
+        
+        /* PREMIO CON IMPACTO */
+        .premio-impactante { 
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%); 
+            animation: premio-blink 1s ease-in-out infinite alternate; 
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.6); 
+            border: 3px solid #fff;
+        }
+        
+        @keyframes premio-blink { 
+            from { transform: scale(1); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); } 
+            to { transform: scale(1.02); box-shadow: 0 0 70px rgba(255, 215, 0, 0.9); } 
+        }
+        
         .premio-texto { font-family: 'Archivo Black', sans-serif; text-shadow: 3px 3px 0px rgba(0,0,0,0.3); letter-spacing: 2px; }
+        
         .bg-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .cell-disponible { background: rgba(254, 240, 138, 0.05); border: 2px solid #eab308; color: #fef08a; transition: all 0.3s; cursor: pointer; }
-        .cell-disponible:hover { transform: translateY(-4px) scale(1.05); background: rgba(234, 179, 8, 0.2); }
-        .cell-ocupado { background: rgba(239, 68, 68, 0.05); border: 2px solid rgba(239, 68, 68, 0.2); color: rgba(239, 68, 68, 0.4); cursor: pointer; position: relative; }
-        .grid-rifa-container { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 0.5rem; max-width: 800px; margin: 0 auto; }
-        .numero-cell { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; border-radius: 9999px; width: 100%; }
-        @media (min-width: 640px) { .numero-cell { font-size: 1.125rem; } }
-        @media (min-width: 768px) { .numero-cell { font-size: 1.25rem; } }
+        
+        /* MEJORAS PARA MÓVIL - NÚMEROS MÁS GRANDES Y TÁCTILES */
+        .cell-disponible { 
+            background: rgba(254, 240, 138, 0.05); 
+            border: 2px solid #eab308; 
+            color: #fef08a; 
+            transition: all 0.2s; 
+            cursor: pointer;
+            min-width: 44px;
+            min-height: 44px;
+        }
+        .cell-disponible:active { transform: scale(0.95); background: rgba(234, 179, 8, 0.3); }
+        
+        .cell-ocupado { 
+            background: rgba(239, 68, 68, 0.05); 
+            border: 2px solid rgba(239, 68, 68, 0.2); 
+            color: rgba(239, 68, 68, 0.4); 
+            cursor: pointer; 
+            position: relative;
+            min-width: 44px;
+            min-height: 44px;
+        }
+        .cell-ocupado:active { background: rgba(239, 68, 68, 0.15); }
+        
+        .grid-rifa-container { 
+            display: grid; 
+            grid-template-columns: repeat(5, 1fr); 
+            gap: 0.75rem; 
+            max-width: 100%; 
+            margin: 0 auto;
+        }
+        
+        /* Tablets y desktop */
+        @media (min-width: 640px) {
+            .grid-rifa-container { grid-template-columns: repeat(8, 1fr); gap: 0.75rem; }
+            .numero-cell { font-size: 1.1rem; }
+        }
+        @media (min-width: 768px) {
+            .grid-rifa-container { grid-template-columns: repeat(10, 1fr); gap: 0.75rem; max-width: 800px; }
+            .numero-cell { font-size: 1.2rem; }
+        }
+        
+        .numero-cell { 
+            aspect-ratio: 1 / 1; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 900; 
+            font-size: 1rem; 
+            border-radius: 12px; 
+            width: 100%;
+            transition: all 0.2s;
+        }
+        
+        /* MEJORAS TÁCTILES */
+        button, .cursor-pointer { touch-action: manipulation; }
+        
         .cuenta-card { background: rgba(255, 255, 255, 0.04); border-left: 4px solid #ef4444; transition: transform 0.2s; }
-        .cuenta-card:hover { transform: scale(1.02); }
+        .cuenta-card:active { transform: scale(0.98); }
+        
         .form-label { color: #1a1a1a !important; font-weight: 800 !important; font-size: 10px !important; text-transform: uppercase !important; letter-spacing: 1px !important; margin-bottom: 4px !important; display: block !important; }
         .form-input { color: #1a1a1a !important; background-color: #f5f5f5 !important; border: 2px solid #e0e0e0 !important; border-radius: 12px !important; padding: 12px !important; width: 100% !important; font-size: 14px !important; font-weight: 500 !important; }
         .form-input:focus { border-color: #ef4444 !important; outline: none !important; }
         .form-input::placeholder { color: #999 !important; }
+        
+        /* LOADER */
+        .loader { border: 3px solid rgba(234, 179, 8, 0.3); border-top: 3px solid #eab308; border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Badge de estado de pago */
+        .estado-pendiente { background: #f59e0b; color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 20px; }
+        .estado-pagado { background: #10b981; color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 20px; }
     </style>
 </head>
 <body class="bg-gradient-rifa min-h-screen text-white">
 
-<header class="bg-zinc-950 py-8 md:py-12 px-4 text-center border-b border-zinc-800">
+<header class="bg-zinc-950 py-6 md:py-10 px-4 text-center border-b border-zinc-800 sticky top-0 z-10">
     <div class="max-w-6xl mx-auto">
-        <h1 class="text-7xl md:text-9xl font-impact neon-title mb-6 tracking-wider italic">RIFA</h1>
-        <div class="flex flex-col items-center gap-4">
-            <div class="premio-impactante rounded-2xl px-6 py-4 md:px-10 md:py-6 text-center">
-                <span class="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-white block mb-1 opacity-90">PREMIO</span>
-                <span class="premio-texto text-5xl md:text-7xl font-black text-white block">$1.000.000</span>
-                <span class="text-[9px] md:text-[10px] font-bold text-white/80 block mt-1">EN EFECTIVO</span>
+        <h1 class="text-5xl md:text-7xl font-impact neon-title mb-4 tracking-wider italic">RIFA</h1>
+        <div class="flex flex-col items-center gap-3">
+            <div class="premio-impactante rounded-xl px-4 py-3 md:px-8 md:py-4 text-center">
+                <span class="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white block mb-0.5 opacity-90">PREMIO</span>
+                <span class="premio-texto text-3xl md:text-6xl font-black text-white block">$1.000.000</span>
+                <span class="text-[7px] md:text-[9px] font-bold text-white/80 block mt-0.5">EN EFECTIVO</span>
             </div>
-            <div class="bg-white text-zinc-900 px-6 py-2 rounded-full border-4 border-red-600 font-black text-lg md:text-xl shadow-lg">
-                🎫 VALOR: <span class="text-red-600 text-xl md:text-2xl">$20.000</span>
+            <div class="bg-white text-zinc-900 px-4 py-1.5 rounded-full border-4 border-red-600 font-black text-sm md:text-lg shadow-lg">
+                🎫 VALOR: <span class="text-red-600 text-base md:text-xl">$20.000</span>
             </div>
         </div>
     </div>
 </header>
 
-<main class="max-w-6xl mx-auto p-3 md:p-8">
-    <div class="bg-card rounded-2xl p-4 md:p-6 shadow-2xl mb-8">
-        <div class="flex flex-col lg:flex-row justify-between items-center gap-6">
-            <div class="text-center lg:text-left cursor-pointer" onclick="panelAdmin()">
-                <span class="text-[10px] font-black text-red-400 uppercase tracking-[0.3em]">Números disponibles</span>
-                <p class="text-5xl font-impact text-white mt-1" id="vendidos-count">100</p>
-                <div class="w-12 h-1 bg-red-600 mx-auto lg:mx-0 mt-2 rounded-full"></div>
+<main class="max-w-6xl mx-auto p-3 md:p-6">
+    <div class="bg-card rounded-xl p-3 md:p-4 shadow-2xl mb-6">
+        <div class="flex flex-col lg:flex-row justify-between items-center gap-4">
+            <div class="text-center lg:text-left cursor-pointer active:scale-95 transition" onclick="panelAdmin()">
+                <span class="text-[8px] md:text-[10px] font-black text-red-400 uppercase tracking-[0.3em]">Números disponibles</span>
+                <p class="text-4xl md:text-5xl font-impact text-white mt-1" id="vendidos-count">100</p>
+                <div class="w-10 h-0.5 bg-red-600 mx-auto lg:mx-0 mt-1 rounded-full"></div>
             </div>
-            <div class="flex flex-col sm:flex-row gap-3">
-                <div class="cuenta-card rounded-xl p-3">
-                    <div class="flex items-center gap-2 mb-1">
-                        <span class="text-2xl">🏦</span>
-                        <span class="text-[9px] font-black text-zinc-400">BANCOLOMBIA</span>
+            <div class="flex flex-row gap-2 w-full lg:w-auto justify-center">
+                <div class="cuenta-card rounded-xl p-2 flex-1">
+                    <div class="flex items-center gap-1 mb-0.5">
+                        <span class="text-xl">🏦</span>
+                        <span class="text-[8px] font-black text-zinc-400">BANCOLOMBIA</span>
                     </div>
-                    <span class="text-sm md:text-base font-bold text-white" id="cuenta-bancolombia">Cargando...</span>
+                    <span class="text-xs md:text-sm font-bold text-white" id="cuenta-bancolombia">Cargando...</span>
                 </div>
-                <div class="cuenta-card rounded-xl p-3">
-                    <div class="flex items-center gap-2 mb-1">
-                        <span class="text-2xl">⚡</span>
-                        <span class="text-[9px] font-black text-zinc-400">NEQUI</span>
+                <div class="cuenta-card rounded-xl p-2 flex-1">
+                    <div class="flex items-center gap-1 mb-0.5">
+                        <span class="text-xl">⚡</span>
+                        <span class="text-[8px] font-black text-zinc-400">NEQUI</span>
                     </div>
-                    <span class="text-sm md:text-base font-bold text-white" id="cuenta-nequi">Cargando...</span>
+                    <span class="text-xs md:text-sm font-bold text-white" id="cuenta-nequi">Cargando...</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="mb-8">
-        <h3 class="text-center text-[10px] font-black uppercase tracking-[0.3em] mb-4 text-zinc-400">SELECCIONA TU NÚMERO</h3>
+    <div class="mb-6">
+        <h3 class="text-center text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] mb-3 text-zinc-400">SELECCIONA TU NÚMERO</h3>
+        <div id="loader" class="loader" style="display: none;"></div>
         <div id="grid-rifa" class="grid-rifa-container"></div>
     </div>
 </main>
 
-<footer class="bg-gradient-to-r from-red-700 to-orange-600 py-4 text-center border-t-4 border-yellow-500">
-    <p class="font-black text-sm md:text-base uppercase italic animate-pulse">🔥 ¡BUENA SUERTE - SORTEO 29 DE MAYO 🔥</p>
+<footer class="bg-gradient-to-r from-red-700 to-orange-600 py-3 text-center border-t-4 border-yellow-500">
+    <p class="font-black text-[10px] md:text-sm uppercase italic animate-pulse">🔥 BUENA SUERTE - SORTEO 29 DE MAYO 🔥</p>
 </footer>
 
-<!-- MODALES -->
-<div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(12px);">
-  <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
-    <div class="bg-zinc-950 p-5 text-white text-center">
-      <h2 id="modal-titulo" class="text-xs font-bold uppercase tracking-widest text-yellow-400">✨ RESERVA ✨</h2>
-      <p id="num-badge" class="text-6xl font-impact text-yellow-400 mt-1">#--</p>
-      <div class="mt-2 inline-block bg-yellow-500 text-zinc-900 px-3 py-1 rounded-full text-[10px] font-black">VALOR: $20.000</div>
+<!-- MODALES (Igual pero mejorados) -->
+<div id="modal-main" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(12px);">
+  <div class="bg-white rounded-xl w-full max-w-md overflow-hidden shadow-2xl">
+    <div class="bg-zinc-950 p-4 text-white text-center">
+      <h2 id="modal-titulo" class="text-[10px] font-bold uppercase tracking-widest text-yellow-400">✨ RESERVA ✨</h2>
+      <p id="num-badge" class="text-5xl font-impact text-yellow-400 mt-1">#--</p>
+      <div class="mt-1 inline-block bg-yellow-500 text-zinc-900 px-2 py-0.5 rounded-full text-[9px] font-black">VALOR: $20.000</div>
     </div>
-    <div class="p-5 space-y-4">
+    <div class="p-4 space-y-3">
       <div>
-        <label class="form-label">👤 NOMBRE DEL COMPRADOR</label>
-        <input type="text" id="in-nombre" class="form-input" placeholder="Ej: Juan Pérez">
+        <label class="form-label">👤 NOMBRE COMPLETO</label>
+        <input type="text" id="in-nombre" class="form-input text-sm" placeholder="Ej: Juan Pérez">
       </div>
       <div>
         <label class="form-label">📱 TELÉFONO / WHATSAPP</label>
-        <input type="tel" id="in-tel" class="form-input" placeholder="Ej: 3001234567">
+        <input type="tel" id="in-tel" class="form-input text-sm" placeholder="Ej: 3001234567">
       </div>
-      <div class="bg-red-50 rounded-xl p-3 text-xs">
-        <p class="font-bold text-red-800 text-center text-[11px] mb-2">💳 TRANSFIERE A:</p>
-        <p class="text-red-700 text-[11px]" id="modal-cuenta-bancolombia">🏦 Bancolombia: Cargando...</p>
-        <p class="text-red-700 text-[11px]" id="modal-cuenta-nequi">⚡ Nequi: Cargando...</p>
+      <div class="bg-red-50 rounded-xl p-2 text-xs">
+        <p class="font-bold text-red-800 text-center text-[10px] mb-1">💳 TRANSFIERE A:</p>
+        <p class="text-red-700 text-[10px]" id="modal-cuenta-bancolombia">🏦 Bancolombia: Cargando...</p>
+        <p class="text-red-700 text-[10px]" id="modal-cuenta-nequi">⚡ Nequi: Cargando...</p>
       </div>
-      <button id="btn-confirmar" onclick="confirmarReserva()" class="w-full bg-green-600 hover:bg-green-700 text-white font-black py-3 rounded-xl transition text-sm">✅ CONFIRMAR COMPRA</button>
-      <button id="btn-borrar" onclick="abrirModalLiberar()" class="hidden w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl transition text-sm">🗑️ LIBERAR NÚMERO</button>
-      <button onclick="cerrarVentana()" class="w-full py-2 text-zinc-500 hover:text-zinc-700 transition text-sm font-medium">REGRESAR</button>
+      <button id="btn-confirmar" onclick="confirmarReserva()" class="w-full bg-green-600 hover:bg-green-700 text-white font-black py-3 rounded-xl transition active:scale-95 text-sm">✅ CONFIRMAR COMPRA</button>
+      <button id="btn-borrar" onclick="abrirModalLiberar()" class="hidden w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl transition active:scale-95 text-sm">🗑️ LIBERAR NÚMERO</button>
+      <button onclick="cerrarVentana()" class="w-full py-2 text-zinc-500 hover:text-zinc-700 transition text-xs font-medium">REGRESAR</button>
     </div>
   </div>
 </div>
 
-<div id="modal-pass" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(15px);">
-  <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl">
-    <div class="text-5xl mb-3">🔐</div>
-    <h3 class="text-lg font-black text-zinc-900 mb-2" id="modal-pass-titulo">Verificación</h3>
-    <p class="text-xs text-zinc-500 mb-4" id="modal-pass-mensaje">Ingresa la clave maestra</p>
-    <input type="password" id="input-pass" class="w-full bg-gray-100 text-zinc-900 text-center text-xl font-black rounded-xl p-3 mb-4 border-2 border-gray-300">
-    <button onclick="verifyPassword()" class="w-full bg-red-600 text-white font-black py-3 rounded-xl transition text-sm">VERIFICAR ACCESO</button>
-    <button onclick="cerrarModalPass()" class="w-full mt-2 text-xs text-zinc-400 hover:text-zinc-600 transition">CANCELAR</button>
+<div id="modal-pass" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(15px);">
+  <div class="bg-white rounded-xl max-w-sm w-full p-5 text-center shadow-2xl">
+    <div class="text-4xl mb-2">🔐</div>
+    <h3 class="text-base font-black text-zinc-900 mb-1" id="modal-pass-titulo">Verificación</h3>
+    <p class="text-[10px] text-zinc-500 mb-3" id="modal-pass-mensaje">Ingresa la clave maestra</p>
+    <input type="password" id="input-pass" class="w-full bg-gray-100 text-zinc-900 text-center text-lg font-black rounded-xl p-2 mb-3 border-2 border-gray-300">
+    <button onclick="verifyPassword()" class="w-full bg-red-600 text-white font-black py-2.5 rounded-xl transition active:scale-95 text-sm">VERIFICAR ACCESO</button>
+    <button onclick="cerrarModalPass()" class="w-full mt-2 text-[10px] text-zinc-400 hover:text-zinc-600 transition">CANCELAR</button>
   </div>
 </div>
 
+<!-- PANEL ADMIN MEJORADO - CON GESTIÓN DE PAGOS -->
 <div id="panel-admin" class="fixed inset-0 z-50 hidden bg-white overflow-auto">
-  <div class="sticky top-0 bg-zinc-900 text-white p-4 flex justify-between items-center">
-    <h2 class="text-lg font-black">📊 PANEL DE CONTROL</h2>
-    <button onclick="cerrarPanelAdmin()" class="bg-red-600 w-8 h-8 rounded-full font-bold hover:scale-105 transition">✕</button>
+  <div class="sticky top-0 bg-zinc-900 text-white p-3 flex justify-between items-center">
+    <h2 class="text-base font-black">📊 PANEL DE CONTROL</h2>
+    <button onclick="cerrarPanelAdmin()" class="bg-red-600 w-8 h-8 rounded-full font-bold hover:scale-105 transition text-sm">✕</button>
   </div>
-  <div class="p-4">
-    <h3 class="font-black text-sm mb-3">📋 LISTA DE COMPRADORES</h3>
+  <div class="p-3">
+    <h3 class="font-black text-sm mb-2">📋 GESTIÓN DE PAGOS</h3>
     <div class="overflow-x-auto">
-      <table class="w-full text-sm">
-        <thead class="bg-gray-100"><tr><th class="p-2 text-left">#</th><th class="p-2 text-left">NOMBRE</th><th class="p-2 text-left">TELÉFONO</th></tr></thead>
+      <table class="w-full text-xs">
+        <thead class="bg-gray-100 sticky top-10">
+          <tr>
+            <th class="p-2 text-left">#</th>
+            <th class="p-2 text-left">COMPRADOR</th>
+            <th class="p-2 text-left">TELÉFONO</th>
+            <th class="p-2 text-left">MEDIO</th>
+            <th class="p-2 text-left">ESTADO</th>
+            <th class="p-2 text-left">ACCION</th>
+          </tr>
+        </thead>
         <tbody id="lista-cuerpo"></tbody>
-      能有
+      </table>
     </div>
-    <div class="grid grid-cols-3 gap-3 mt-6">
-      <div class="bg-green-50 p-3 rounded-xl"><p class="text-[10px] font-black text-green-600">VENDIDOS</p><p class="text-2xl font-black text-green-700" id="total-vendidos">0</p></div>
-      <div class="bg-blue-50 p-3 rounded-xl"><p class="text-[10px] font-black text-blue-600">DISPONIBLES</p><p class="text-2xl font-black text-blue-700" id="total-disponibles">100</p></div>
-      <div class="bg-purple-50 p-3 rounded-xl"><p class="text-[10px] font-black text-purple-600">RECAUDADO</p><p class="text-2xl font-black text-purple-700" id="total-recaudado">$0</p></div>
+    <div class="grid grid-cols-2 gap-2 mt-4">
+      <div class="bg-green-50 p-2 rounded-xl text-center"><p class="text-[8px] font-black text-green-600">VENDIDOS</p><p class="text-2xl font-black text-green-700" id="total-vendidos">0</p></div>
+      <div class="bg-blue-50 p-2 rounded-xl text-center"><p class="text-[8px] font-black text-blue-600">DISPONIBLES</p><p class="text-2xl font-black text-blue-700" id="total-disponibles">100</p></div>
+      <div class="bg-purple-50 p-2 rounded-xl text-center col-span-2"><p class="text-[8px] font-black text-purple-600">RECAUDADO</p><p class="text-2xl font-black text-purple-700" id="total-recaudado">$0</p></div>
     </div>
   </div>
 </div>
@@ -151,7 +244,7 @@ import { getFirestore, doc, onSnapshot, setDoc, runTransaction } from "https://w
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
 // ============================================================
-// 🔑 ¡IMPORTANTE! PEGA AQUÍ TUS CREDENCIALES DE FIREBASE
+// 🔑 ¡PEGA AQUÍ TUS CREDENCIALES DE FIREBASE!
 // ============================================================
 const firebaseConfig = {
   apiKey: "AIzaSyC97R-E7mk-MEnL3RnaMAFUyjyc6UET1I8",
@@ -171,7 +264,7 @@ const MI_CUENTA_NEQUI = "3042194324";
 // ============================================================
 
 // ============================================================
-// 🔑 CAMBIA LA CLAVE MAESTRA AQUÍ (opcional)
+// 🔑 CAMBIA LA CLAVE MAESTRA AQUÍ
 // ============================================================
 const CLAVE_MAESTRA = "1234";
 // ============================================================
@@ -185,7 +278,6 @@ let currentNumIndex = null;
 let accionPendiente = null;
 let comprando = false;
 
-// Mostrar cuentas en la interfaz
 function mostrarCuentas() {
     document.getElementById('cuenta-bancolombia').innerText = MI_CUENTA_BANCOLOMBIA;
     document.getElementById('cuenta-nequi').innerText = MI_CUENTA_NEQUI;
@@ -195,7 +287,6 @@ function mostrarCuentas() {
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        console.log("✅ Conectado a Firebase");
         conectarFirestore();
         mostrarCuentas();
     } else {
@@ -215,8 +306,6 @@ function conectarFirestore() {
         if (document.getElementById('panel-admin') && !document.getElementById('panel-admin').classList.contains('hidden')) {
             actualizarPanelAdmin();
         }
-    }, (error) => {
-        console.error("Error de conexión:", error);
     });
 }
 
@@ -225,9 +314,7 @@ async function guardarNumero(index, datos) {
     await runTransaction(db, async (transaction) => {
         const docSnap = await transaction.get(docRef);
         const numerosActuales = docSnap.exists() ? docSnap.data().numeros : new Array(100).fill(null);
-        if (numerosActuales[index] !== null) {
-            throw new Error("El número ya fue tomado por otra persona");
-        }
+        if (numerosActuales[index] !== null) throw new Error("El número ya fue tomado por otra persona");
         numerosActuales[index] = datos;
         transaction.set(docRef, { numeros: numerosActuales });
     });
@@ -243,6 +330,26 @@ async function liberarNumeroFirestore(index) {
     });
 }
 
+async function actualizarEstadoPago(index, medio, estado) {
+    const docRef = doc(db, "rifas", "numeros_vendidos");
+    await runTransaction(db, async (transaction) => {
+        const docSnap = await transaction.get(docRef);
+        const numerosActuales = docSnap.exists() ? docSnap.data().numeros : new Array(100).fill(null);
+        if (numerosActuales[index]) {
+            numerosActuales[index].medioPago = medio;
+            numerosActuales[index].estadoPago = estado;
+            transaction.set(docRef, { numeros: numerosActuales });
+        }
+    });
+}
+
+window.actualizarPago = async function(index, medio) {
+    const medioTexto = medio === 'nequi' ? 'Nequi' : 'Bancolombia';
+    await actualizarEstadoPago(index, medioTexto, 'pagado');
+    alert(`✅ Pago marcado como confirmado - ${medioTexto}`);
+    actualizarPanelAdmin();
+};
+
 window.renderizarPantalla = function() {
     const grid = document.getElementById('grid-rifa');
     if (!grid) return;
@@ -253,7 +360,7 @@ window.renderizarPantalla = function() {
         const celda = document.createElement('div');
         celda.className = `numero-cell ${ocupado ? 'cell-ocupado' : 'cell-disponible'}`;
         if (ocupado) {
-            celda.innerHTML = `${i.toString().padStart(2, '0')}<span class="absolute text-[10px] text-red-400 font-bold top-0 right-1">✕</span>`;
+            celda.innerHTML = `${i.toString().padStart(2, '0')}<span class="absolute text-[8px] text-red-400 font-bold top-0 right-1">✕</span>`;
         } else {
             celda.innerText = i.toString().padStart(2, '0');
             disponibles++;
@@ -292,8 +399,14 @@ window.confirmarReserva = async function() {
     btn.innerText = "⏳ VERIFICANDO...";
     btn.disabled = true;
     try {
-        await guardarNumero(currentNumIndex, { nombre: nom, telefono: tel, fecha: new Date().toLocaleString() });
-        alert("✅ ¡Compra exitosa! Realiza el pago a las cuentas indicadas.");
+        await guardarNumero(currentNumIndex, { 
+            nombre: nom, 
+            telefono: tel, 
+            fecha: new Date().toLocaleString(),
+            estadoPago: 'pendiente',
+            medioPago: null
+        });
+        alert("✅ ¡Compra exitosa! Realiza el pago a las cuentas indicadas. El administrador confirmará tu pago.");
         window.cerrarVentana();
     } catch (error) {
         alert(`❌ ${error.message}`);
@@ -351,17 +464,43 @@ function actualizarPanelAdmin() {
     if (!tbody) return;
     tbody.innerHTML = '';
     let vendidos = 0;
+    let recaudado = 0;
+    
     for (let i = 0; i < 100; i++) {
         const d = rifaData[i];
         if (d && d.nombre) {
             vendidos++;
-            tbody.innerHTML += `<tr class="border-b"><td class="p-2 font-bold text-red-600">#${i.toString().padStart(2, '0')}</td><td class="p-2 font-bold text-zinc-800 text-xs">${escapeHtml(d.nombre)}</td><td class="p-2 text-zinc-500 text-xs">${escapeHtml(d.telefono)}</td></tr>`;
+            if (d.estadoPago === 'pagado') recaudado += 20000;
+            
+            const estadoPago = d.estadoPago || 'pendiente';
+            const medioPago = d.medioPago || '---';
+            const estadoClass = estadoPago === 'pagado' ? 'estado-pagado' : 'estado-pendiente';
+            const estadoTexto = estadoPago === 'pagado' ? '✅ PAGADO' : '⏳ PENDIENTE';
+            
+            tbody.innerHTML += `
+                <tr class="border-b">
+                    <td class="p-2 font-bold text-red-600 text-xs">#${i.toString().padStart(2, '0')}</td>
+                    <td class="p-2 font-bold text-zinc-800 text-xs">${escapeHtml(d.nombre)}</td>
+                    <td class="p-2 text-zinc-500 text-xs">${escapeHtml(d.telefono)}</td>
+                    <td class="p-2 text-zinc-500 text-xs">${medioPago}</td>
+                    <td class="p-2"><span class="${estadoClass}">${estadoTexto}</span></td>
+                    <td class="p-2">
+                        ${estadoPago !== 'pagado' ? `
+                            <div class="flex gap-1">
+                                <button onclick="window.actualizarPago(${i}, 'bancolombia')" class="bg-blue-600 text-white text-[9px] px-1 py-0.5 rounded active:scale-95">🏦</button>
+                                <button onclick="window.actualizarPago(${i}, 'nequi')" class="bg-purple-600 text-white text-[9px] px-1 py-0.5 rounded active:scale-95">⚡</button>
+                            </div>
+                        ` : '✅'}
+                    </td>
+                </tr>
+            `;
         }
     }
-    if (vendidos === 0) tbody.innerHTML = '<tr><td colspan="3" class="p-6 text-center text-zinc-400 text-xs">📭 No hay números vendidos aún</td></tr>';
+    if (vendidos === 0) tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-zinc-400 text-xs">📭 No hay números vendidos aún</td></tr>';
+    
     document.getElementById('total-vendidos').innerText = vendidos;
     document.getElementById('total-disponibles').innerText = 100 - vendidos;
-    document.getElementById('total-recaudado').innerText = `$${(vendidos * 20000).toLocaleString('es-CO')}`;
+    document.getElementById('total-recaudado').innerText = `$${recaudado.toLocaleString('es-CO')}`;
 }
 
 window.cerrarPanelAdmin = () => document.getElementById('panel-admin').classList.add('hidden');
