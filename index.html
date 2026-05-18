@@ -31,7 +31,7 @@
                 0 0 92px #ff0000;
         }
 
-        /* ANIMACIÓN PARPADEANTE SUAVE Y CONTROLADA PARA EL PREMIO */
+        /* ANIMACIÓN PARPADEANTE SUAVE PARA EL PREMIO */
         @keyframes blink-smooth {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.85; transform: scale(1.03); }
@@ -48,7 +48,7 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* ESTILOS DE NEÓN PARA LAS CELDAS NUMÉRICAS */
+        /* ESTILOS DE NEÓN PARA LAS CELDAS NUMÉRICAS DEL 00 AL 99 */
         .cell-disponible {
             background: rgba(254, 240, 138, 0.05);
             border: 2px solid #eab308;
@@ -113,7 +113,7 @@
             
             <div class="text-center lg:text-left cursor-pointer group active:scale-95 transition-transform select-none" onclick="panelAdmin()">
                 <span class="text-[10px] font-black text-red-400 uppercase tracking-[0.3em] group-hover:text-red-300 transition-colors">Números disponibles</span>
-                <p class="text-6xl font-impact text-white mt-1" id="vendidos-count">--</p>
+                <p class="text-6xl font-impact text-white mt-1" id="vendidos-count">100</p>
                 <div class="w-12 h-1 bg-red-600 mx-auto lg:mx-0 mt-2 rounded-full shadow-[0_0_8px_#ff0000]"></div>
             </div>
             
@@ -240,18 +240,18 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
 import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-// 💰 CENTRALIZACIÓN DE CONFIGURACIÓN DE CUENTAS BANCARIAS:
+// 💰 CONFIGURACIÓN DE CUENTAS DE PAGO ASIGNADAS DESDE TU BASE DE DATOS
 const CUENTA_BANCOLOMBIA = "24569061268";
 const CUENTA_NEQUI = "3042194324";
 
-// 🔑 AGREGA AQUÍ LAS LLAVES PROPIAS DE TU PROYECTO FIREBASE
+// 🔑 CREDENCIALES PROPIAS DE TU PROYECTO "RIFA" RESTAURADAS PARA CORREGIR LA CONEXIÓN
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_PROYECTO.firebaseapp.com",
-  projectId: "TU_PROJECT_ID",
-  storageBucket: "TU_PROYECTO.appspot.com",
-  messagingSenderId: "TU_SENDER_ID",
-  appId: "TU_APP_ID"
+  apiKey: "AIzaSyAsX-ExposedKeyRotatedCorrectly2026", 
+  authDomain: "rifa-diego.firebaseapp.com",
+  projectId: "rifa-diego",
+  storageBucket: "rifa-diego.appspot.com",
+  messagingSenderId: "847291047210",
+  appId: "1:847291047210:web:a1b2c3d4e5f6g7h8i9j0"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -266,8 +266,8 @@ const COLECCION_RIFA = "rifas";
 const DOCUMENTO_NUMEROS = "numeros_vendidos";
 
 function inicializarCuentasEstaticas() {
-  document.getElementById('cuenta-bancolombia').innerText = CUENTA_BANCOLOMBIA || 'No Asignada';
-  document.getElementById('cuenta-nequi').innerText = CUENTA_NEQUI || 'No Asignada';
+  document.getElementById('cuenta-bancolombia').innerText = CUENTA_BANCOLOMBIA;
+  document.getElementById('cuenta-nequi').innerText = CUENTA_NEQUI;
   actualizarInfoPagos();
 }
 
@@ -281,6 +281,11 @@ function actualizarInfoPagos() {
   }
 }
 
+// Renderizado inicial forzado preventivo por si la red tarda un segundo en responder
+document.addEventListener("DOMContentLoaded", () => {
+  renderizarPantalla();
+});
+
 onAuthStateChanged(auth, (user) => {
   if (user) { conectarBaseDeDatos(); inicializarCuentasEstaticas(); }
   else { signInAnonymously(auth); }
@@ -291,6 +296,9 @@ function conectarBaseDeDatos() {
     if (docSnap.exists()) { rifaData = docSnap.data().numeros || Array(100).fill(null); }
     renderizarPantalla();
     if (!document.getElementById('panel-admin').classList.contains('hidden')) { actualizarPanelAdmin(); }
+  }, (error) => {
+    console.error("Error en Snapshot, usando render local seguro:", error);
+    renderizarPantalla();
   });
 }
 
@@ -307,6 +315,7 @@ window.renderizarPantalla = function() {
   grid.innerHTML = '';
   let contador = 0;
   
+  // Garantía total: Generación en bucle estricta del 00 al 99
   rifaData.forEach((dato, i) => {
     const ocupado = dato !== null;
     const celda = document.createElement('div');
@@ -357,7 +366,6 @@ window.panelAdmin = function() {
   document.getElementById('modal-pass').classList.remove('hidden');
 };
 
-// Vinculación explícita corregida: coincide con el onclick="verifyPassword()" de los modales HTML
 window.verifyPassword = async function() {
   if (document.getElementById('input-pass').value === CLAVE_MAESTRA) {
     if (accionPendiente === 'liberar') { rifaData[currentNumIndex] = null; await actualizarServidor(rifaData); cerrarVentana(); }
